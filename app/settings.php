@@ -1,10 +1,12 @@
-<?php
+<?php require_once __DIR__ . '/config.php';
+/* @var bool $display_errors */
+/* @var string $db_host */
+/* @var string $db_name */
+/* @var string $db_user */
+/* @var string $db_password */
 
 // region PHP Errors
-// determines if errors should be displayed
-$errors = true;
-
-if ($errors) {
+if ($display_errors) {
     ini_set('display_startup_errors', 1);
     ini_set('display_errors', 1);
     error_reporting(-1);
@@ -21,3 +23,12 @@ $name = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_
 define('SITE_URL', $scheme . '://' . $name);
 define('ROOT', $_SERVER['DOCUMENT_ROOT']);
 // endregion
+
+//region Database
+define('DB_HOST', $db_host);
+define('DB_NAME', $db_name);
+define('DB_USERNAME', $db_user);
+define('DB_PASSWORD', $db_password);
+define('DB_PORT', 3306);
+define('DB_CHAR', 'utf8');
+//endregion
