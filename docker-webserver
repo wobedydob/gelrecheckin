@@ -6,7 +6,7 @@ WORKDIR /tmp/
 #    https://docs.microsoft.com/en-us/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-ver15#step-1-install-php-alpine
 
 RUN apk update
-RUN apk add --no-cache php8 php8-dev php8-pear php8-pdo php8-openssl 
+RUN apk add --no-cache php8 php8-dev php8-pear php8-pdo php8-openssl
 RUN apk add --no-cache autoconf make g++ gnupg unixodbc-dev
 RUN apk add --no-cache linux-headers
 
@@ -42,4 +42,4 @@ RUN docker-php-ext-enable pdo_sqlsrv
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
-COPY "./webserver-setup/docker-php-ext-xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+COPY "./setup/docker-php-ext-xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"

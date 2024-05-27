@@ -1,6 +1,6 @@
 <?php
 
-// defined in 'variables.env'
+// defined in '.env'
 $db_host = 'database_server'; // de database server 
 $db_name = 'muziekschool';                    // naam van database
 

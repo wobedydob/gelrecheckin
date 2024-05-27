@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
     <link href="assets/css/min.css" rel="stylesheet">
-    <title>Character Sheet</title>
+    <title>GelreCheckin</title>
 </head>
 
 

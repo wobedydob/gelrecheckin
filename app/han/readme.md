@@ -93,12 +93,12 @@ Test de webserver:
 
 ## Je eigen bestanden
 
-De bestanden die de webserver gebruikt staan in de map `./applicatie/`,
+De bestanden die de webserver gebruikt staan in de map `./app/`,
 hier moet je je beroepsproduct in uitwerken.
 
 ### Eerste php-bestand
 
-Maak een nieuw bestand aan in de map `./applicatie/` en noem deze
+Maak een nieuw bestand aan in de map `./app/` en noem deze
 `test.php`. Open dit bestand met Visual Studio Code en voeg de volgende
 code toe:
 
@@ -113,13 +113,13 @@ is zie je de melding *Hallo, \*\*je eigen naam\*\** verschijnen.
 
 ### Beroepsproduct applicatie
 
-Kopieer al je HTML-bestanden naar de map `./applicatie/` en verander van
+Kopieer al je HTML-bestanden naar de map `./app/` en verander van
 elke bestand de extensie naar `.php`. Roep als test alle bestanden aan
 via je browser. Maak nu je web-applicatie zodanig dat deze optimaal van
 opzet is en dat de gegevens in de site uit de database gehaald worden.
 Zie de lesstof hoe je dat allemaal doet.
 
-Tip: in het bestand [`componist-aantalstukken.php`](./applicatie/componist-aantalstukken.php) (in combinatie met
+Tip: in het bestand [`componist-aantalstukken.php`](./app/componist-aantalstukken.php) (in combinatie met
 `db_connectie.php`) kun je een voorbeeld zien hoe je verbinding maakt
 met een database en gegevens in een webpagina plaatst.
 
@@ -127,7 +127,7 @@ met een database en gegevens in een webpagina plaatst.
 
 ### Database bekijken
 
-In het bestand *variables.env* staan de connectiegegevens voor de
+In het bestand *.env* staan de connectiegegevens voor de
 database (de user is 'sa').
 
     DB_HOST="...."
@@ -212,7 +212,7 @@ services:
   database_server:
     image: mcr.microsoft.com/mssql/server
     env_file:
-      - variables.env
+      - .env
 ...
 ```
 

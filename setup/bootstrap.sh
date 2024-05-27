@@ -32,7 +32,7 @@ then
                 echo "-----------------------------------------------"
                 echo "- $i: Database '$dbname' exists               -"
                 echo "-----------------------------------------------"
-                # php -S 0.0.0.0:80 -t /applicatie/
+                # php -S 0.0.0.0:80 -t /app/
                 break # exit for loop
 
             elif [ $CODE -eq 0 ] && [ "$RESULT" = "" ]; then
@@ -71,5 +71,5 @@ echo
 echo ' webserver starting'
 echo '-------------------------------------------------------'
 
-php -S 0.0.0.0:80 -t /applicatie/
+php -S 0.0.0.0:80 -t /app/
 

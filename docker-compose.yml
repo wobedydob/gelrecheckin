@@ -2,7 +2,7 @@ services:
   database_server:
     image: mcr.microsoft.com/mssql/server
     env_file:
-      - variables.env
+      - .env
     ports:
       - target: 1433
         published: 1434
@@ -13,9 +13,9 @@ services:
   web_server:
     platform: "linux/amd64"
     build:
-      dockerfile: Dockerfile-webserver
+      dockerfile: docker-webserver
     env_file:
-      - variables.env
+      - .env
     depends_on:
       - database_server
     ports:
@@ -24,8 +24,8 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - ./applicatie/:/applicatie/
-      - ./webserver-setup/:/setup/
+      - ./app/:/app/
+      - ./setup/:/setup/
     entrypoint: [ "sh", "/setup/bootstrap.sh" ]
 volumes:
   data-volume:
