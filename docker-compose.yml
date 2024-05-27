@@ -13,7 +13,7 @@ services:
   web_server:
     platform: "linux/amd64"
     build:
-      dockerfile: docker-webserver
+      dockerfile: dockerfile-webserver
     env_file:
       - .env
     depends_on:
