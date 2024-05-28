@@ -3,6 +3,7 @@
 namespace Service;
 
 use Exceptions\InvalidTableException;
+use Model\Model;
 use PDO;
 
 class Query
@@ -59,13 +60,11 @@ class Query
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
-        var_dump($query);
-
         $statement = $this->db->bindAndExecute($query, $this->params);
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function first(): ?array
+    public function first(): array|Model|null
     {
         $query = 'SELECT TOP 1 * FROM ' . $this->table;
         if (!empty($this->wheres)) {
@@ -73,8 +72,10 @@ class Query
         }
         $statement = $this->db->bindAndExecute($query, $this->params);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
+
         return $result ?: null;
     }
+
 
     // todo: join
 
