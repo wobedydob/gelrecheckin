@@ -17,7 +17,7 @@ abstract class Model
     private static function validate(): void
     {
         if (!isset(static::$table)) {
-            throw new \Exception("Table name is not set.");
+            throw new \Exception('Define `protected static string $table` in your model');
         }
     }
 
