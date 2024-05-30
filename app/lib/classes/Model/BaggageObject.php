@@ -7,7 +7,7 @@ namespace Model;
  * objectvolgnummer
  * gewicht
  */
-class BaggageObject extends Model
+class BaggageObject extends AbstractModel
 {
     protected static string $table = 'BagageObject';
 }

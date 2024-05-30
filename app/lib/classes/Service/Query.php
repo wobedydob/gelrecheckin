@@ -3,7 +3,7 @@
 namespace Service;
 
 use Exceptions\InvalidTableException;
-use Model\Model;
+use Model\AbstractModel;
 use PDO;
 
 class Query
@@ -64,7 +64,7 @@ class Query
         return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function first(): array|Model|null
+    public function first(): array|AbstractModel|null
     {
         $query = 'SELECT TOP 1 * FROM ' . $this->table;
         if (!empty($this->wheres)) {

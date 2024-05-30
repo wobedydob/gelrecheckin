@@ -6,7 +6,7 @@ namespace Model;
  * luchthavencode
  * balienummer
  */
-class CheckInDestination extends Model
+class CheckInDestination extends AbstractModel
 {
     protected static string $table = 'IncheckenBestemming';
 }

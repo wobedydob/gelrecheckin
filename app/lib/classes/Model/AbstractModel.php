@@ -4,7 +4,7 @@ namespace Model;
 
 use Service\Query;
 
-abstract class Model
+abstract class AbstractModel
 {
     protected static string $table;
 

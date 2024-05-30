@@ -7,7 +7,7 @@ namespace Model;
  * naam
  * land
  */
-class Airport extends Model
+class Airport extends AbstractModel
 {
     protected static string $table = 'Luchthaven';
 }

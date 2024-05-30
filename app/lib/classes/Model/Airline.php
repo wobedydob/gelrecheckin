@@ -7,7 +7,7 @@ namespace Model;
  * naam
  * max_objecten_pp
  */
-class Airline extends Model
+class Airline extends AbstractModel
 {
     protected static string $table = 'Maatschappij';
 }

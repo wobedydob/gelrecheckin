@@ -5,7 +5,7 @@ namespace Model;
 /**
  * gatecode
  */
-class Gate extends Model
+class Gate extends AbstractModel
 {
     protected static string $table = 'Gate';
 }

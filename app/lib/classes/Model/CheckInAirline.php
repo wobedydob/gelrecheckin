@@ -6,7 +6,7 @@ namespace Model;
  * maatschappijcode
  * balienummer
  */
-class CheckInAirline extends Model
+class CheckInAirline extends AbstractModel
 {
     protected static string $table = 'IncheckenMaatschappij';
 }
