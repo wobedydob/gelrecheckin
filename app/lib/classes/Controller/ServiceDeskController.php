@@ -4,10 +4,8 @@ namespace Controller;
 
 use Model\ServiceDesk;
 use Service\Redirect;
-use Service\Route;
 use Service\Session;
 use Service\View;
-use Util\Url;
 
 class ServiceDeskController
 {
@@ -24,8 +22,6 @@ class ServiceDeskController
         if (!isset($post['submit'])) {
             return;
         }
-
-        var_dump($post);
 
         $deskId = $post['desk_id'] ? \Util\StringHelper::sanitize($post['desk_id']) : false;
         $password = $post['password'] ?: false;
