@@ -14,13 +14,12 @@
 <body>
 
 <main id="main">
-
-
     <?php
-    $page = new \Controller\PageController();
-    $page->locateTemplate();
+    use Service\Route;
+    $method = $_SERVER['REQUEST_METHOD'];
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    Route::resolve($method, $path);
     ?>
-
 </main>
 
 

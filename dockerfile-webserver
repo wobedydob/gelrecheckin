@@ -42,4 +42,4 @@ RUN docker-php-ext-enable pdo_sqlsrv
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
-COPY "./setup/docker-php-ext-xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
+COPY "./setup/xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"

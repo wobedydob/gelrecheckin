@@ -5,6 +5,8 @@
 /* @var string $db_user */
 /* @var string $db_password */
 
+ini_set('memory_limit', '1000M');
+
 // region PHP Errors
 if ($display_errors) {
     ini_set('display_startup_errors', 1);

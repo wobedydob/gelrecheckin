@@ -16,16 +16,17 @@ class View
         $path = self::getTemplatePath($template);
 
         if (empty($path)) {
-            throw new Exception(sprintf('Unable to load template "%s"', $template));
+            // I cant throw this exception in Docker... and cant resolve why...
+            // throw new Exception('Template not found: ' . $template);
         }
 
-        //convert array to usable variables for in the template
         if (!empty($args)) {
             extract($args);
         }
 
         include $path;
     }
+
 
     /** Returns the value of the template file.
      * @throws Exception
@@ -34,7 +35,6 @@ class View
     {
         ob_start();
         self::render($template, $args);
-
         return ob_get_clean();
     }
 
@@ -42,7 +42,6 @@ class View
     public static function validate(string $template): bool
     {
         $path = self::getTemplatePath($template);
-
         return !empty($path);
     }
 

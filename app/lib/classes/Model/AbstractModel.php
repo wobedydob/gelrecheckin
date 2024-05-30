@@ -33,6 +33,12 @@ abstract class AbstractModel
         return Query::new($table)->where($column, $operator, $value);
     }
 
+    public static function with(array $columns): Query
+    {
+        $table = static::table();
+        return Query::new($table)->with($columns);
+    }
+
     // todo: join
 
 }

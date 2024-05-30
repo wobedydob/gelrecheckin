@@ -27,5 +27,6 @@ services:
       - ./app/:/app/
       - ./setup/:/setup/
     entrypoint: [ "sh", "/setup/bootstrap.sh" ]
+    mem_limit: 512m
 volumes:
   data-volume:

@@ -8,12 +8,13 @@ use PDO;
 
 class Query
 {
-    private const string SELECT = 'SELECT * FROM';
+    private const string SELECT = 'SELECT';
 
     private static ?Query $instance = null;
     private Database $db;
 
     private string $table;
+    private array $columns = ['*'];
     private array $wheres = [];
     private array $params = [];
 
@@ -33,6 +34,12 @@ class Query
     {
         $this->validateTable($table);
         $this->table = $table;
+    }
+
+    public function with(array $columns): self
+    {
+        $this->columns = $columns;
+        return $this;
     }
 
     public function where(string $column, string $operator, $value): self
@@ -56,7 +63,7 @@ class Query
 
     public function all(): array
     {
-        $query = self::SELECT . ' ' . $this->table;
+        $query = 'SELECT ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
@@ -66,7 +73,7 @@ class Query
 
     public function first(): array|AbstractModel|null
     {
-        $query = 'SELECT TOP 1 * FROM ' . $this->table;
+        $query = 'SELECT TOP 1 ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
@@ -74,6 +81,16 @@ class Query
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         return $result ?: null;
+    }
+
+    public function exists(): bool
+    {
+        $query = 'SELECT 1 FROM ' . $this->table;
+        if (!empty($this->wheres)) {
+            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
+        }
+        $statement = $this->db->bindAndExecute($query, $this->params);
+        return (bool) $statement->fetchColumn();
     }
 
 
