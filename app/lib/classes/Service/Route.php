@@ -38,12 +38,16 @@ class Route
             if (!self::isAuthenticated()) {
                 header("HTTP/1.1 401 Unauthorized");
                 echo "401 Unauthorized";
+                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
+                echo "<br> [CODE] 1717447784111";
                 exit();
             }
 
             if (!empty($roles) && !self::hasRole($roles)) {
                 header("HTTP/1.1 403 Forbidden");
                 echo "403 Forbidden";
+                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
+                echo "<br> [CODE] 1717447768676";
                 exit();
             }
         });
@@ -57,6 +61,8 @@ class Route
             if (self::isAuthenticated()) {
                 header("HTTP/1.1 403 Forbidden");
                 echo "403 Forbidden";
+                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
+                echo "<br> [CODE] 1717447759623";
                 exit();
             }
         });
@@ -148,5 +154,7 @@ class Route
 
         header("HTTP/1.0 404 Not Found");
         echo "404 Not Found";
+        echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
+        echo "<br> [CODE] 1717447743431";
     }
 }
