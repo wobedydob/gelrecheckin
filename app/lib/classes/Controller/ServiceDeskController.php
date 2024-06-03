@@ -38,7 +38,9 @@ class ServiceDeskController
             $this->errors['error'] = 'invalid credentials';
         }
 
-        Session::new()->set('service_desk', $deskId);
+        $user = ['id' => $deskId, 'role' => 'service_desk'];
+
+        Session::instance()->set('user', $user);
         Redirect::to('/service-desk/dashboard');
     }
 

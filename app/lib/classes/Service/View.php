@@ -16,11 +16,6 @@ class View
     {
         $path = self::getTemplatePath($template);
 
-//        if (empty($path)) {
-//            // I cant throw this exception in Docker... and cant resolve why...
-//             throw new InvalidTemplateException($path, 1717407548255);
-//        }
-
         if (!empty($args)) {
             extract($args);
         }

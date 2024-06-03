@@ -11,6 +11,4 @@ function include_php_files(string $folder, string $directory = __DIR__): void
 
 
 include_php_files('classes');
-include_php_files('methods');
-
 include_php_files('../routes/');

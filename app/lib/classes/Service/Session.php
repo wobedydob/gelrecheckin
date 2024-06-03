@@ -4,27 +4,37 @@ namespace Service;
 
 class Session
 {
+    private static ?Session $instance = null;
 
-    /** Starts the session when instance is created. */
-    public function __construct(?string $cacheExpire = null, ?string $cacheLimiter = null)
+    private function __construct()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-
-            if ($cacheLimiter !== null) {
-                session_cache_limiter($cacheLimiter);
-            }
-
-            if ($cacheExpire !== null) {
-                session_cache_expire($cacheExpire);
-            }
-
-            session_start();
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start([
+                'cookie_httponly' => true,
+                'cookie_secure' => true, // Only if using HTTPS
+                'use_strict_mode' => true,
+            ]);
         }
     }
 
-    public static function new(): Session
+    private function __clone()
     {
-        return new self();
+    }
+
+    public static function instance(): Session
+    {
+        if (!isset(self::$instance)) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+
+    public function start(): void
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $this->set('started_at', time());
     }
 
     /** Returns the current session. */
@@ -69,4 +79,9 @@ class Session
         return array_key_exists($key, $_SESSION);
     }
 
+    /** Regenerate session ID. */
+    public function regenerate(): void
+    {
+        session_regenerate_id(true);
+    }
 }

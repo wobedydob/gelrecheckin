@@ -33,14 +33,54 @@ class Route
         return new self;
     }
 
-    public static function auth(callable $authCallback): void
+    public static function auth(array $roles = []): self
     {
-        self::$authCallback = $authCallback;
+        self::$authCallback = function () use ($roles) {
+            if (!self::isAuthenticated()) {
+                header("HTTP/1.1 401 Unauthorized");
+                echo "401 Unauthorized";
+                exit();
+            }
+
+            if (!empty($roles) && !self::hasRole($roles) && !self::isAdmin()) {
+                header("HTTP/1.1 403 Forbidden");
+                echo "403 Forbidden";
+                exit();
+            }
+        };
+
+        self::middleware('auth');
+        return new self;
     }
 
-    public static function getAuthCallback(): ?callable
+    public static function guest(): self
     {
-        return self::$authCallback;
+        self::$authCallback = function () {
+            if (self::isAuthenticated()) {
+                header("HTTP/1.1 403 Forbidden");
+                echo "403 Forbidden";
+                exit();
+            }
+        };
+
+        self::middleware('guest');
+        return new self;
+    }
+
+
+    private static function isAuthenticated(): bool
+    {
+        return isset($_SESSION['user']);
+    }
+
+    private static function isAdmin(): bool
+    {
+        return self::hasRole(['admin']);
+    }
+
+    private static function hasRole(array $roles): bool
+    {
+        return self::isAuthenticated() && in_array($_SESSION['user']['role'], $roles);
     }
 
     public static function group(string $prefix, callable $routes): void
@@ -60,7 +100,8 @@ class Route
 
     public static function middleware(string $middleware): self
     {
-        self::$currentMiddlewares[] = $middleware;
+        $lastRouteKey = array_key_last(self::$routes);
+        self::$routes[$lastRouteKey]['middlewares'][] = $middleware;
         return new self;
     }
 
@@ -82,24 +123,16 @@ class Route
     public static function resolve(string $method, string $uri): void
     {
         foreach (self::$routes as $route) {
-
             if ($route['method'] === $method && preg_match("#^{$route['uri']}$#", $uri)) {
 
-
                 foreach ($route['middlewares'] as $middleware) {
-
-                    if (!call_user_func([new $middleware, 'handle'])) {
+                    if ($middleware === 'auth' && isset(self::$authCallback)) {
+                        call_user_func(self::$authCallback);
+                    } elseif ($middleware === 'guest' && isset(self::$authCallback)) {
+                        call_user_func(self::$authCallback);
+                    } elseif (!is_array($middleware) && !in_array($middleware, ['auth', 'guest']) && !call_user_func([new $middleware, 'handle'])) {
                         return;
                     }
-
-                }
-
-                if (isset(self::$authCallback) && !call_user_func(self::$authCallback)) {
-
-                    header("HTTP/1.1 401 Unauthorized");
-                    echo "401 Unauthorized";
-                    return;
-
                 }
 
                 try {
@@ -114,7 +147,14 @@ class Route
 
                 return;
             }
+        }
 
+        // Redirects handling
+        foreach (self::$redirects as $from => $to) {
+            if (preg_match("#^{$from}$#", $uri)) {
+                header("Location: $to", true, 302);
+                exit();
+            }
         }
 
         header("HTTP/1.0 404 Not Found");

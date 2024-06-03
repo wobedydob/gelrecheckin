@@ -1,5 +1,12 @@
-<?php require_once 'includes.php';
+<?php
+use Service\Session;
+use Service\View;
 
-var_dump(\Service\Session::new()->getAll());
-\Service\View::render('views/base.php');
+require_once 'includes.php';
 
+Session::instance()->start();
+Session::instance()->regenerate();
+
+View::render('views/base.php');
+
+$user = Session::instance()->get('user');
