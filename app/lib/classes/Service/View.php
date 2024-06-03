@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Service;
 
 use Exception;
+use Exceptions\TemplateException;
 
 class View
 {
@@ -17,7 +18,7 @@ class View
 
         if (empty($path)) {
             // I cant throw this exception in Docker... and cant resolve why...
-            // throw new Exception('Template not found: ' . $template);
+             throw new TemplateException('Template not found: ' . $template, 1717400210432);
         }
 
         if (!empty($args)) {

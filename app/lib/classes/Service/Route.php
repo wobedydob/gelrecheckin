@@ -102,14 +102,14 @@ class Route
 
                 }
 
-                if (is_array($route['action'])) {
-
-                    call_user_func([new $route['action'][0], $route['action'][1]]);
-
-                } else {
-
-                    call_user_func($route['action']);
-
+                try {
+                    if (is_array($route['action'])) {
+                        call_user_func([new $route['action'][0], $route['action'][1]]);
+                    } else {
+                        call_user_func($route['action']);
+                    }
+                } catch (\Exception $e) {
+                    \Service\ErrorHandler::throw($e);
                 }
 
                 return;
