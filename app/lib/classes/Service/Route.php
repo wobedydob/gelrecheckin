@@ -8,7 +8,6 @@ class Route
     private static array $redirects = [];
     private static array $currentMiddlewares = [];
     private static string $currentGroupPrefix = '';
-    private static $authCallback = null;
 
     public static function get(string $uri, $action): self
     {
@@ -20,7 +19,7 @@ class Route
         return self::addRoute('POST', $uri, $action);
     }
 
-    public static function addRoute(string $method, string $uri, $action): self
+    private static function addRoute(string $method, string $uri, $action): self
     {
         $uri = self::$currentGroupPrefix . $uri;
         self::$routes[] = [
@@ -35,52 +34,34 @@ class Route
 
     public static function auth(array $roles = []): self
     {
-        self::$authCallback = function () use ($roles) {
+        self::middleware(function () use ($roles) {
             if (!self::isAuthenticated()) {
                 header("HTTP/1.1 401 Unauthorized");
                 echo "401 Unauthorized";
                 exit();
             }
 
-            if (!empty($roles) && !self::hasRole($roles) && !self::isAdmin()) {
+            if (!empty($roles) && !self::hasRole($roles)) {
                 header("HTTP/1.1 403 Forbidden");
                 echo "403 Forbidden";
                 exit();
             }
-        };
+        });
 
-        self::middleware('auth');
         return new self;
     }
 
     public static function guest(): self
     {
-        self::$authCallback = function () {
+        self::middleware(function () {
             if (self::isAuthenticated()) {
                 header("HTTP/1.1 403 Forbidden");
                 echo "403 Forbidden";
                 exit();
             }
-        };
+        });
 
-        self::middleware('guest');
         return new self;
-    }
-
-
-    private static function isAuthenticated(): bool
-    {
-        return isset($_SESSION['user']);
-    }
-
-    private static function isAdmin(): bool
-    {
-        return self::hasRole(['admin']);
-    }
-
-    private static function hasRole(array $roles): bool
-    {
-        return self::isAuthenticated() && in_array($_SESSION['user']['role'], $roles);
     }
 
     public static function group(string $prefix, callable $routes): void
@@ -98,7 +79,7 @@ class Route
         return new self;
     }
 
-    public static function middleware(string $middleware): self
+    public static function middleware($middleware): self
     {
         $lastRouteKey = array_key_last(self::$routes);
         self::$routes[$lastRouteKey]['middlewares'][] = $middleware;
@@ -120,17 +101,25 @@ class Route
         return self::$redirects;
     }
 
+    private static function isAuthenticated(): bool
+    {
+        return isset($_SESSION['user']);
+    }
+
+    private static function hasRole(array $roles): bool
+    {
+        return self::isAuthenticated() && in_array($_SESSION['user']['role'], $roles);
+    }
+
     public static function resolve(string $method, string $uri): void
     {
         foreach (self::$routes as $route) {
             if ($route['method'] === $method && preg_match("#^{$route['uri']}$#", $uri)) {
 
                 foreach ($route['middlewares'] as $middleware) {
-                    if ($middleware === 'auth' && isset(self::$authCallback)) {
-                        call_user_func(self::$authCallback);
-                    } elseif ($middleware === 'guest' && isset(self::$authCallback)) {
-                        call_user_func(self::$authCallback);
-                    } elseif (!is_array($middleware) && !in_array($middleware, ['auth', 'guest']) && !call_user_func([new $middleware, 'handle'])) {
+                    if (is_callable($middleware)) {
+                        call_user_func($middleware);
+                    } elseif (!is_array($middleware) && !call_user_func([new $middleware, 'handle'])) {
                         return;
                     }
                 }
