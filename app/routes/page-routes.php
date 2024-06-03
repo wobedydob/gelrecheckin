@@ -11,11 +11,10 @@ use Service\Session;
 //Route::addRoute('/service-desk', 'views/templates/login/service-desk.php', 'Service Desk Login');
 
 
-Route::get('/', function (){}, 'views/templates/home.php')->name('home');
+Route::get('/', [\Controller\HomeController::class, 'index'])->name('home');
 Route::addRedirect('/home', '/'); // todo: make this work...
 
-//Route::get('/info', function (){}, 'info.php')->name('info'); // todo: remove
-//
+Route::get('/info', function (){}, 'info.php')->name('info'); // todo: remove
 
 // logout route
 Route::get('/logout', function () {
