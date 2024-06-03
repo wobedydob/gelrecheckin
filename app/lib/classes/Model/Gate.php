@@ -3,7 +3,7 @@
 namespace Model;
 
 /**
- * gatecode
+ * @property string $gatecode
  */
 class Gate extends AbstractModel
 {

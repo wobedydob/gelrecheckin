@@ -3,9 +3,9 @@
 namespace Model;
 
 /**
- * maatschappijcode
- * naam
- * max_objecten_pp
+ * @property string $maatschappijcode
+ * @property string $naam
+ * @property string $max_objecten_pp
  */
 class Airline extends AbstractModel
 {

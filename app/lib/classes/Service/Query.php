@@ -12,7 +12,8 @@ class Query
 
     private static ?Query $instance = null;
     private Database $db;
-
+    private ?AbstractModel $model = null;
+    private string $query;
     private string $table;
     private array $columns = ['*'];
     private array $wheres = [];
@@ -23,10 +24,11 @@ class Query
         $this->db = Database::new();
     }
 
-    public static function new(string $table): Query
+    public static function new(string $table, ?AbstractModel $model = null): Query
     {
         self::$instance = new self();
         self::$instance->table($table);
+        self::$instance->model = $model;
         return self::$instance;
     }
 
@@ -61,36 +63,56 @@ class Query
         return $this;
     }
 
+    /**
+     * @throws \Exception
+     */
+    public function get(): false|array
+    {
+        $statement = $this->db->bindAndExecute($this->query, $this->params);
+        $records = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$this->model) {
+            return $records;
+        }
+
+        return $this->toCollection($records);
+    }
+
+    /**
+     * @throws \Exception
+     */
     public function all(): array
     {
         $query = 'SELECT ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
-        $statement = $this->db->bindAndExecute($query, $this->params);
-        return $statement->fetchAll(PDO::FETCH_ASSOC);
+        $this->query = $query;
+        return $this->get() ?? [];
     }
 
+    /**
+     * @throws \Exception
+     */
     public function first(): array|AbstractModel|null
     {
-        $query = 'SELECT TOP 1 ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
+        $query = self::SELECT . ' TOP 1 ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
-        $statement = $this->db->bindAndExecute($query, $this->params);
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
-
-        return $result ?: null;
+        $this->query = $query;
+        $records = $this->get();
+        return $records[0] ?? [];
     }
 
     public function exists(): bool
     {
-        $query = 'SELECT 1 FROM ' . $this->table;
+        $query = self::SELECT . ' 1 FROM ' . $this->table;
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
         $statement = $this->db->bindAndExecute($query, $this->params);
-        return (bool) $statement->fetchColumn();
+        return (bool)$statement->fetchColumn();
     }
 
 
@@ -102,4 +124,73 @@ class Query
             throw new InvalidTableException("Table $table does not exist.");
         }
     }
+
+//    public function update()
+//    {
+//        $query = 'UPDATE ' . $this->table . ' SET ' . implode(', ', $this->map($this->columns));
+//        if (!$this->wheres) {
+////            throw new \Exceptions\QueryException('No where clause provided'); // todo: fix
+//        }
+//        if (!empty($this->wheres)) {
+//            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
+//        }
+//        $this->db->bindAndExecute($query, $this->params);
+//    }
+
+//    // todo: what???
+//    public function map(array $columnValues)
+//    {
+//        $result = [];
+//
+//        foreach ($columnValues as $field => $value) {
+//            if (is_string($value)) {
+//                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
+//            } else if (is_bool($value)) {
+//                $value = $value ? 1 : 0;
+//            } else if (is_int($value)) {
+//                $value = (int)$value;
+//            } else {
+//                $value = $value;
+//            }
+//            $result[] = $field . '=' . $value;
+//        }
+//
+//        return $result;
+//    }
+
+    /**
+     * @throws \Exception
+     */
+    private function toCollection(array $records): array
+    {
+        $result = [];
+
+        foreach ($records as $record) {
+            $result[] = $this->toModel($record);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function toModel(array $record): ?AbstractModel
+    {
+        if (!$this->hasModel()) {
+            throw new \Exception('No model defined'); // todo: proper exception
+        }
+
+        $model = new $this->model;
+        foreach ($record as $field => $property) {
+            $model->$field = $property;
+        }
+        return $model;
+    }
+
+    private function hasModel(): bool
+    {
+        return $this->model !== null;
+    }
+
 }

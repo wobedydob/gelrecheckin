@@ -3,8 +3,8 @@
 namespace Model;
 
 /**
- * balienummer
- * wachtwoord
+ * @property string $balienummer
+ * @property string $wachtwoord
  */
 class ServiceDesk extends AbstractModel
 {

@@ -3,9 +3,9 @@
 namespace Model;
 
 /**
- * passagiernummer
- * objectvolgnummer
- * gewicht
+ * @property string $passagiernummer
+ * @property string $objectvolgnummer
+ * @property string $gewicht
  */
 class BaggageObject extends AbstractModel
 {

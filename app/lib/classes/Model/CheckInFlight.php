@@ -3,8 +3,8 @@
 namespace Model;
 
 /**
- * vluchtnummer
- * balienummer
+ * @property string $vluchtnummer
+ * @property string $balienummer
  */
 class CheckInFlight extends AbstractModel
 {
