@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Exceptions\MissingPropertyException;
 use Service\Query;
 use Traits\Values;
 
@@ -20,7 +21,7 @@ abstract class AbstractModel
     private static function validate(): void
     {
         if (!isset(static::$table)) {
-            throw new \Exception('Define `protected static string $table` in your model');
+            throw new MissingPropertyException('Define `protected static string $table` in your model', static::class, 1717407958262);
         }
     }
 

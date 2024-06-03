@@ -15,7 +15,7 @@ if ($display_errors) {
 }
 
 if (PHP_VERSION < '8.0') {
-    throw new \Exception('"This application" does not support PHP version: ' . PHP_VERSION);
+    throw new \RuntimeException('"This application" does not support PHP version: ' . PHP_VERSION);
 }
 // endregion
 

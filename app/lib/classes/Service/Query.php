@@ -3,6 +3,7 @@
 namespace Service;
 
 use Exceptions\InvalidTableException;
+use Exceptions\MissingPropertyException;
 use Model\AbstractModel;
 use PDO;
 
@@ -178,7 +179,7 @@ class Query
     private function toModel(array $record): ?AbstractModel
     {
         if (!$this->hasModel()) {
-            throw new \Exception('No model defined'); // todo: proper exception
+            throw new MissingPropertyException(null,static::class,1717408105528); // todo: proper exception
         }
 
         $model = new $this->model;
