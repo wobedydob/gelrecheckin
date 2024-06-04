@@ -38,7 +38,12 @@ class ServiceDeskController
             $this->errors['error'] = 'invalid credentials';
         }
 
-        $user = ['id' => $deskId, 'role' => 'service_desk'];
+        if(!empty($this->errors)) {
+            View::render('views/templates/login/service-desk-login-form.php', ['errors' => $this->errors]);
+            return;
+        }
+
+        $user = ['id' => (int) $deskId, 'role' => 'service_desk'];
 
         Session::instance()->set('user', $user);
         Redirect::to('/service-desk/dashboard');
