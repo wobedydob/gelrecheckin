@@ -1,14 +1,6 @@
 <?php
 
-use JetBrains\PhpStorm\NoReturn;
-
-function dump(mixed $args): void
+function auth(): \Service\Auth
 {
-    xdebug_var_dump($args);
-}
-
-#[NoReturn] function dd(mixed $args): void
-{
-    dump($args);
-    die();
+    return new \Service\Auth();
 }
