@@ -1,5 +1,33 @@
 <?php
 
+function site_url(string $path = null): string
+{
+    $url = SITE_URL ?? null;
+    if(!defined('SITE_URL') && $url === null) {
+        $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_SCHEME) . '://' . $_SERVER['HTTP_HOST'];
+    }
+
+    if ($path) {
+        $url .= '/' . $path;
+    }
+
+    return SITE_URL !== null ? SITE_URL : '';
+}
+
+function root(string $path): string
+{
+    $root = ROOT ?? null;
+    if(!defined('ROOT') && $root === null) {
+        $root = $_SERVER['DOCUMENT_ROOT'];
+    }
+
+    if ($path) {
+        $root .= '/' . $path;
+    }
+
+    return $root;
+}
+
 function auth(): \Service\Auth
 {
     return new \Service\Auth();
