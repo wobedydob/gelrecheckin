@@ -40,4 +40,9 @@ class StringHelper
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
+    public static function arrayToString(array $array, string $separator = ', '): string
+    {
+        return implode($separator, $array);
+    }
+
 }

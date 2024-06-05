@@ -56,19 +56,10 @@ abstract class AbstractModel
 //        return $this;
 //    }
 
-    private function mapResult(false|array $record)
+    public static function create(array $values)
     {
-        $this->values = [];
-
-        if (empty($record)) {
-            return $this;
-        }
-
-        foreach ($record as $key => $value) {
-            $this->$key = $value;
-        }
-
-        return $this;
+        Query::new(self::table())->create($values);
     }
+
 
 }

@@ -2,14 +2,19 @@
 
 namespace Service;
 
+use Enums\PDOError;
+use Exceptions\DuplicateKeyException;
+use Exceptions\InvalidColumnException;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
 use Model\AbstractModel;
 use PDO;
+use Util\StringHelper;
 
 class Query
 {
     private const string SELECT = 'SELECT';
+    private const string INSERT = 'INSERT INTO';
 
     private static ?Query $instance = null;
     private Database $db;
@@ -65,6 +70,37 @@ class Query
     }
 
     /**
+     * Insert a new record into the table.
+     *
+     * @param array $data
+     * @return bool
+     * @throws \Exception
+     */
+    public function create(array $data)
+    {
+        $this->columns = array_keys($data);
+        $placeholders = array_fill(0, count($this->columns), '?');
+
+        $columns = StringHelper::arrayToString($this->columns);
+        $placeholders = StringHelper::arrayToString($placeholders);
+
+        $this->query = self::INSERT . ' ' . $this->table . ' (' . $columns . ') VALUES (' . $placeholders . ')';
+        $this->params = array_values($data);
+
+        $statement = $this->db->bindAndExecute($this->query, $this->params);
+
+        if ($statement === null) {
+
+            $this->errorHandler();
+
+            // todo: display "An error occurred while executing the query."
+            return false;
+        }
+
+        return $statement->rowCount() > 0;
+    }
+
+    /**
      * @throws \Exception
      */
     public function get(): false|array
@@ -116,48 +152,12 @@ class Query
         return (bool)$statement->fetchColumn();
     }
 
-
-    // todo: join
-
     private function validateTable(string $table): void
     {
         if (!$this->db->tableExists($table)) {
             throw new InvalidTableException("Table $table does not exist.");
         }
     }
-
-//    public function update()
-//    {
-//        $query = 'UPDATE ' . $this->table . ' SET ' . implode(', ', $this->map($this->columns));
-//        if (!$this->wheres) {
-////            throw new \Exceptions\QueryException('No where clause provided'); // todo: fix
-//        }
-//        if (!empty($this->wheres)) {
-//            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
-//        }
-//        $this->db->bindAndExecute($query, $this->params);
-//    }
-
-//    // todo: what???
-//    public function map(array $columnValues)
-//    {
-//        $result = [];
-//
-//        foreach ($columnValues as $field => $value) {
-//            if (is_string($value)) {
-//                $value = htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-//            } else if (is_bool($value)) {
-//                $value = $value ? 1 : 0;
-//            } else if (is_int($value)) {
-//                $value = (int)$value;
-//            } else {
-//                $value = $value;
-//            }
-//            $result[] = $field . '=' . $value;
-//        }
-//
-//        return $result;
-//    }
 
     /**
      * @throws \Exception
@@ -179,7 +179,7 @@ class Query
     private function toModel(array $record): ?AbstractModel
     {
         if (!$this->hasModel()) {
-            throw new MissingPropertyException(null,static::class,1717408105528); // todo: proper exception
+            throw new MissingPropertyException(null, static::class, 1717408105528); // todo: proper exception
         }
 
         $model = new $this->model;
@@ -192,6 +192,32 @@ class Query
     private function hasModel(): bool
     {
         return $this->model !== null;
+    }
+
+    private function errorHandler(): void
+    {
+        $errors = \Service\ErrorHandler::getErrors();
+
+        foreach ($errors as $error) {
+
+            switch ($error->getCode()) {
+                case PDOError::DUPLICATE_KEY->getCode():
+                    // todo: display duplicate key error
+                    $keys = StringHelper::arrayToString($this->params);
+                    $table = $this->table;
+                    $columns = StringHelper::arrayToString($this->columns);
+                    throw new DuplicateKeyException($keys, $columns, $table, 1717594126032);
+                    break;
+                case PDOError::INVALID_COLUMN->getCode():
+                    // todo: display invalid column error
+                    $table = $this->table;
+                    $columns = StringHelper::arrayToString($this->columns);
+                    throw new InvalidColumnException($columns, $table, 1717593867022);
+                    break;
+            }
+
+        }
+
     }
 
 }
