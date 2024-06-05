@@ -22,6 +22,9 @@ $serviceDesk = \Model\ServiceDesk::where('balienummer', '=', '8')->first();
 //var_dump($passenger);
 //var_dump($serviceDesk);
 
-
-
+// CRUD EXAMPLES:
+\Model\Gate::create(['gatecode' => 'THIS IS A TEST']); // create
+\Model\Gate::where('gatecode', '=', 'THIS IS A TEST'); // read
+\Model\Gate::where('gatecode', '=', 'THIS IS A TEST')->update(['gatecode' => 'THIS IS A TEST 2']); // update
+\Model\Gate::where('gatecode', '=', 'THIS IS A TEST 2')->delete(); // delete
 

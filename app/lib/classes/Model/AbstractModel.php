@@ -39,26 +39,15 @@ abstract class AbstractModel
         return Query::new($table, (new $model))->where($column, $operator, $value);
     }
 
-
     public static function with(array $columns): Query
     {
         $table = static::table();
         return Query::new($table)->with($columns);
     }
 
-    // todo: join
-
-    // todo: insert / update query
-//    public function save()
-//    {
-//        Query::new(self::table())->update($this->values);
-//
-//        return $this;
-//    }
-
     public static function create(array $values)
     {
-        Query::new(self::table())->create($values);
+        return Query::new(self::table())->create($values);
     }
 
 

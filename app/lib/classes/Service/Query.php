@@ -15,6 +15,7 @@ class Query
 {
     private const string SELECT = 'SELECT';
     private const string INSERT = 'INSERT INTO';
+    private const string UPDATE = 'UPDATE';
 
     private static ?Query $instance = null;
     private Database $db;
@@ -73,7 +74,7 @@ class Query
      * Insert a new record into the table.
      *
      * @param array $data
-     * @return bool
+     * @return array|bool
      * @throws \Exception
      */
     public function create(array $data)
@@ -90,15 +91,56 @@ class Query
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
         if ($statement === null) {
-
-            $this->errorHandler();
-
-            // todo: display "An error occurred while executing the query."
-            return false;
+            return $this->errors(); // todo: properly display error
         }
 
         return $statement->rowCount() > 0;
     }
+
+    public function update(array $data): bool|string|array
+    {
+        $this->columns = array_keys($data);
+        $setClauses = [];
+        foreach ($this->columns as $column) {
+            $setClauses[] = "$column = ?";
+        }
+        $setString = implode(', ', $setClauses);
+        $this->params = array_merge(array_values($data), $this->params);
+
+        if (empty($this->wheres)) {
+            throw new \Exception("No conditions specified for update");
+        }
+
+        $whereString = implode(' AND ', $this->wheres);
+        $this->query = self::UPDATE . ' ' . $this->table . ' SET ' . $setString . ' WHERE ' . $whereString;
+
+        $statement = $this->db->bindAndExecute($this->query, $this->params);
+
+        if ($statement === null) {
+            return $this->errors();
+        }
+
+        return $statement->rowCount() > 0;
+    }
+
+    public function delete(): bool|string|array
+    {
+        if (empty($this->wheres)) {
+            throw new \Exception("No conditions specified for delete");
+        }
+
+        $whereString = implode(' AND ', $this->wheres);
+        $this->query = 'DELETE FROM ' . $this->table . ' WHERE ' . $whereString;
+
+        $statement = $this->db->bindAndExecute($this->query, $this->params);
+
+        if ($statement === null) {
+            return $this->errors();
+        }
+
+        return $statement->rowCount() > 0;
+    }
+
 
     /**
      * @throws \Exception
@@ -194,7 +236,7 @@ class Query
         return $this->model !== null;
     }
 
-    private function errorHandler(): void
+    private function errors()
     {
         $errors = \Service\ErrorHandler::getErrors();
 
@@ -206,14 +248,25 @@ class Query
                     $keys = StringHelper::arrayToString($this->params);
                     $table = $this->table;
                     $columns = StringHelper::arrayToString($this->columns);
-                    throw new DuplicateKeyException($keys, $columns, $table, 1717594126032);
-                    break;
+                    $exception = new DuplicateKeyException($keys, $columns, $table, 1717594126032);
+
+                    return [
+                        'error' => 'duplicate key',
+                        'code' => $error->getCode(),
+                        'message' => $exception->getMessage(),
+                    ];
+
                 case PDOError::INVALID_COLUMN->getCode():
                     // todo: display invalid column error
                     $table = $this->table;
                     $columns = StringHelper::arrayToString($this->columns);
-                    throw new InvalidColumnException($columns, $table, 1717593867022);
-                    break;
+                    $exception = new InvalidColumnException($columns, $table, 1717593867022);
+
+                    return [
+                        'error' => 'invalid column',
+                        'code' => $error->getCode(),
+                        'message' => $exception->getMessage(),
+                    ];
             }
 
         }

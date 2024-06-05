@@ -1,4 +1,5 @@
 <?php
+
 use Service\Session;
 use Service\View;
 
@@ -9,4 +10,4 @@ Session::instance()->regenerate();
 
 View::render('views/base.php');
 
-$user = Session::instance()->get('user');
+
