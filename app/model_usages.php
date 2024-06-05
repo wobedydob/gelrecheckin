@@ -24,7 +24,13 @@ $serviceDesk = \Model\ServiceDesk::where('balienummer', '=', '8')->first();
 
 // CRUD EXAMPLES:
 \Model\Gate::create(['gatecode' => 'THIS IS A TEST']); // create
-\Model\Gate::where('gatecode', '=', 'THIS IS A TEST'); // read
+\Model\Gate::where('gatecode', '=', 'THIS IS A TEST')
+           ->with(['gatecode']) // will determine which columns get selected
+           ->get() // will return all records
+           ->first(); // will return the first record
+// read
+
+
 \Model\Gate::where('gatecode', '=', 'THIS IS A TEST')->update(['gatecode' => 'THIS IS A TEST 2']); // update
 \Model\Gate::where('gatecode', '=', 'THIS IS A TEST 2')->delete(); // delete
 
