@@ -9,4 +9,6 @@ namespace Model;
 class ServiceDesk extends Model
 {
     protected static string $table = 'Balie';
+
+    public const string USER_ROLE = 'service_desk';
 }

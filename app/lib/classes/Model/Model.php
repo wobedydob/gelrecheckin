@@ -41,8 +41,9 @@ abstract class Model
 
     public static function with(array $columns): Query
     {
+        $model = static::class;
         $table = static::table();
-        return Query::new($table)->with($columns);
+        return Query::new($table, (new $model))->with($columns);
     }
 
     public static function create(array $values)
