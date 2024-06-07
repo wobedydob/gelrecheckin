@@ -17,7 +17,7 @@ $serviceDesks = \Model\ServiceDesk::with(['balienummer'])->all();
         <?php endforeach; ?>
     </select>
     <br>
-    <label for="cars">Wachtwoord</label>
+    <label for="password">Wachtwoord</label>
     <input type="password"
            id="password"
            name="password"
