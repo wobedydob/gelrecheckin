@@ -12,7 +12,7 @@ class ServiceDeskController
 
     public function login(): void
     {
-        View::render('views/templates/login/service-desk-login.php');
+        View::new()->render('views/templates/login/service-desk-login.php');
     }
 
     public function authenticate(): void
@@ -39,7 +39,7 @@ class ServiceDeskController
         }
 
         if(!empty($this->errors)) {
-            View::render('views/templates/login/service-desk-login-form.php', ['errors' => $this->errors]);
+            View::new()->render('views/templates/login/service-desk-login-form.php', ['errors' => $this->errors]);
             return;
         }
 
@@ -51,7 +51,7 @@ class ServiceDeskController
 
     public function dashboard(): void
     {
-        View::render('views/templates/dashboard/service-desk-dashboard.php');
+        View::new()->render('views/templates/dashboard/service-desk-dashboard.php');
     }
 
 }

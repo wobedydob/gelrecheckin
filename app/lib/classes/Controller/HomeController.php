@@ -9,7 +9,7 @@ class HomeController
 
     public function index()
     {
-        View::render('views/templates/home.php');
+        View::new()->render('views/templates/home.php');
     }
 
 }

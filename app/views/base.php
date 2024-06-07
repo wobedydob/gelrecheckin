@@ -1,27 +1,28 @@
 <!DOCTYPE html>
-
-<html id="html" class="no-js" lang="en">
-
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
-    <link href="<?php echo site_url(); ?>/assets/css/style.min.css" rel="stylesheet">
-    <title>GelreCheckin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gelrecheckin</title>
+
+    <link href="<?php echo site_url('/assets/css/style.min.css'); ?>" rel="stylesheet">
+
 </head>
-
-
 <body>
 
-<main id="main">
-    <?php
-    use Service\Route;
-    $method = $_SERVER['REQUEST_METHOD'];
-    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    Route::resolve($method, $path);
-    ?>
+<header>
+    <?php view()->render('views/organisms/header.php'); ?>
+</header>
+
+<main>
+    <?php render_content(); ?>
 </main>
 
+<footer>
+    <?php view()->render('views/organisms/footer.php'); ?>
+</footer>
+
+<script src="<?php echo site_url('/assets/js/app.min.js'); ?>"></script>
 
 </body>
 </html>

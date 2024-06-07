@@ -1,4 +1,5 @@
-<?php
+<?php declare(strict_types=1);
+use Service\Route;
 
 function site_url(string $path = null): string
 {
@@ -11,7 +12,7 @@ function site_url(string $path = null): string
         $url .= '/' . $path;
     }
 
-    return SITE_URL !== null ? SITE_URL : '';
+    return $url;
 }
 
 function root(string $path): string
@@ -31,4 +32,21 @@ function root(string $path): string
 function auth(): \Service\Auth
 {
     return new \Service\Auth();
+}
+
+function render_content(): void
+{
+    $method = $_SERVER['REQUEST_METHOD'];
+    $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+    Route::resolve($method, $path);
+}
+
+function session(): \Service\Session
+{
+    return \Service\Session::instance();
+}
+
+function view(): \Service\View
+{
+    return new \Service\View();
 }

@@ -9,10 +9,15 @@ use Exceptions\InvalidTemplateException;
 
 class View
 {
+    public static function new(): View
+    {
+        return new self();
+    }
+
     /** Renders the given file and ensures that the variables inside the template are in an isolated scope.
      * @throws Exception
      */
-    public static function render(string $template, array $args = []): void
+    public function render(string $template, array $args = []): void
     {
         $path = self::getTemplatePath($template);
 
@@ -27,7 +32,7 @@ class View
     /** Returns the value of the template file.
      * @throws Exception
      */
-    public static function get(string $template, array $args = []): string
+    public function get(string $template, array $args = []): string
     {
         ob_start();
         self::render($template, $args);
@@ -35,14 +40,14 @@ class View
     }
 
     /** Validates the given template. */
-    public static function validate(string $template): bool
+    public function validate(string $template): bool
     {
         $path = self::getTemplatePath($template);
         return !empty($path);
     }
 
     /** Get the absolute path of the template file */
-    private static function getTemplatePath(string $template): ?string
+    private function getTemplatePath(string $template): ?string
     {
         $root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;
         $path = $root . $template;

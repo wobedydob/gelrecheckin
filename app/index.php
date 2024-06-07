@@ -1,13 +1,10 @@
 <?php
 
-use Service\Session;
-use Service\View;
-
 require_once 'includes.php';
 
-Session::instance()->start();
-Session::instance()->regenerate();
+session()->start();
+session()->regenerate();
 
-View::render('views/base.php');
+view()->render('views/base.php');
 
 
