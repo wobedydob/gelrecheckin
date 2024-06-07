@@ -12,7 +12,9 @@ class ServiceDeskController
 
     public function login(): void
     {
-        View::new()->render('views/templates/login/service-desk-login.php');
+        $serviceDesks = \Model\ServiceDesk::with(['balienummer'])->all();
+        (new \Controller\ServiceDeskController())->authenticate();
+        View::new()->render('views/templates/login/service-desk-login.php', compact('serviceDesks'));
     }
 
     public function authenticate(): void

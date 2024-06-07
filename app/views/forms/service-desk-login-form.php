@@ -1,7 +1,5 @@
 <?php
-$serviceDesks = \Model\ServiceDesk::with(['balienummer'])->all();
-
-(new \Controller\ServiceDeskController())->authenticate();
+/** @var $serviceDesks array */
 ?>
 
 <form action=""
