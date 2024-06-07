@@ -6,5 +6,3 @@ session()->start();
 session()->regenerate();
 
 view()->render('views/base.php');
-
-

@@ -7,7 +7,7 @@ use Exceptions\DuplicateKeyException;
 use Exceptions\InvalidColumnException;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
-use Model\AbstractModel;
+use Model\Model;
 use PDO;
 use Util\StringHelper;
 
@@ -19,7 +19,7 @@ class Query
 
     private static ?Query $instance = null;
     private Database $db;
-    private ?AbstractModel $model = null;
+    private ?Model $model = null;
     private string $query;
     private string $table;
     private array $columns = ['*'];
@@ -31,7 +31,7 @@ class Query
         $this->db = Database::new();
     }
 
-    public static function new(string $table, ?AbstractModel $model = null): Query
+    public static function new(string $table, ?Model $model = null): Query
     {
         self::$instance = new self();
         self::$instance->table($table);
@@ -173,7 +173,7 @@ class Query
     /**
      * @throws \Exception
      */
-    public function first(): array|AbstractModel|null
+    public function first(): array|Model|null
     {
         $query = self::SELECT . ' TOP 1 ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
         if (!empty($this->wheres)) {
@@ -218,7 +218,7 @@ class Query
     /**
      * @throws \Exception
      */
-    private function toModel(array $record): ?AbstractModel
+    private function toModel(array $record): ?Model
     {
         if (!$this->hasModel()) {
             throw new MissingPropertyException(null, static::class, 1717408105528); // todo: proper exception

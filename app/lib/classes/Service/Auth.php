@@ -19,19 +19,26 @@ class Auth
         return !$this->isAuthenticated();
     }
 
-    public function user()
+    public function user(): ?User
     {
         if (!$this->isAuthenticated()) {
             return null;
         }
 
         $user = Session::instance()->get('user');
-        $role = Session::instance()->get('role');
+        $role = $user['role'] ?? false;
+        $model = null;
 
         switch($role) {
+            case \Model\Passenger::USER_ROLE:
+                $model = \Model\Passenger::where('passagiernummer', '=', $user['id'])->first();
+                break;
+            case 'service-desk':
+                $model = \Model\ServiceDesk::where('id', '=', $user['id'])->first();
+                break;
         }
 
-        return new User(...$user);
+        return new User($user['id'], $user['role'], $model);
     }
 
     public function withRole(string $role): ?bool

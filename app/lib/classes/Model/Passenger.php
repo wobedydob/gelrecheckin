@@ -15,4 +15,6 @@ namespace Model;
 class Passenger extends Model
 {
     protected static string $table = 'Passagier';
+
+    public const string USER_ROLE = 'passenger';
 }

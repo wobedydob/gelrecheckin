@@ -21,6 +21,60 @@ main {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f4f4f4;
+}
+.login-container .login-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+.login-container .login-form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.login-container .login-form .form-group {
+  margin-bottom: 15px;
+}
+.login-container .login-form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+.login-container .login-form .form-group input, .login-container .login-form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.login-container .login-form .form-group select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 5px;
+}
+.login-container .login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+.login-container .login-form button:hover {
+  background-color: #1a1a1a;
+}
+
 .navbar {
   display: flex;
   justify-content: space-between;

@@ -14,9 +14,8 @@
     <?php view()->render('views/organisms/header.php'); ?>
 </header>
 
-<main>
-    <?php render_content(); ?>
-</main>
+
+<?php render_content(); ?>
 
 <footer>
     <?php view()->render('views/organisms/footer.php'); ?>

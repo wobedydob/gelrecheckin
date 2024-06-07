@@ -41,7 +41,7 @@ class PassengerController
         }
 
         if(!empty($this->errors)) {
-            View::new()->render('views/templates/login/service-desk-login-form.php', ['errors' => $this->errors]);
+            View::new()->render('views/templates/passenger/passenger-login.php', ['errors' => $this->errors]);
             return;
         }
 
