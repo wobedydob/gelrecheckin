@@ -1,6 +1,7 @@
 <?php
 
 use Controller\HomeController;
+use Controller\PassengerController;
 use Controller\ServiceDeskController;
 use Service\Redirect;
 use Service\Route;
@@ -13,6 +14,11 @@ Route::get('/phpinfo', function () {
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::addRedirect('/home', '/'); // todo: make this redirection work
+
+Route::get('/login', [PassengerController::class, 'login'])->name('login')->guest();
+Route::post('/login', [PassengerController::class, 'authenticate'])->name('login.authenticate')->guest();
+
+Route::get('/dashboard', [PassengerController::class, 'dashboard'])->name('dashboard')->auth(['passenger']);
 
 Route::get('/logout', function () {
     Session::instance()->clear();

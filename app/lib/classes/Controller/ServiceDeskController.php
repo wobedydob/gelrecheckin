@@ -13,8 +13,8 @@ class ServiceDeskController
     public function login(): void
     {
         $serviceDesks = \Model\ServiceDesk::with(['balienummer'])->all();
-        (new \Controller\ServiceDeskController())->authenticate();
-        View::new()->render('views/templates/login/service-desk-login.php', compact('serviceDesks'));
+        $this->authenticate();
+        View::new()->render('views/templates/service-desk/service-desk-login.php', compact('serviceDesks'));
     }
 
     public function authenticate(): void
@@ -41,7 +41,7 @@ class ServiceDeskController
         }
 
         if(!empty($this->errors)) {
-            View::new()->render('views/templates/login/service-desk-login-form.php', ['errors' => $this->errors]);
+            View::new()->render('views/templates/service-desk/service-desk-login.php', ['errors' => $this->errors]);
             return;
         }
 
@@ -53,7 +53,7 @@ class ServiceDeskController
 
     public function dashboard(): void
     {
-        View::new()->render('views/templates/dashboard/service-desk-dashboard.php');
+        View::new()->render('views/templates/service-desk/service-desk-dashboard.php');
     }
 
 }
