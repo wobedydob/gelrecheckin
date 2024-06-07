@@ -1,0 +1,28 @@
+// Mixins
+@mixin container {
+  padding: 20px;
+  margin: 10px;
+  background-color: $container-background;
+  border-radius: 5px;
+  box-shadow: $box-shadow;
+}
+
+// Base styles
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: $background-color;
+  color: $text-color;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  @include container;
+}

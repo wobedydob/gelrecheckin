@@ -1,3 +1,8 @@
-//body {
-//  background-color: red;
-//}
+@import 'variables';
+@import 'base';
+@import 'components/navbar';
+@import 'components/footer';
+
+@import 'test'; // todo: do your thing and remove?
+
+
