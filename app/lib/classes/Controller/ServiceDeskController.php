@@ -53,7 +53,8 @@ class ServiceDeskController
 
     public function dashboard(): void
     {
-        View::new()->render('views/templates/service-desk/service-desk-dashboard.php');
+        $user = auth()->user();
+        View::new()->render('views/templates/service-desk/service-desk-dashboard.php', compact('user'));
     }
 
 }

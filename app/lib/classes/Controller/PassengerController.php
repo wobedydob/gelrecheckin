@@ -53,9 +53,7 @@ class PassengerController
 
     public function dashboard(): void
     {
-        $user = auth()->user();
-        $id = $user['id'];
-
+        $id = auth()->user()->getId();
         $passenger = Passenger::with(['passagiernummer', 'naam', 'geslacht'])->where('passagiernummer', '=', $id)->first();
 
         View::new()->render('views/templates/passenger/passenger-dashboard.php', compact('passenger'));
