@@ -12,7 +12,7 @@ namespace Model;
  * @property string $inchecktijdstip
  * @property string $wachtwoord
  */
-class Passenger extends AbstractModel
+class Passenger extends Model
 {
     protected static string $table = 'Passagier';
 }

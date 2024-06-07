@@ -6,7 +6,7 @@ use Exceptions\MissingPropertyException;
 use Service\Query;
 use Traits\Values;
 
-abstract class AbstractModel
+abstract class Model
 {
     use Values;
 

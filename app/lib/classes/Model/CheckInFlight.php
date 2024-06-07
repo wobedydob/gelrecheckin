@@ -6,7 +6,7 @@ namespace Model;
  * @property string $vluchtnummer
  * @property string $balienummer
  */
-class CheckInFlight extends AbstractModel
+class CheckInFlight extends Model
 {
     protected static string $table = 'IncheckenVlucht';
 }

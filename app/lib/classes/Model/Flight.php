@@ -12,7 +12,7 @@ namespace Model;
  * @property string $vertrektijd
  * @property string $maatschappijcode
  */
-class Flight extends AbstractModel
+class Flight extends Model
 {
     protected static string $table = 'Vlucht';
 }
