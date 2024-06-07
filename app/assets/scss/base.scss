@@ -23,6 +23,6 @@ body {
   padding: 0;
 }
 
-main {
+main, h1.header {
   @include container;
 }

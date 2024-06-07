@@ -13,7 +13,7 @@ body {
   padding: 0;
 }
 
-main {
+main, h1.header {
   padding: 20px;
   margin: 10px;
   background-color: #fff;
