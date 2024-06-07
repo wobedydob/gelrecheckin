@@ -31,10 +31,10 @@ class Auth
 
         switch($role) {
             case \Model\Passenger::USER_ROLE:
-                $model = \Model\Passenger::where('passagiernummer', '=', $user['id'])->first();
+                $model = \Model\Passenger::with(['naam', 'vluchtnummer', 'geslacht', 'balienummer', 'stoel', 'inchecktijdstip'])->where('passagiernummer', '=', $user['id'])->first();
                 break;
-            case 'service-desk':
-                $model = \Model\ServiceDesk::where('id', '=', $user['id'])->first();
+            case \Model\ServiceDesk::USER_ROLE:
+                $model = \Model\ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user['id'])->first();
                 break;
         }
 
