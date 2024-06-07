@@ -10,9 +10,11 @@ services:
         mode: host
     volumes:
       - data-volume:/var/opt/mssql
+
   web_server:
     platform: "linux/amd64"
     build:
+      context: .
       dockerfile: dockerfile-webserver
     env_file:
       - .env
@@ -24,9 +26,21 @@ services:
         protocol: tcp
         mode: host
     volumes:
-      - ./app/:/app/
-      - ./setup/:/setup/
+      - ./app:/app
+      - ./setup:/setup
     entrypoint: [ "sh", "/setup/bootstrap.sh" ]
     mem_limit: 512m
+
+  webpack:
+    build:
+      context: .
+      dockerfile: dockerfile-webpack
+    command: ["webpack", "--config", "webpack.config.js", "--watch"]
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    depends_on:
+      - web_server
+
 volumes:
   data-volume:

@@ -2,21 +2,16 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 const path = require('path');
 
 module.exports = {
-
     mode: 'development',
-//    mode: 'production',
-
     entry: [
         './assets/js/app.js',
         './assets/scss/style.scss'
     ],
-
     output: {
         filename: 'app.min.js',
         path: path.resolve(__dirname, './assets/js/'),
         publicPath: '.'
     },
-
     module: {
         rules: [
             {
@@ -28,12 +23,8 @@ module.exports = {
                             name: '../css/style.min.css'
                         }
                     },
-                    {
-                        loader: 'extract-loader'
-                    },
-                    {
-                        loader: 'css-loader?-url'
-                    },
+                    'extract-loader',
+                    'css-loader?-url',
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -42,11 +33,16 @@ module.exports = {
                             }
                         }
                     },
-                    {
-                        loader: 'sass-loader'
-                    }
+                    'sass-loader'
                 ]
             }
         ]
+    },
+    plugins: [
+        new WebpackNotifierPlugin()
+    ],
+    watchOptions: {
+        ignored: /node_modules/,
+        poll: 1000, // Check for changes every second
     }
 };
