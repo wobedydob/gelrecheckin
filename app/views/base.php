@@ -22,6 +22,7 @@
 </footer>
 
 <script src="<?php echo site_url('assets/js/app.min.js'); ?>"></script>
+<script src="<?php echo site_url('assets/js/debug.js'); ?>"></script>
 
 </body>
 </html>
