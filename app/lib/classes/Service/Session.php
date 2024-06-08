@@ -64,6 +64,11 @@ class Session
         session_unset();
     }
 
+    public function clean(): false|string
+    {
+        return ob_get_clean();
+    }
+
     public function has(string $key): bool
     {
         return array_key_exists($key, $_SESSION);

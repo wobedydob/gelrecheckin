@@ -2,6 +2,7 @@
 
 namespace Service;
 
+use Entity\Collection;
 use Enums\PDOError;
 use Exceptions\DuplicateKeyException;
 use Exceptions\InvalidColumnException;
@@ -69,6 +70,24 @@ class Query
         $this->wheres[] = "($lastCondition OR $column $operator ?)";
         $this->params[] = $value;
         return $this;
+    }
+
+    public function count(): int
+    {
+        $query = 'SELECT COUNT(*) as count FROM ' . $this->table;
+
+        if (!empty($this->wheres)) {
+            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
+        }
+
+        $statement = $this->db->bindAndExecute($query, $this->params);
+
+        if ($statement === false) {
+            throw new \Exception("Count query failed to execute.");
+        }
+
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result['count'] ?? 0;
     }
 
     /**
@@ -160,7 +179,7 @@ class Query
     /**
      * @throws \Exception
      */
-    public function get(): false|array
+    public function get(int $limit = null, int $offset = null): false|Collection
     {
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
@@ -174,19 +193,15 @@ class Query
             return $records;
         }
 
-        return $this->toCollection($records);
+        return $this->toCollection($records, $limit, $offset);
     }
 
     /**
      * @throws \Exception
      */
-    public function all(int $limit = null, string $orderBy = null, string $orderDirection = 'ASC'): array
+    public function all(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
     {
-        $query = 'SELECT ';
-
-        if ($limit !== null) {
-            $query .= 'TOP ' . $limit . ' ';
-        }
+        $query = self::SELECT . ' ';
 
         $query .= implode(', ', $this->columns) . ' FROM ' . $this->table;
 
@@ -196,14 +211,23 @@ class Query
 
         if ($orderBy !== null) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
+        } else {
+            $query .= ' ORDER BY (SELECT NULL)';
+        }
+
+        if ($offset !== null) {
+            $query .= ' OFFSET ' . $offset . ' ROWS';
+
+            if ($limit !== null) {
+                $query .= ' FETCH NEXT ' . $limit . ' ROWS ONLY';
+            }
+        } elseif ($limit !== null) {
+            $query .= ' OFFSET 0 ROWS FETCH NEXT ' . $limit . ' ROWS ONLY';
         }
 
         $this->query = $query;
-        return $this->get() ?? [];
+        return $this->get($limit, $offset) ?? [];
     }
-
-
-
 
     /**
      * @throws \Exception
@@ -216,6 +240,11 @@ class Query
         }
         $this->query = $query;
         $records = $this->get();
+
+        if ($records instanceof Collection) {
+            return $records->first();
+        }
+
         return $records[0] ?? [];
     }
 
@@ -239,12 +268,22 @@ class Query
     /**
      * @throws \Exception
      */
-    private function toCollection(array $records): array
+    private function toCollection(array $records, int $limit = null, int $offset = null): Collection
     {
-        $result = [];
+        $result = new Collection();
+
+        if ($limit) {
+            $result->setLimit($limit);
+        }
+
+        if ($offset) {
+            $result->setOffset($offset);
+        }
 
         foreach ($records as $record) {
-            $result[] = $this->toModel($record);
+            $result->addToCollection(
+                $this->toModel($record)
+            );
         }
 
         return $result;

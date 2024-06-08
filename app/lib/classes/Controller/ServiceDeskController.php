@@ -53,15 +53,15 @@ class ServiceDeskController
 
     public function dashboard(): void
     {
-        \Model\Flight::create([
-            'bestemming' => 'AMS',
-            'gatecode' => 'B',
-            'max_aantal' => '160',
-            'max_gewicht_pp' => '40.00',
-            'max_totaalgewicht' => '4600.00',
-            'vertrektijd' => '2024-06-08 12:00:00',
-            'maatschappijcode' => 'KL',
-        ]); // create
+//        \Model\Flight::create([
+//            'bestemming' => 'AMS',
+//            'gatecode' => 'B',
+//            'max_aantal' => '160',
+//            'max_gewicht_pp' => '40.00',
+//            'max_totaalgewicht' => '4600.00',
+//            'vertrektijd' => '2024-06-08 12:00:00',
+//            'maatschappijcode' => 'KL',
+//        ]); // create
 
         $user = auth()->user();
         View::new()->render('views/templates/service-desk/service-desk-dashboard.php', compact('user'));

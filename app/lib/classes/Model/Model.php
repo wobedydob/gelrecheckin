@@ -29,7 +29,7 @@ abstract class Model
         return static::$primaryKey;
     }
 
-    public static function all(int $limit = null, string $orderBy = null, string $orderDirection = 'ASC'): array
+    public static function all(int $limit = 0, string $orderBy = null, string $orderDirection = 'ASC'): array
     {
         $model = static::class;
         $table = static::table();
@@ -54,6 +54,11 @@ abstract class Model
     {
         $primaryKey = $primaryKey ?? static::pk();
         return Query::new(self::table())->create($values, $primaryKey);
+    }
+
+    public static function count(): int
+    {
+        return Query::new(self::table())->count();
     }
 
 

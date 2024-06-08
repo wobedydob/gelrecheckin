@@ -1,5 +1,11 @@
 <?php
 
+$page = page()->get('page', 1);
+
+$limit = 40;
+$offset = $limit * $page;
+
+
 $columns =
     [
         'vluchtnummer',
@@ -12,7 +18,7 @@ $columns =
         'maatschappijcode'
     ];
 
-$flights = \Model\Flight::with($columns)->all(30, 'vluchtnummer', 'ASC');
+$flights = \Model\Flight::with($columns)->all($limit, $offset, 'vluchtnummer', 'DESC');
 ?>
 
     <main>
@@ -25,6 +31,7 @@ $flights = \Model\Flight::with($columns)->all(30, 'vluchtnummer', 'ASC');
 
         <?php view()->render('views/organisms/flights.php', compact('flights')); ?>
 
+        <?php view()->render('views/molecules/pagination.php', ['collection' => $flights]); ?>
     </main>
 
 <?php

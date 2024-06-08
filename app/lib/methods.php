@@ -54,3 +54,8 @@ function view(): \Service\View
 {
     return new \Service\View();
 }
+
+function page(): \Service\Page
+{
+    return new \Service\Page();
+}
