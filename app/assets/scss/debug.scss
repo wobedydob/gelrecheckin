@@ -14,6 +14,11 @@ $int-color: #e03ead;
 $array-key-color: #795da3;
 $keyword-color: #0086b3;
 
+// Variables for exception highlighting
+$exception-background-color: #f8d7da;
+$exception-border-color: #f5c6cb;
+$exception-text-color: #721c24;
+
 // Base styles
 body {
   font-family: $font-family;
@@ -65,4 +70,23 @@ body {
       color: $keyword-color;
     }
   }
+
+  .exception {
+    background-color: $exception-background-color;
+    border: 1px solid $exception-border-color;
+    color: $exception-text-color;
+    padding: 15px;
+    border-radius: 4px;
+    margin-top: 20px;
+
+    h4 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
 }

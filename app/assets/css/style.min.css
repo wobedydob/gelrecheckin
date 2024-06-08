@@ -42,6 +42,21 @@ body {
 .dump-output pre .keyword {
   color: #0086b3;
 }
+.dump-output .exception {
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  color: #721c24;
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+.dump-output .exception h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.dump-output .exception p {
+  margin: 0;
+}
 
 * {
   margin: 0;
@@ -66,6 +81,29 @@ main, h1.header {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+hr {
+  border: 0;
+  height: 3px;
+  background: #f4f4f4;
+  margin: 5px 0;
+}
+
+.back-button {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+.back-button:hover {
+  background-color: #1a1a1a;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
@@ -81,32 +119,57 @@ main, h1.header {
   width: 100%;
   max-width: 400px;
 }
-.login-container .login-form h2 {
-  margin-bottom: 20px;
-  text-align: center;
+
+.flight-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f4f4f4;
 }
-.login-container .login-form .form-group {
+.flight-container .flight-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+.add-flight-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.add-flight-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.add-flight-container .add-flight-form {
+  display: flex;
+  flex-direction: column;
+}
+.add-flight-container .add-flight-form .form-group {
   margin-bottom: 15px;
 }
-.login-container .login-form .form-group label {
+.add-flight-container .add-flight-form .form-group label {
   display: block;
   margin-bottom: 5px;
   color: #333;
 }
-.login-container .login-form .form-group input, .login-container .login-form .form-group select {
+.add-flight-container .add-flight-form .form-group input {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-.login-container .login-form .form-group select {
-  appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>');
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  background-size: 10px 5px;
+.add-flight-container .add-flight-form .form-group input[type=datetime-local] {
+  padding: 9px;
 }
-.login-container .login-form button {
+.add-flight-container .add-flight-form button {
   width: 100%;
   padding: 10px;
   background-color: #333;
@@ -116,7 +179,7 @@ main, h1.header {
   cursor: pointer;
   font-size: 1em;
 }
-.login-container .login-form button:hover {
+.add-flight-container .add-flight-form button:hover {
   background-color: #1a1a1a;
 }
 
@@ -253,4 +316,78 @@ footer .footer-bottom {
   .footer-content .footer-section {
     margin: 20px 0;
   }
+}
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 25px 0;
+  font-size: 0.9em;
+  font-family: "Arial", sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+.styled-table thead tr {
+  background-color: #333;
+  color: #fff;
+  text-align: left;
+}
+.styled-table th, .styled-table td {
+  padding: 12px 15px;
+}
+.styled-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+.styled-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+.styled-table tbody tr:last-of-type {
+  border-bottom: 2px solid #333;
+}
+.styled-table tbody tr:hover {
+  background-color: #333;
+  color: #fff;
+}
+
+form h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+form .form-group {
+  margin-bottom: 15px;
+}
+form .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+form .form-group input, form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+form .form-group select {
+  appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="5"><polygon points="0,0 10,0 5,5" fill="%23333"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px 5px;
+}
+form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
+}
+form button:hover {
+  background-color: #1a1a1a;
 }

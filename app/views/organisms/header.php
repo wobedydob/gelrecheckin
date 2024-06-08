@@ -17,11 +17,11 @@
 
                 <?php view()->render('views/organisms/menu/guest-menu.php'); ?>
 
-            <?php elseif(auth()->withRole('passenger')): ?>
+            <?php elseif(auth()->withRole(\Model\Passenger::USER_ROLE)): ?>
 
                 <?php view()->render('views/organisms/menu/passenger-menu.php'); ?>
 
-            <?php elseif(auth()->withRole('service-desk')): ?>
+            <?php elseif(auth()->withRole(\Model\ServiceDesk::USER_ROLE)): ?>
 
                 <?php view()->render('views/organisms/menu/service-desk-menu.php'); ?>
 

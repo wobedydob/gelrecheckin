@@ -1,7 +1,7 @@
 <?php
-/** @var $passenger array */
+/** @var $passenger \Model\Passenger */
 
-$name = $passenger['naam'] ?? '';
+$name = $passenger->naam ?? '';
 ?>
 
 <main>

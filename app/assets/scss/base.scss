@@ -26,3 +26,10 @@ body {
 main, h1.header {
   @include container;
 }
+
+hr {
+  border: 0;
+  height: 3px;
+  background: $background-color;
+  margin: 5px 0;
+}
