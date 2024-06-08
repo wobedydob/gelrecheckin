@@ -37,12 +37,6 @@ function dump($var): void
 
 #[NoReturn] function dd($var): void
 {
-    $backtrace = debug_backtrace();
-    $caller = $backtrace[0];
-
-    echo "<div class='dump-output'>";
-    echo "<p><strong>Dump called in:</strong> " . $caller['file'] . " on line " . $caller['line'] . "</p>";
-    echo formatDump($var);
-    echo "</div>";
+    dump($var);
     die();
 }
