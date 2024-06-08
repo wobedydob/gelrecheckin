@@ -8,8 +8,8 @@
     <div class="form-group">
         <label for="desk_id">Balienummer</label>
         <select id="desk_id" name="desk_id">
-            <?php foreach ($serviceDesks as $deskNumbers): ?>
-                <?php $deskNumber = $deskNumbers['balienummer']; ?>
+            <?php foreach ($serviceDesks as $serviceDesk): /** @var $serviceDesk \Model\ServiceDesk */ ?>
+                <?php $deskNumber = $serviceDesk->balienummer; ?>
                 <option value="<?php echo $deskNumber; ?>"><?php echo $deskNumber; ?></option>
             <?php endforeach; ?>
         </select>
