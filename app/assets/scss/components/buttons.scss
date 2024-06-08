@@ -1,0 +1,33 @@
+// Button styles
+$primary-color: #007bff;
+$secondary-color: #fff;
+$back-color: #333;
+
+button, .button {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: $primary-color;
+  color: $secondary-color;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
+
+.back-button {
+  background-color: $back-color;
+
+  &:hover {
+    background-color: darken($back-color, 10%);
+  }
+}
+
+.add-button {
+  background-color: $primary-color;
+}

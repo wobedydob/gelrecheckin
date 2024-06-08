@@ -4,7 +4,7 @@
 
 <main>
 
-    <a href="<?php echo site_url('vluchten'); ?>" class="back-button">Terug naar Overzicht</a>
+    <a href="<?php echo site_url('vluchten'); ?>" class="button back-button">Terug naar Overzicht</a>
 
     <div class="flight-details">
         <h1>Vluchtdetails</h1>
@@ -37,7 +37,14 @@
                 </tr>
                 <tr>
                     <th>Vertrektijd</th>
-                    <td><?php echo htmlspecialchars($flight->vertrektijd); ?></td>
+                    <td>
+                        <?php
+
+                        dump($flight->vertrektijd);
+                        //echo htmlspecialchars($flight->vertrektijd);
+
+                        ?>
+                    </td>
                 </tr>
                 <tr>
                     <th>Maatschappijcode</th>
@@ -46,7 +53,7 @@
                 </tbody>
             </table>
         <?php else: ?>
-            <p>Geen vluchtgegevens gevonden voor vluchtnummer: <?php echo htmlspecialchars($vluchtnummer); ?></p>
+            <p>Geen vluchtgegevens gevonden voor vluchtnummer: <?php echo htmlspecialchars($flight->vluchtnummer); ?></p>
         <?php endif; ?>
     </div>
 </main>

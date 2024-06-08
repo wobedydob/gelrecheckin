@@ -13,9 +13,6 @@
     box-shadow: $box-shadow;
     width: 100%;
     max-width: 400px;
-
-
-
   }
 }
 
@@ -58,19 +55,19 @@
       }
     }
 
-    button {
-      width: 100%;
-      padding: 10px;
-      background-color: $primary-color;
-      color: $secondary-color;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 1em;
-
-      &:hover {
-        background-color: darken($primary-color, 10%);
-      }
-    }
+    //button {
+    //  width: 100%;
+    //  padding: 10px;
+    //  background-color: $primary-color;
+    //  color: $secondary-color;
+    //  border: none;
+    //  border-radius: 5px;
+    //  cursor: pointer;
+    //  font-size: 1em;
+    //
+    //  &:hover {
+    //    background-color: darken($primary-color, 10%);
+    //  }
+    //}
   }
 }

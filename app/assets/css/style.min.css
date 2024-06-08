@@ -88,22 +88,6 @@ hr {
   margin: 5px 0;
 }
 
-.back-button {
-  display: inline-block;
-  margin-bottom: 20px;
-  padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
-  text-decoration: none;
-  border-radius: 5px;
-  font-size: 1em;
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-.back-button:hover {
-  background-color: #1a1a1a;
-}
-
 .login-container {
   display: flex;
   justify-content: center;
@@ -168,19 +152,6 @@ hr {
 }
 .add-flight-container .add-flight-form .form-group input[type=datetime-local] {
   padding: 9px;
-}
-.add-flight-container .add-flight-form button {
-  width: 100%;
-  padding: 10px;
-  background-color: #333;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1em;
-}
-.add-flight-container .add-flight-form button:hover {
-  background-color: #1a1a1a;
 }
 
 .navbar {
@@ -390,4 +361,31 @@ form button {
 }
 form button:hover {
   background-color: #1a1a1a;
+}
+
+button, .button {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+button:hover, .button:hover {
+  background-color: #0062cc;
+}
+
+.back-button {
+  background-color: #333;
+}
+.back-button:hover {
+  background-color: #1a1a1a;
+}
+
+.add-button {
+  background-color: #007bff;
 }

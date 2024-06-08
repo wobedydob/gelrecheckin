@@ -49,5 +49,5 @@ $airlines = Model\Airline::with(['maatschappijcode', 'naam'])->all();
         </select>
     </div>
 
-    <button type="submit" name="submit" value="submit">Toevoegen</button>
+    <button class="button add-button" type="submit" name="submit" value="submit">Toevoegen</button>
 </form>
