@@ -120,7 +120,9 @@ class Route
     public static function resolve(string $method, string $uri): void
     {
         foreach (self::$routes as $route) {
-            if ($route['method'] === $method && preg_match("#^{$route['uri']}$#", $uri)) {
+            $pattern = "#^" . preg_replace('#\{[^\}]+\}#', '([^/]+)', $route['uri']) . "$#";
+            if ($route['method'] === $method && preg_match($pattern, $uri, $matches)) {
+                array_shift($matches); // Remove the full match
 
                 foreach ($route['middlewares'] as $middleware) {
                     if (is_callable($middleware)) {
@@ -132,9 +134,9 @@ class Route
 
                 try {
                     if (is_array($route['action'])) {
-                        call_user_func([new $route['action'][0], $route['action'][1]]);
+                        call_user_func_array([new $route['action'][0], $route['action'][1]], $matches);
                     } else {
-                        call_user_func($route['action']);
+                        call_user_func_array($route['action'], $matches);
                     }
                 } catch (\Exception $e) {
                     \Service\ErrorHandler::throw($e);
