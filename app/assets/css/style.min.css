@@ -1,3 +1,48 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+.dump-output {
+  border: 1px solid #dee2e6;
+  background-color: white;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+.dump-output p {
+  margin: 0 0 10px;
+}
+.dump-output p strong {
+  color: #007bff;
+}
+.dump-output pre {
+  background-color: #272822;
+  color: #f8f8f2;
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  border-radius: 4px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.dump-output pre .string {
+  color: #d14;
+}
+.dump-output pre .number {
+  color: #099;
+}
+.dump-output pre .int {
+  color: #2b91af;
+}
+.dump-output pre .array-key {
+  color: #795da3;
+}
+.dump-output pre .keyword {
+  color: #0086b3;
+}
+
 * {
   margin: 0;
   padding: 0;
