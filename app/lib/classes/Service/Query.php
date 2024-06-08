@@ -7,6 +7,7 @@ use Exceptions\DuplicateKeyException;
 use Exceptions\InvalidColumnException;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
+use http\Exception\RuntimeException;
 use Model\Model;
 use PDO;
 use Util\StringHelper;
@@ -77,19 +78,33 @@ class Query
      * @return array|bool
      * @throws \Exception
      */
-    public function create(array $data)
+    public function create(array $data, string $primaryKey = null): bool|array
     {
         $this->columns = array_keys($data);
-        $placeholders = array_fill(0, count($this->columns), '?');
 
+        if($primaryKey) {
+            $pkQuery = self::SELECT . ' MAX(' . $primaryKey . ') FROM ' . $this->table;
+            $lastId = $this->db->bindAndExecute($pkQuery)->fetch(PDO::FETCH_LAZY);
+
+            if(!isset($lastId[''])) {
+                ErrorHandler::log(
+                    new RuntimeException('Could not get last inserted ID', 1717865333174),
+                );
+            }
+
+            $data[$primaryKey] = (int) $lastId[''] + 1;
+        }
+
+        $this->columns = array_keys($data);
+        $placeholders = array_fill(0, count($this->columns), '?');
         $columns = StringHelper::arrayToString($this->columns);
         $placeholders = StringHelper::arrayToString($placeholders);
+
 
         $this->query = self::INSERT . ' ' . $this->table . ' (' . $columns . ') VALUES (' . $placeholders . ')';
         $this->params = array_values($data);
 
         $statement = $this->db->bindAndExecute($this->query, $this->params);
-
         if ($statement === null) {
             return $this->errors(); // todo: properly display error
         }
@@ -148,6 +163,11 @@ class Query
     public function get(): false|array
     {
         $statement = $this->db->bindAndExecute($this->query, $this->params);
+
+        if (!$statement) {
+            return false;
+        }
+
         $records = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (!$this->model) {
@@ -179,7 +199,6 @@ class Query
         }
 
         $this->query = $query;
-        dd($query);
         return $this->get() ?? [];
     }
 

@@ -7,7 +7,7 @@ class ErrorHandler
 
     private static array $errors = [];
 
-    public static function log(\PDOException $exception): void
+    public static function log($exception): void
     {
         self::$errors[] = $exception;
     }

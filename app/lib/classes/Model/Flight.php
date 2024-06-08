@@ -15,4 +15,22 @@ namespace Model;
 class Flight extends Model
 {
     protected static string $table = 'Vlucht';
+    protected static string $primaryKey = 'vluchtnummer';
+
+    public static array $fillable = [
+        'vluchtnummer',
+        'bestemming',
+        'gatecode',
+        'max_aantal',
+        'max_gewicht_pp',
+        'max_totaalgewicht',
+        'vertrektijd',
+        'maatschappijcode'
+    ];
+
+    public static function find(string $id): array|Model
+    {
+        return self::where('vluchtnummer', '=', $id)->first();
+    }
+
 }

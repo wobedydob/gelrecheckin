@@ -11,18 +11,22 @@ abstract class Model
     use Values;
 
     protected static string $table;
+    protected static string $primaryKey = 'id';
 
     private static function table()
-    {
-        self::validate();
-        return static::$table;
-    }
-
-    private static function validate(): void
     {
         if (!isset(static::$table)) {
             throw new MissingPropertyException('Define `protected static string $table` in your model', static::class, 1717407958262);
         }
+        return static::$table;
+    }
+
+    private static function pk(): string
+    {
+        if (!isset(static::$primaryKey)) {
+            throw new MissingPropertyException('Define `protected static string $primaryKey` in your model', static::class, 1717407958261);
+        }
+        return static::$primaryKey;
     }
 
     public static function all(int $limit = null, string $orderBy = null, string $orderDirection = 'ASC'): array
@@ -46,9 +50,10 @@ abstract class Model
         return Query::new($table, (new $model))->with($columns);
     }
 
-    public static function create(array $values)
+    public static function create(array $values, string $primaryKey = null): bool
     {
-        return Query::new(self::table())->create($values);
+        $primaryKey = $primaryKey ?? static::pk();
+        return Query::new(self::table())->create($values, $primaryKey);
     }
 
 
