@@ -160,15 +160,31 @@ class Query
     /**
      * @throws \Exception
      */
-    public function all(): array
+    public function all(int $limit = null, string $orderBy = null, string $orderDirection = 'ASC'): array
     {
-        $query = 'SELECT ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
+        $query = 'SELECT ';
+
+        if ($limit !== null) {
+            $query .= 'TOP ' . $limit . ' ';
+        }
+
+        $query .= implode(', ', $this->columns) . ' FROM ' . $this->table;
+
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
+
+        if ($orderBy !== null) {
+            $query .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
+        }
+
         $this->query = $query;
+        dd($query);
         return $this->get() ?? [];
     }
+
+
+
 
     /**
      * @throws \Exception

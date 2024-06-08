@@ -25,11 +25,11 @@ abstract class Model
         }
     }
 
-    public static function all()
+    public static function all(int $limit = null, string $orderBy = null, string $orderDirection = 'ASC'): array
     {
         $model = static::class;
         $table = static::table();
-        return Query::new($table, (new $model))->all();
+        return Query::new($table, (new $model))->all($limit, $orderBy, $orderDirection);
     }
 
     public static function where(string $column, string $operator, $value): Query
