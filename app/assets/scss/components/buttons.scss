@@ -2,6 +2,8 @@
 $primary-color: #007bff;
 $secondary-color: #fff;
 $back-color: #333;
+$sort-color: #646464;
+$remove-color: #ad4343;
 
 button, .button {
   display: inline-block;
@@ -18,16 +20,39 @@ button, .button {
   &:hover {
     background-color: darken($primary-color, 10%);
   }
-}
 
-.back-button {
-  background-color: $back-color;
+  &.back-button {
+    background-color: $back-color;
 
-  &:hover {
-    background-color: darken($back-color, 10%);
+    &:hover {
+      background-color: darken($back-color, 10%);
+    }
+  }
+
+  &.add-button {
+    background-color: $primary-color;
+  }
+
+  &.remove-filters {
+    background-color: $remove-color;
+
+    &:hover {
+      background-color: darken($remove-color, 10%);
+    }
+  }
+
+  &.sort-asc, &.sort-desc {
+    background-color: $sort-color;
+
+    &:hover {
+      background-color: darken($sort-color, 10%);
+    }
+
+    &.active {
+      background-color: darken($sort-color, 15%);
+    }
   }
 }
 
-.add-button {
-  background-color: $primary-color;
-}
+
+

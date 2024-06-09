@@ -202,7 +202,6 @@ class Query
     public function all(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
     {
         $query = self::SELECT . ' ';
-
         $query .= implode(', ', $this->columns) . ' FROM ' . $this->table;
 
         if (!empty($this->wheres)) {

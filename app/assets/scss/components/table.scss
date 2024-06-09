@@ -17,6 +17,16 @@
     background-color: $primary-color;
     color: $secondary-color;
     text-align: left;
+
+    a {
+      color: $secondary-color;
+      text-decoration: none;
+      transition: color 0.3s ease;
+
+      &.active {
+        text-decoration: underline;
+      }
+    }
   }
 
   th, td {

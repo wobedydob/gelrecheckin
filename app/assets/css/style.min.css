@@ -322,6 +322,14 @@ footer .footer-bottom {
   color: #fff;
   text-align: left;
 }
+.styled-table thead tr a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.styled-table thead tr a.active {
+  text-decoration: underline;
+}
 .styled-table th, .styled-table td {
   padding: 12px 15px;
 }
@@ -393,14 +401,27 @@ button, .button {
 button:hover, .button:hover {
   background-color: #0062cc;
 }
-
-.back-button {
+button.back-button, .button.back-button {
   background-color: #333;
 }
-.back-button:hover {
+button.back-button:hover, .button.back-button:hover {
   background-color: #1a1a1a;
 }
-
-.add-button {
+button.add-button, .button.add-button {
   background-color: #007bff;
+}
+button.remove-filters, .button.remove-filters {
+  background-color: #ad4343;
+}
+button.remove-filters:hover, .button.remove-filters:hover {
+  background-color: #883535;
+}
+button.sort-asc, button.sort-desc, .button.sort-asc, .button.sort-desc {
+  background-color: #646464;
+}
+button.sort-asc:hover, button.sort-desc:hover, .button.sort-asc:hover, .button.sort-desc:hover {
+  background-color: #4b4b4b;
+}
+button.sort-asc.active, button.sort-desc.active, .button.sort-asc.active, .button.sort-desc.active {
+  background-color: #3e3e3e;
 }

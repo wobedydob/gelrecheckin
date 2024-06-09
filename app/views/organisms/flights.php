@@ -1,5 +1,15 @@
 <?php declare(strict_types=1);
 /** @var $flights \Model\Flight[] */
+
+$active = page()->get('sort', 'vluchtnummer');
+$isFlight = $active == 'vluchtnummer';
+$isDestination = $active == 'bestemming';
+$isGate = $active == 'gatecode';
+$isMaxPassengers = $active == 'max_aantal';
+$isMaxWeight = $active == 'max_gewicht_pp';
+$isMaxTotalWeight = $active == 'max_totaalgewicht';
+$isDepartureTime = $active == 'vertrektijd';
+$isAirline = $active == 'maatschappijcode';
 ?>
 
 <div class="flights-container">
@@ -7,14 +17,14 @@
         <table class="styled-table">
             <thead>
             <tr>
-                <th>Vluchtnummer</th>
-                <th>Bestemming</th>
-                <th>Gate</th>
-                <th>Max. Aantal</th>
-                <th>Max. Gewicht</th>
-                <th>Max. Totaalgewicht</th>
-                <th>Vertrektijd</th>
-                <th>Maatschappij</th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'vluchtnummer']); ?>" class="<?php if($isFlight):?>active<?php endif;?>">Vluchtnummer</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'bestemming']); ?>" class="<?php if($isDestination):?>active<?php endif;?>">Bestemming</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'gatecode']); ?>" class="<?php if($isGate):?>active<?php endif;?>">Gate</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'max_aantal']); ?>" class="<?php if($isMaxPassengers):?>active<?php endif;?>">Max. Aantal</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'max_gewicht_pp']); ?>" class="<?php if($isMaxWeight):?>active<?php endif;?>">Max. Gewicht</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'max_totaalgewicht']); ?>" class="<?php if($isMaxTotalWeight):?>active<?php endif;?>">Max. Totaalgewicht</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'vertrektijd']); ?>" class="<?php if($isDepartureTime):?>active<?php endif;?>">Vertrektijd</a></th>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => 'maatschappijcode']); ?>" class="<?php if($isAirline):?>active<?php endif;?>">Maatschappij</a></th>
             </tr>
             </thead>
             <tbody>

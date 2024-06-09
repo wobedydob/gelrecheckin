@@ -15,23 +15,20 @@ $last = $pages;
 
 $isFirst = $page == $first;
 $isLast = $page == $last;
-
-$param = '?page=';
-$url = page()->url();
 ?>
 
 <div class="pagination">
 
     <?php if(!$isFirst): ?>
-    <a href="<?php echo $url . $param . $first;  ?>" class="button">Eerste</a>
-    <a href="<?php echo $url . $param . $prev; ?>" class="button">Vorige</a>
+    <a href="<?php echo page()->updateUrlParams(['page' => $first]);  ?>" class="button">Eerste</a>
+    <a href="<?php echo page()->updateUrlParams(['page' => $prev]); ?>" class="button">Vorige</a>
     <?php endif; ?>
 
-    <a href="<?php echo $url . $param . $page; ?>" class="button">Pagina <?php echo $page; ?></a>
+    <a href="<?php echo page()->urlWithParams(); ?>" class="button">Pagina <?php echo $page; ?></a>
 
     <?php if(!$isLast): ?>
-    <a href="<?php echo $url . $param . $next; ?>" class="button">Volgende</a>
-    <a href="<?php echo $url . $param . $last;  ?>" class="button">Laaste</a>
+    <a href="<?php echo page()->updateUrlParams(['page' => $next]); ?>" class="button">Volgende</a>
+    <a href="<?php echo page()->updateUrlParams(['page' => $last]);  ?>" class="button">Laaste</a>
     <?php endif; ?>
 
 </div>

@@ -4,6 +4,12 @@ namespace Service;
 
 class Page
 {
+    private array $params;
+
+    public function __construct()
+    {
+        $this->params = $_GET;
+    }
 
     public static function new(): Page
     {
@@ -12,12 +18,21 @@ class Page
 
     public function get(string $key, $default = null): mixed
     {
-        return $_GET[$key] ?? $default;
+        return $this->params[$key] ?? $default;
     }
 
-    public function set(string $key, $value): mixed
+    public function set(string $key, $value): void
     {
-        return $_GET[$key] = $value;
+        $this->params[$key] = $value;
+    }
+
+    public function updateUrlParams(array $params): string
+    {
+        foreach ($params as $key => $value) {
+            $this->set($key, $value);
+        }
+
+        return $this->urlWithParams();
     }
 
     public function url(): string
@@ -28,4 +43,8 @@ class Page
         return $protocol . $host . $path;
     }
 
+    public function urlWithParams(): string
+    {
+        return $this->url() . '?' . http_build_query($this->params);
+    }
 }
