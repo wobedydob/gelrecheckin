@@ -50,4 +50,14 @@ class StringHelper
         return date('Y-m-d H:i:s', strtotime($date));
     }
 
+    public static function strip(string $input): string
+    {
+        return strip_tags($input);
+    }
+
+    public static function excerpt(string $input, int $limit): string
+    {
+        return substr($input, 0, $limit);
+    }
+
 }

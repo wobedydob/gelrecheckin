@@ -28,7 +28,7 @@ $active = page()->get('sort', 'passagiernummer');
                     <td><?php echo $passenger->geslacht; ?></td>
                     <td><?php echo $passenger->balienummer; ?></td>
                     <td><?php echo $passenger->stoel; ?></td>
-                    <td><?php echo $passenger->inchecktijdstip; ?></td>
+                    <td><?php echo $passenger->inchecktijdstip ?: 'Onbekend'; ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

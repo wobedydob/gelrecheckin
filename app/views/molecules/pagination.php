@@ -6,7 +6,7 @@ $total = $collection->first()->count();
 $limit = $collection->getLimit();
 $offset = $collection->getOffset();
 
-$pages = ceil($total / $limit) - 1;
+$pages = ceil($total / $limit);
 
 $next = $page + 1;
 $prev = $page - 1;

@@ -53,7 +53,8 @@ class Database
         try {
             $this->statement->execute();
         } catch (\PDOException $exception) {
-            \Service\ErrorHandler::log($exception);
+            dump($exception);
+            ErrorHandler::log($exception);
             return null;
         }
 
