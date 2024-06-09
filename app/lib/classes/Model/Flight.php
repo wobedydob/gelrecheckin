@@ -28,7 +28,7 @@ class Flight extends Model
         'maatschappijcode'
     ];
 
-    public static function find(string $id): array|Model
+    public static function find(string $id): array|Model|null
     {
         return self::where('vluchtnummer', '=', $id)->first();
     }

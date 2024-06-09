@@ -17,8 +17,8 @@ $airports = Model\Airport::with(['luchthavencode', 'naam'])->all();
     </div>
 
     <div class="form-group">
-        <label for="desk_id">Gatecode</label>
-        <select id="desk_id" name="desk_id">
+        <label for="gate_id">Gatecode</label>
+        <select id="gate_id" name="gate_id">
             <?php foreach ($gates as $gate): /** @var $gate \Model\Gate */ ?>
                 <?php $gateCode = $gate->gatecode; ?>
                 <option value="<?php echo $gateCode; ?>"><?php echo $gateCode; ?></option>

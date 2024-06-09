@@ -2,6 +2,7 @@
 
 namespace Model;
 
+use Entity\Collection;
 use Exceptions\MissingPropertyException;
 use Service\Query;
 use Traits\Values;
@@ -29,11 +30,11 @@ abstract class Model
         return static::$primaryKey;
     }
 
-    public static function all(int $limit = 0, string $orderBy = null, string $orderDirection = 'ASC'): array
+    public static function all(int $limit = 0, int $offset = 0, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
     {
         $model = static::class;
         $table = static::table();
-        return Query::new($table, (new $model))->all($limit, $orderBy, $orderDirection);
+        return Query::new($table, (new $model))->all($limit, $offset, $orderBy, $orderDirection);
     }
 
     public static function where(string $column, string $operator, $value): Query

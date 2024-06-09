@@ -45,4 +45,9 @@ class StringHelper
         return implode($separator, $array);
     }
 
+    public static function toDateTime(string $date): string
+    {
+        return date('Y-m-d H:i:s', strtotime($date));
+    }
+
 }

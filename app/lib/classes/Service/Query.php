@@ -208,19 +208,19 @@ class Query
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
 
-        if ($orderBy !== null) {
+        if ($orderBy) {
             $query .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
         } else {
             $query .= ' ORDER BY (SELECT NULL)';
         }
 
-        if ($offset !== null) {
+        if ($offset) {
             $query .= ' OFFSET ' . $offset . ' ROWS';
 
-            if ($limit !== null) {
+            if ($limit) {
                 $query .= ' FETCH NEXT ' . $limit . ' ROWS ONLY';
             }
-        } elseif ($limit !== null) {
+        } elseif ($limit) {
             $query .= ' OFFSET 0 ROWS FETCH NEXT ' . $limit . ' ROWS ONLY';
         }
 

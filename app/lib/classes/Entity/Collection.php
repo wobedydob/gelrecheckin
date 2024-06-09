@@ -57,6 +57,9 @@ class Collection implements \Iterator, \Countable
      */
     public function first(): mixed
     {
+        if (empty($this->collection)) {
+            return null;
+        }
         return $this->collection[0];
     }
 
