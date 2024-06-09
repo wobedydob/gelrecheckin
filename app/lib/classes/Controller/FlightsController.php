@@ -51,11 +51,6 @@ class FlightsController
         View::new()->render('views/templates/flight.php', compact('flight'));
     }
 
-    public function test()
-    {
-        dump('hi o ');
-    }
-
     public function add(): void
     {
         View::new()->render('views/templates/flight-add.php');

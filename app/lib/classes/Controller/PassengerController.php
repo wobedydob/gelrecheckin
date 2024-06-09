@@ -42,7 +42,6 @@ class PassengerController
         }
 
         if(!empty($this->errors)) {
-            dd($this->errors);
             View::new()->render('views/templates/passenger/passenger-login.php', ['errors' => $this->errors]);
             return;
         }
