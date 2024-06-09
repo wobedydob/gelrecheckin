@@ -20,7 +20,7 @@ $active = page()->get('sort', 'passagiernummer');
             </thead>
             <tbody>
             <?php foreach ($passengers as $passenger): /** @var $passenger Model\Passenger */ ?>
-                <?php $url = '/passagier/' . urlencode($passenger->passagiernummer); ?>
+                <?php $url = '/passagiers/' . urlencode($passenger->passagiernummer); ?>
                 <tr onclick="window.location='<?php echo $url; ?>';">
                     <td><?php echo $passenger->passagiernummer; ?></td>
                     <td><?php echo $passenger->naam; ?></td>

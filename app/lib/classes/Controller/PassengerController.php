@@ -2,7 +2,6 @@
 
 namespace Controller;
 
-use Model\Flight;
 use Model\Passenger;
 use Service\Redirect;
 use Service\Session;
@@ -89,7 +88,7 @@ class PassengerController
         }
 
         $name = $post['name'] ? StringHelper::sanitize($post['name']) : false;
-        $passengerId = $post['passenger_id'] ? StringHelper::sanitize($post['passenger_id']) : false;
+        $flightId = $post['flight_id'] ? StringHelper::sanitize($post['flight_id']) : false;
         $gender = $post['gender'] ? StringHelper::sanitize($post['gender']) : false;
         $deskId = $post['desk_id'] ? StringHelper::sanitize($post['desk_id']) : false;
         $seat = $post['seat'] ? StringHelper::sanitize($post['seat']) : false;
@@ -101,8 +100,8 @@ class PassengerController
             $this->errors['name'] = 'none given';
         }
 
-        if (!$passengerId) {
-            $this->errors['passenger_id'] = 'none given';
+        if (!$flightId) {
+            $this->errors['flight_id'] = 'none given';
         }
 
         if (!$gender) {
@@ -132,7 +131,7 @@ class PassengerController
 
         $action = Passenger::create([
             'naam' => $name,
-            'vluchtnummer' => $passengerId,
+            'vluchtnummer' => $flightId,
             'geslacht' => $gender,
             'balienummer' => $deskId,
             'stoel' => $seat,
@@ -145,7 +144,7 @@ class PassengerController
             View::new()->render('views/templates/passenger-add.php', $error);
         }
 
-        Redirect::to('/vluchten');
+        Redirect::to('/passagiers');
     }
 
     public function edit($id): void
@@ -167,40 +166,41 @@ class PassengerController
             return;
         }
 
-        $destination = $post['destination'] ? StringHelper::sanitize($post['destination']) : false;
-        $gate = $post['gate_id'] ? StringHelper::sanitize($post['gate_id']) : false;
-        $maxLimit = $post['max_limit'] ? StringHelper::sanitize($post['max_limit']) : false;
-        $maxWeightPP = $post['max_weight_pp'] ? StringHelper::sanitize($post['max_weight_pp']) : false;
-        $maxTotalWeight = $post['max_total_weight'] ? StringHelper::sanitize($post['max_total_weight']) : false;
-        $departure = $post['departure_time'] ? StringHelper::toDateTime($post['departure_time']) : false;
-        $airline = $post['airline_id'] ? StringHelper::sanitize($post['airline_id']) : false;
+        $name = $post['name'] ? StringHelper::sanitize($post['name']) : false;
+        $flightId = $post['flight_id'] ? StringHelper::sanitize($post['flight_id']) : false;
+        $gender = $post['gender'] ? StringHelper::sanitize($post['gender']) : false;
+        $deskId = $post['desk_id'] ? StringHelper::sanitize($post['desk_id']) : false;
+        $seat = $post['seat'] ? StringHelper::sanitize($post['seat']) : false;
+        $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
+        $checkinTime = $post['checkin_time'] ? StringHelper::toDateTime($post['checkin_time']) : false;
+        $password = $post['password'] ? StringHelper::hash($post['password']) : false;
 
-        if (!$destination) {
-            $this->errors['destination'] = 'none given';
+        if (!$name) {
+            $this->errors['name'] = 'none given';
         }
 
-        if (!$gate) {
-            $this->errors['gate_id'] = 'none given';
+        if (!$flightId) {
+            $this->errors['flight_id'] = 'none given';
         }
 
-        if (!$maxLimit) {
-            $this->errors['max_limit'] = 'none given';
+        if (!$gender) {
+            $this->errors['gender'] = 'none given';
         }
 
-        if (!$maxWeightPP) {
-            $this->errors['max_weight_pp'] = 'none given';
+        if (!$deskId) {
+            $this->errors['desk_id'] = 'none given';
         }
 
-        if (!$maxTotalWeight) {
-            $this->errors['max_total_weight'] = 'none given';
+        if (!$seat) {
+            $this->errors['seat'] = 'none given';
         }
 
-        if (!$departure) {
-            $this->errors['departure_time'] = 'none given';
+        if (!$checkinTime) {
+            $this->errors['checkin_time'] = 'none given';
         }
 
-        if (!$airline) {
-            $this->errors['airline_id'] = 'none given';
+        if (!$password) {
+            $this->errors['password'] = 'none given';
         }
 
         if (!empty($this->errors)) {
@@ -208,29 +208,29 @@ class PassengerController
             return;
         }
 
-        $action = \Model\Passenger::where('vluchtnummer', '=', $id)->update([
-            'vluchtnummer' => $id,
-            'bestemming' => $destination,
-            'gatecode' => $gate,
-            'max_aantal' => $maxLimit,
-            'max_gewicht_pp' => $maxWeightPP,
-            'max_totaalgewicht' => $maxTotalWeight,
-            'vertrektijd' => $departure,
-            'maatschappijcode' => $airline,
+        $action = Passenger::where('passagiernummer', '=', $id)->update([
+            'passagiernummer' => $id,
+            'naam' => $name,
+            'vluchtnummer' => $flightId,
+            'geslacht' => $gender,
+            'balienummer' => $deskId,
+            'stoel' => $seat,
+            'inchecktijdstip' => $checkinTime,
+            'wachtwoord' => $password,
         ]);
 
         if(!$action) {
-            $error = ['errors' => 'Passenger could not be edited'];
+            $error = ['errors' => 'Passenger could not be added'];
             View::new()->render('views/templates/passenger-add.php', $error);
         }
 
-        Redirect::to('/vluchten');
+        Redirect::to('/passagiers');
     }
 
     public function delete($id): void
     {
-        Passenger::where('vluchtnummer', '=', $id)->delete();
-        Redirect::to('/vluchten');
+        Passenger::where('passagiernummer', '=', $id)->delete();
+        Redirect::to('/passagiers');
     }
     
 }
