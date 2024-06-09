@@ -36,19 +36,11 @@ class Route
     {
         self::middleware(function () use ($roles) {
             if (!self::isAuthenticated()) {
-                header("HTTP/1.1 401 Unauthorized");
-                echo "401 Unauthorized";
-                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
-                echo "<br> [CODE] 1717447784111";
-                exit();
+                self::notAuthorized();
             }
 
             if (!empty($roles) && !self::hasRole($roles)) {
-                header("HTTP/1.1 403 Forbidden");
-                echo "403 Forbidden";
-                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
-                echo "<br> [CODE] 1717447768676";
-                exit();
+                self::notAllowed();
             }
         });
 
@@ -59,11 +51,7 @@ class Route
     {
         self::middleware(function () {
             if (self::isAuthenticated()) {
-                header("HTTP/1.1 403 Forbidden");
-                echo "403 Forbidden";
-                echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
-                echo "<br> [CODE] 1717447759623";
-                exit();
+                self::notAllowed();
             }
         });
 
@@ -159,10 +147,19 @@ class Route
 
     public static function notFound(): void
     {
+        header('HTTP/1.1 404 Not Found');
         View::new()->render('views/templates/404.php');
-//        header("HTTP/1.0 404 Not Found");
-//        echo "404 Not Found";
-//        echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
-//        echo "<br> [CODE] 1717447743431";
+    }
+
+    public static function notAuthorized(): void
+    {
+        header('HTTP/1.1 401 Not Authorized');
+        Redirect::to('/');
+    }
+
+    public static function notAllowed(): void
+    {
+        header('HTTP/1.1 403 Forbidden');
+        Redirect::to('/');
     }
 }

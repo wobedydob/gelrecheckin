@@ -1,13 +1,19 @@
 <?php
 $gates = Model\Gate::all();
 $airlines = Model\Airline::with(['maatschappijcode', 'naam'])->all();
+$airports = Model\Airport::with(['luchthavencode', 'naam'])->all();
 ?>
 
 <form class="add-flight-form" action="" method="post">
 
     <div class="form-group">
         <label for="destination">Bestemming</label>
-        <input type="text" id="destination" name="destination" required>
+        <select id="destination" name="destination">
+            <?php foreach ($airports as $airport): /** @var $airport \Model\Airport */ ?>
+                <option value="<?php echo $airport->luchthavencode; ?>"><?php echo $airport->naam . ' (' . $airport->luchthavencode . ')'; ?></option>
+            <?php endforeach; ?>
+        </select>
+
     </div>
 
     <div class="form-group">
