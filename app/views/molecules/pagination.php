@@ -27,7 +27,7 @@ $url = page()->url();
     <a href="<?php echo $url . $param . $prev; ?>" class="button">Vorige</a>
     <?php endif; ?>
 
-    <a href="#" class="button">Pagina <?php echo $page; ?></a>
+    <a href="<?php echo $url . $param . $page; ?>" class="button">Pagina <?php echo $page; ?></a>
 
     <?php if(!$isLast): ?>
     <a href="<?php echo $url . $param . $next; ?>" class="button">Volgende</a>
