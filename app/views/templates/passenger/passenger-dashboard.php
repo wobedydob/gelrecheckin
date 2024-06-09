@@ -4,8 +4,6 @@
 $name = $passenger->naam ?? '';
 ?>
 
-<main>
-
-<h1>Hallo <?php echo $name; ?></h1>
-
-</main>
+<div class="container secondary-container">
+    <h1>Welkom <?php echo auth()->user()->getModel()?->naam; ?></h1>
+</div>

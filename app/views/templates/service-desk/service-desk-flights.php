@@ -33,10 +33,10 @@ if($flightId) {
 }
 ?>
 
-<main>
+<div class="container">
     <h1>Vluchten</h1>
 
-    <a href="<?php echo site_url('vluchten/add'); ?>" class="button add-flight-button">Vlucht Toevoegen</a>
+    <a href="<?php echo site_url('vluchten/add'); ?>" class="button primary-button">Vlucht Toevoegen</a>
 
     <form action="<?php echo site_url('vluchten'); ?>" method="GET" class="search-form">
         <label>
@@ -44,15 +44,15 @@ if($flightId) {
         </label>
         <button type="submit" class="button search-button">
 
-            <?php \Util\SVG::show('search.svg'); ?>
+            <?php svg()->show('search.svg'); ?>
 
         </button>
     </form>
 
     <hr>
 
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button sort-asc <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button sort-desc <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
+    <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button secondary-button <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
+    <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button secondary-button <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
     <a href="<?php echo page()->url(); ?>" style="margin-top: 20px; margin-bottom: 5px;" class="button remove-filters">Filters verwijderen</a>
 
     <?php if($flights->count() > 0): ?>
@@ -67,4 +67,4 @@ if($flightId) {
         <h2>Geen vluchten gevonden</h2>
     <?php endif; ?>
 
-</main>
+</div>

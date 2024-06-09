@@ -3,6 +3,8 @@
 namespace Controller;
 
 use Model\Flight;
+use Model\Passenger;
+use Model\ServiceDesk;
 use Service\Page;
 use Service\Redirect;
 use Service\View;
@@ -10,6 +12,17 @@ use Util\StringHelper;
 
 class FlightsController
 {
+    public function handle(): void
+    {
+        $role = auth()->user()->getRole();
+        if ($role === Passenger::USER_ROLE) {
+            $this->passenger();
+        } elseif ($role === ServiceDesk::USER_ROLE) {
+            $this->serviceDesk();
+        } else {
+            Redirect::to('/logout');
+        }
+    }
 
     public function serviceDesk()
     {

@@ -92,11 +92,15 @@ body {
     min-height: 50vh;
   }
 }
-.container.welcome-container {
+.container.primary-container {
   background-color: #39D777;
   color: #ffffff;
 }
-.container.alert-container {
+.container.secondary-container {
+  background-color: #2611A0;
+  color: #ffffff;
+}
+.container.tertiary-container {
   background-color: #FF3268;
   color: #ffffff;
 }
@@ -332,7 +336,7 @@ footer .footer-content .footer-section ul li {
   margin: 5px 0;
 }
 footer .footer-content .footer-section ul li a {
-  color: #2611A0;
+  color: #39D777;
   text-decoration: none;
 }
 footer .footer-content .footer-section ul li a:hover {
@@ -341,7 +345,7 @@ footer .footer-content .footer-section ul li a:hover {
 footer .footer-bottom {
   padding: 10px 0;
   font-size: 0.8em;
-  border-top: 1px solid rgba(38, 17, 160, 0.1);
+  border-top: 1px solid rgba(57, 215, 119, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -487,6 +491,9 @@ button.secondary-button, .button.secondary-button {
 button.secondary-button:hover, .button.secondary-button:hover {
   background-color: #1b0c72;
 }
+button.secondary-button.active, .button.secondary-button.active {
+  background-color: #1b0c72;
+}
 button.tertiary-button, .button.tertiary-button {
   background-color: #FF3268;
   color: #ffffff;
@@ -494,14 +501,15 @@ button.tertiary-button, .button.tertiary-button {
 button.tertiary-button:hover, .button.tertiary-button:hover {
   background-color: #fe0043;
 }
-button.home-button, .button.home-button {
+button.navbar-button, .button.navbar-button {
   background-color: transparent;
 }
-button.back-button, .button.back-button {
+button.dark-button, .button.dark-button {
+  color: #ffffff;
   background-color: #333;
 }
-button.back-button:hover, .button.back-button:hover {
-  background-color: #1a1a1a;
+button.dark-button:hover, .button.dark-button:hover {
+  background-color: #4b4b4b;
 }
 button.home-button, .button.home-button {
   background-color: transparent;
@@ -513,21 +521,21 @@ button.login-button, .button.login-button {
 button.login-button:hover, .button.login-button:hover {
   background-color: #1b0c72;
 }
+button.logout-button, .button.logout-button {
+  color: #ffffff;
+  background-color: #FF3268;
+}
+button.logout-button:hover, .button.logout-button:hover {
+  background-color: #fe0043;
+}
 button.add-button, .button.add-button {
+  color: #ffffff;
   background-color: #39D777;
 }
 button.remove-filters, .button.remove-filters {
+  color: #ffffff;
   background-color: #ad4343;
 }
 button.remove-filters:hover, .button.remove-filters:hover {
   background-color: #883535;
-}
-button.sort-asc, button.sort-desc, .button.sort-asc, .button.sort-desc {
-  background-color: #646464;
-}
-button.sort-asc:hover, button.sort-desc:hover, .button.sort-asc:hover, .button.sort-desc:hover {
-  background-color: #4b4b4b;
-}
-button.sort-asc.active, button.sort-desc.active, .button.sort-asc.active, .button.sort-desc.active {
-  background-color: #3e3e3e;
 }

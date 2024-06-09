@@ -48,13 +48,12 @@ class ServiceDeskController
         $user = ['id' => (int) $deskId, 'role' => 'service_desk'];
 
         Session::instance()->set('user', $user);
-        Redirect::to('/service-desk/dashboard');
+        Redirect::to('/dashboard');
     }
 
     public function dashboard(): void
     {
-        $user = auth()->user();
-        View::new()->render('views/templates/service-desk/service-desk-dashboard.php', compact('user'));
+
     }
 
 }

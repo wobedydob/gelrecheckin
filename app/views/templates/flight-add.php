@@ -1,6 +1,6 @@
 <?php declare(strict_types=1); ?>
 
-<main>
+<div class="container">
 
     <a href="<?php echo site_url('vluchten'); ?>" class="button back-button">Terug naar Overzicht</a>
 
@@ -11,4 +11,4 @@
 
     </div>
 
-</main>
+</div>

@@ -145,6 +145,19 @@ class Route
         self::notFound();
     }
 
+    public static function getRouteByName(string $name): array
+    {
+        return array_filter(self::$routes, function ($route) use ($name) {
+            return $route['name'] === $name;
+        });
+    }
+
+    public static function executeByName(string $name): array
+    {
+        $route = self::getRouteByName($name);
+        return array_shift($route);
+    }
+
     public static function notFound(): void
     {
         header('HTTP/1.1 404 Not Found');

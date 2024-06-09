@@ -32,6 +32,10 @@ button, .button {
     &:hover {
       background-color: darken($secondary-color, 10%);
     }
+
+    &.active {
+      background-color: darken($secondary-color, 10%);
+    }
   }
 
   &.tertiary-button {
@@ -43,16 +47,18 @@ button, .button {
     }
   }
 
-  &.home-button {
+  &.navbar-button {
     background-color: transparent;
   }
 
-  &.back-button {
+  &.dark-button {
+    color: $white;
     background-color: $back-color;
 
     &:hover {
-      background-color: darken($back-color, 10%);
+      background-color: darken($sort-color, 10%);
     }
+
   }
 
   &.home-button {
@@ -68,11 +74,22 @@ button, .button {
     }
   }
 
+  &.logout-button {
+    color: $white;
+    background-color: $tertiary-color;
+
+    &:hover {
+      background-color: darken($tertiary-color, 10%);
+    }
+  }
+
   &.add-button {
+    color: $white;
     background-color: $primary-color;
   }
 
   &.remove-filters {
+    color: $white;
     background-color: $remove-color;
 
     &:hover {
@@ -80,17 +97,6 @@ button, .button {
     }
   }
 
-  &.sort-asc, &.sort-desc {
-    background-color: $sort-color;
-
-    &:hover {
-      background-color: darken($sort-color, 10%);
-    }
-
-    &.active {
-      background-color: darken($sort-color, 15%);
-    }
-  }
 }
 
 

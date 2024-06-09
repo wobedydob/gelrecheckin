@@ -18,12 +18,17 @@
     }
   }
 
-  &.welcome-container {
+  &.primary-container {
     background-color: $primary-color;
     color: #ffffff;
   }
 
-  &.alert-container {
+  &.secondary-container {
+    background-color: $secondary-color;
+    color: #ffffff;
+  }
+
+  &.tertiary-container {
     background-color: $tertiary-color;
     color: #ffffff;
   }

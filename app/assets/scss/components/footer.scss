@@ -1,8 +1,6 @@
 @import "../variables";
 
 // Footer styles
-
-
 footer {
   background-color: $header-color;
   color: $primary-color;
@@ -35,7 +33,7 @@ footer {
           margin: 5px 0;
 
           a {
-            color: $secondary-color;
+            color: $primary-color;
             text-decoration: none;
 
             &:hover {
@@ -50,7 +48,7 @@ footer {
   .footer-bottom {
     padding: 10px 0;
     font-size: 0.8em;
-    border-top: 1px solid rgba($secondary-color, 0.1);
+    border-top: 1px solid rgba($primary-color, 0.1);
   }
 }
 

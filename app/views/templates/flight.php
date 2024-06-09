@@ -2,9 +2,9 @@
 /** @var $flight \Model\Flight */
 ?>
 
-<main>
+<div class="container">
 
-    <a href="<?php echo site_url('vluchten'); ?>" class="button back-button">Terug naar Overzicht</a>
+    <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Terug naar Overzicht</a>
 
     <div class="flight-details">
         <h1>Vluchtdetails</h1>
@@ -56,4 +56,4 @@
             <p>Geen vluchtgegevens gevonden voor vluchtnummer: <?php echo htmlspecialchars($flight->vluchtnummer); ?></p>
         <?php endif; ?>
     </div>
-</main>
+</div>
