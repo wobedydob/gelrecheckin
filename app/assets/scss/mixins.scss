@@ -6,6 +6,12 @@
   border-radius: 5px;
   box-shadow: $box-shadow;
 
+  &.background-container {
+    background-color: $background-color;
+    color: $text-color;
+    box-shadow: none;
+  }
+
   .container-image {
     background-repeat: no-repeat;
     background-size: cover;

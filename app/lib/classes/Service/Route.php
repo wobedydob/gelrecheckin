@@ -109,6 +109,7 @@ class Route
     {
         foreach (self::$routes as $route) {
             $pattern = "#^" . preg_replace('#\{[^\}]+\}#', '([^/]+)', $route['uri']) . "$#";
+
             if ($route['method'] === $method && preg_match($pattern, $uri, $matches)) {
                 array_shift($matches); // Remove the full match
 
@@ -127,7 +128,7 @@ class Route
                         call_user_func_array($route['action'], $matches);
                     }
                 } catch (\Exception $e) {
-                    \Service\ErrorHandler::throw($e);
+                    ErrorHandler::throw($e);
                 }
 
                 return;
