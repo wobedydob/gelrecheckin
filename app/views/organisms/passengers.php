@@ -2,6 +2,14 @@
 /** @var $passengers \Model\Passenger[] */
 
 $active = page()->get('sort', 'passagiernummer');
+
+$isPassenger = $active == 'passagiernummer';
+$isName = $active == 'naam';
+$isFlight = $active == 'vluchtnummer';
+$isGender = $active == 'geslacht';
+$isBaggage = $active == 'balienummer';
+$isSeat = $active == 'stoel';
+$isCheckinTime = $active == 'inchecktijdstip';
 ?>
 
 <div class="passengers-container">
@@ -9,13 +17,13 @@ $active = page()->get('sort', 'passagiernummer');
         <table class="styled-table">
             <thead>
                 <tr>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'passagiernummer']); ?>">Passagiernummer</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'naam']); ?>">Naam</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'vluchtnummer']); ?>">Vluchtnummer</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'geslacht']); ?>">Geslacht</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'balienummer']); ?>">Balienummer</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'stoel']); ?>">Stoel</a></th>
-                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'inchecktijdstip']); ?>">Inchecktijdstip</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'passagiernummer']); ?>" class="<?php if($isPassenger):?>active<?php endif;?>">Passagiernummer</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'naam']); ?>" class="<?php if($isName):?>active<?php endif;?>">Naam</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'vluchtnummer']); ?>" class="<?php if($isFlight):?>active<?php endif;?>">Vluchtnummer</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'geslacht']); ?>" class="<?php if($isGender):?>active<?php endif;?>">Geslacht</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'balienummer']); ?>" class="<?php if($isBaggage):?>active<?php endif;?>">Balienummer</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'stoel']); ?>" class="<?php if($isSeat):?>active<?php endif;?>">Stoel</a></th>
+                    <th><a href="<?php echo page()->updateUrlParams(['sort' => 'inchecktijdstip']); ?>" class="<?php if($isCheckinTime):?>active<?php endif;?>">Inchecktijdstip</a></th>
                 </tr>
             </thead>
             <tbody>
