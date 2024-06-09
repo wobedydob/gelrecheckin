@@ -1,9 +1,4 @@
-// Button styles
-$primary-color: #007bff;
-$secondary-color: #fff;
-$back-color: #333;
-$sort-color: #646464;
-$remove-color: #ad4343;
+@import "../variables";
 
 button, .button {
   display: inline-block;
@@ -21,11 +16,55 @@ button, .button {
     background-color: darken($primary-color, 10%);
   }
 
+  &.primary-button {
+    background-color: $primary-color;
+    color: $white;
+
+    &:hover {
+      background-color: darken($primary-color, 10%);
+    }
+  }
+
+  &.secondary-button {
+    background-color: $secondary-color;
+    color: $white;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
+    }
+  }
+
+  &.tertiary-button {
+    background-color: $tertiary-color;
+    color: $white;
+
+    &:hover {
+      background-color: darken($tertiary-color, 10%);
+    }
+  }
+
+  &.home-button {
+    background-color: transparent;
+  }
+
   &.back-button {
     background-color: $back-color;
 
     &:hover {
       background-color: darken($back-color, 10%);
+    }
+  }
+
+  &.home-button {
+    background-color: transparent;
+  }
+
+  &.login-button {
+    color: $white;
+    background-color: $secondary-color;
+
+    &:hover {
+      background-color: darken($secondary-color, 10%);
     }
   }
 

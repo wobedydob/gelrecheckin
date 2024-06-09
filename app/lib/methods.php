@@ -58,3 +58,13 @@ function page(): \Service\Page
 {
     return new \Service\Page();
 }
+
+function svg(): \Util\SVG
+{
+    return new \Util\SVG();
+}
+
+function image(): \Util\Image
+{
+    return new \Util\Image();
+}

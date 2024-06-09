@@ -1,15 +1,17 @@
+@import "../variables";
+
 // Navbar styles
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: $primary-color;
+  background-color: $header-color;
   padding: 10px 20px;
-  color: $secondary-color;
+  color: $primary-color;
 
   .navbar-brand {
     a {
-      color: $secondary-color;
+      color: $primary-color;
       text-decoration: none;
       font-size: 1.5em;
     }
@@ -58,11 +60,6 @@
 
       .navbar-item {
         margin-left: 20px;
-
-        a {
-          color: $secondary-color;
-          text-decoration: none;
-        }
       }
     }
   }
@@ -73,7 +70,7 @@
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: $primary-color;
+    background-color: $header-color;
 
     .navbar-list {
       flex-direction: column;

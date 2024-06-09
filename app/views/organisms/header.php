@@ -11,7 +11,7 @@
 
         <ul class="navbar-list">
 
-            <li class="navbar-item"><a href="<?php echo site_url(); ?>">Home</a></li>
+            <li class="navbar-item"><a class="button home-button" href="<?php echo site_url(); ?>">Home</a></li>
 
             <?php if(auth()->guest()): ?>
 

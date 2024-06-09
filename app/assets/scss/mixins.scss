@@ -1,0 +1,56 @@
+// Mixins
+@mixin container {
+  padding: 20px;
+  margin: 10px;
+  background-color: $container-background;
+  border-radius: 5px;
+  box-shadow: $box-shadow;
+
+  .container-image {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+
+    @media (max-width: 768px) {
+      height: auto;
+      min-height: 50vh;
+    }
+  }
+
+  &.welcome-container {
+    background-color: $primary-color;
+    color: #ffffff;
+  }
+
+  &.alert-container {
+    background-color: $tertiary-color;
+    color: #ffffff;
+  }
+}
+
+@mixin card {
+
+  padding: 20px;
+  margin: 10px;
+  background-color: $container-background;
+  border-radius: 5px;
+  box-shadow: $box-shadow;
+  flex: 1 1 48%;
+  margin: 1%;
+
+  @media (max-width: 768px) {
+    flex: 1 1 100%;
+    margin: 0 0 20px 0;
+  }
+
+  &.card-passenger {
+    background-color: $tertiary-color;
+    color: #ffffff;
+  }
+
+  &.card-service-desk {
+    background-color: $secondary-color;
+    color: #ffffff;
+  }
+}

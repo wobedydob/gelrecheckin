@@ -67,25 +67,78 @@ body {
 body {
   font-family: Arial, sans-serif;
   line-height: 1.6;
-  background-color: #f4f4f4;
+  background-color: #F3E5D8;
   color: #333;
   margin: 0;
   padding: 0;
 }
 
-main, h1.header {
+.container {
   padding: 20px;
   margin: 10px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.container .container-image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+@media (max-width: 768px) {
+  .container .container-image {
+    height: auto;
+    min-height: 50vh;
+  }
+}
+.container.welcome-container {
+  background-color: #39D777;
+  color: #ffffff;
+}
+.container.alert-container {
+  background-color: #FF3268;
+  color: #ffffff;
+}
+
+.half-container {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 hr {
   border: 0;
   height: 3px;
-  background: #f4f4f4;
+  background: #F3E5D8;
   margin: 5px 0;
+}
+
+.card {
+  padding: 20px;
+  margin: 10px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  flex: 1 1 48%;
+  margin: 1%;
+}
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 100%;
+    margin: 0 0 20px 0;
+  }
+}
+.card.card-passenger {
+  background-color: #FF3268;
+  color: #ffffff;
+}
+.card.card-service-desk {
+  background-color: #2611A0;
+  color: #ffffff;
+}
+
+.content-center {
+  text-align: center;
 }
 
 .not-found-container {
@@ -95,8 +148,8 @@ hr {
   align-items: center;
   min-height: 100vh;
   text-align: center;
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #F3E5D8;
+  color: #39D777;
 }
 .not-found-container h1 {
   font-size: 3em;
@@ -108,10 +161,10 @@ hr {
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  background-color: #f4f4f4;
+  background-color: #F3E5D8;
 }
 .login-container .login-form {
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -124,10 +177,10 @@ hr {
   justify-content: center;
   align-items: center;
   min-height: 80vh;
-  background-color: #f4f4f4;
+  background-color: #F3E5D8;
 }
 .flight-container .flight-form {
-  background-color: #fff;
+  background-color: #ffffff;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -139,7 +192,7 @@ hr {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -173,12 +226,12 @@ hr {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #333;
+  background-color: #ffffff;
   padding: 10px 20px;
-  color: #fff;
+  color: #39D777;
 }
 .navbar .navbar-brand a {
-  color: #fff;
+  color: #39D777;
   text-decoration: none;
   font-size: 1.5em;
 }
@@ -186,14 +239,14 @@ hr {
   display: none;
   background: none;
   border: none;
-  color: #fff;
+  color: #2611A0;
   cursor: pointer;
 }
 .navbar .navbar-toggle .navbar-toggle-icon {
   display: inline-block;
   width: 25px;
   height: 2px;
-  background-color: #fff;
+  background-color: #2611A0;
   position: relative;
 }
 .navbar .navbar-toggle .navbar-toggle-icon::before, .navbar .navbar-toggle .navbar-toggle-icon::after {
@@ -201,7 +254,7 @@ hr {
   position: absolute;
   width: 25px;
   height: 2px;
-  background-color: #fff;
+  background-color: #2611A0;
   left: 0;
 }
 .navbar .navbar-toggle .navbar-toggle-icon::before {
@@ -220,17 +273,13 @@ hr {
 .navbar .navbar-menu .navbar-list .navbar-item {
   margin-left: 20px;
 }
-.navbar .navbar-menu .navbar-list .navbar-item a {
-  color: #fff;
-  text-decoration: none;
-}
 
 @media (max-width: 768px) {
   .navbar-menu {
     display: none;
     flex-direction: column;
     width: 100%;
-    background-color: #333;
+    background-color: #ffffff;
   }
   .navbar-menu .navbar-list {
     flex-direction: column;
@@ -254,8 +303,8 @@ hr {
   }
 }
 footer {
-  background-color: #333;
-  color: #fff;
+  background-color: #ffffff;
+  color: #39D777;
   padding: 20px 0;
   text-align: center;
 }
@@ -283,7 +332,7 @@ footer .footer-content .footer-section ul li {
   margin: 5px 0;
 }
 footer .footer-content .footer-section ul li a {
-  color: #fff;
+  color: #2611A0;
   text-decoration: none;
 }
 footer .footer-content .footer-section ul li a:hover {
@@ -292,7 +341,7 @@ footer .footer-content .footer-section ul li a:hover {
 footer .footer-bottom {
   padding: 10px 0;
   font-size: 0.8em;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(38, 17, 160, 0.1);
 }
 
 @media (max-width: 768px) {
@@ -318,12 +367,12 @@ footer .footer-bottom {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 .styled-table thead tr {
-  background-color: #333;
-  color: #fff;
+  background-color: #39D777;
+  color: #2611A0;
   text-align: left;
 }
 .styled-table thead tr a {
-  color: #fff;
+  color: #2611A0;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -340,11 +389,11 @@ footer .footer-bottom {
   background-color: #f3f3f3;
 }
 .styled-table tbody tr:last-of-type {
-  border-bottom: 2px solid #333;
+  border-bottom: 2px solid #39D777;
 }
 .styled-table tbody tr:hover {
-  background-color: #333;
-  color: #fff;
+  background-color: #39D777;
+  color: #2611A0;
 }
 
 form h2 {
@@ -375,15 +424,15 @@ form .form-group select {
 form button {
   width: 100%;
   padding: 10px;
-  background-color: #333;
-  color: #fff;
+  background-color: #39D777;
+  color: #2611A0;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1em;
 }
 form button:hover {
-  background-color: #1a1a1a;
+  background-color: #25b85f;
 }
 form input[type=text] {
   padding: 10px;
@@ -396,8 +445,8 @@ form input[type=text] {
 form .search-button {
   width: auto;
   padding: 10px 20px;
-  background-color: #333;
-  color: #fff;
+  background-color: #39D777;
+  color: #2611A0;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -406,15 +455,15 @@ form .search-button {
   transition: background-color 0.3s ease;
 }
 form .search-button:hover {
-  background-color: #1a1a1a;
+  background-color: #25b85f;
 }
 
 button, .button {
   display: inline-block;
   margin-bottom: 20px;
   padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #39D777;
+  color: #2611A0;
   text-decoration: none;
   border-radius: 5px;
   font-size: 1em;
@@ -422,7 +471,31 @@ button, .button {
   transition: background-color 0.3s ease;
 }
 button:hover, .button:hover {
-  background-color: #0062cc;
+  background-color: #25b85f;
+}
+button.primary-button, .button.primary-button {
+  background-color: #39D777;
+  color: #ffffff;
+}
+button.primary-button:hover, .button.primary-button:hover {
+  background-color: #25b85f;
+}
+button.secondary-button, .button.secondary-button {
+  background-color: #2611A0;
+  color: #ffffff;
+}
+button.secondary-button:hover, .button.secondary-button:hover {
+  background-color: #1b0c72;
+}
+button.tertiary-button, .button.tertiary-button {
+  background-color: #FF3268;
+  color: #ffffff;
+}
+button.tertiary-button:hover, .button.tertiary-button:hover {
+  background-color: #fe0043;
+}
+button.home-button, .button.home-button {
+  background-color: transparent;
 }
 button.back-button, .button.back-button {
   background-color: #333;
@@ -430,8 +503,18 @@ button.back-button, .button.back-button {
 button.back-button:hover, .button.back-button:hover {
   background-color: #1a1a1a;
 }
+button.home-button, .button.home-button {
+  background-color: transparent;
+}
+button.login-button, .button.login-button {
+  color: #ffffff;
+  background-color: #2611A0;
+}
+button.login-button:hover, .button.login-button:hover {
+  background-color: #1b0c72;
+}
 button.add-button, .button.add-button {
-  background-color: #007bff;
+  background-color: #39D777;
 }
 button.remove-filters, .button.remove-filters {
   background-color: #ad4343;
