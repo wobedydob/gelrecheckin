@@ -30,6 +30,12 @@ abstract class Model
         return static::$primaryKey;
     }
 
+    public static function find(string $id, string $primaryKey = null): array|Model|null
+    {
+        $pk = $primaryKey ?? static::pk();
+        return self::where($pk, '=', $id)->first();
+    }
+
     public static function all(int $limit = 0, int $offset = 0, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
     {
         $model = static::class;

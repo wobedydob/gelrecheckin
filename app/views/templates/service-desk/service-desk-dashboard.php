@@ -35,7 +35,7 @@
 
         <br>
 
-        <a href="<?php echo site_url('inloggen/passagier'); ?>" class="button secondary-button">Ga naar passagiers</a>
+        <a href="<?php echo site_url('passagiers'); ?>" class="button secondary-button">Ga naar passagiers</a>
 
     </div>
 </div>

@@ -3,7 +3,6 @@
 namespace Controller;
 
 use Model\Passenger;
-use Model\ServiceDesk;
 use Service\Redirect;
 use Service\Session;
 use Service\View;
@@ -57,6 +56,12 @@ class PassengerController
         $passenger = Passenger::with(['passagiernummer', 'naam', 'geslacht'])->where('passagiernummer', '=', $id)->first();
 
         View::new()->render('views/templates/passenger/passenger-dashboard.php', compact('passenger'));
+    }
+
+
+    public function serviceDesk(): void
+    {
+        View::new()->render('views/templates/service-desk/service-desk-passengers.php');
     }
 
 }

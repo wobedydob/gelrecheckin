@@ -12,7 +12,7 @@ class ServiceDeskController
 
     public function login(): void
     {
-        $serviceDesks = \Model\ServiceDesk::with(['balienummer'])->all();
+        $serviceDesks = ServiceDesk::with(['balienummer'])->all();
         $this->authenticate();
         View::new()->render('views/templates/service-desk/service-desk-login.php', compact('serviceDesks'));
     }
@@ -49,11 +49,6 @@ class ServiceDeskController
 
         Session::instance()->set('user', $user);
         Redirect::to('/dashboard');
-    }
-
-    public function dashboard(): void
-    {
-
     }
 
 }

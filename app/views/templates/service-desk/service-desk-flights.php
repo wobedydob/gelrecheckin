@@ -36,24 +36,9 @@ if($flightId) {
 <div class="container">
     <h1>Vluchten</h1>
 
-    <a href="<?php echo site_url('vluchten/add'); ?>" class="button primary-button">Vlucht Toevoegen</a>
+    <a href="<?php echo site_url('vluchten/toevoegen'); ?>" class="button primary-button">Vlucht Toevoegen</a>
 
-    <form action="<?php echo site_url('vluchten'); ?>" method="GET" class="search-form">
-        <label>
-            <input type="text" name="search" placeholder="Zoek op vluchtnummer" value="<?php echo htmlspecialchars($flightId ?? '', ENT_QUOTES); ?>">
-        </label>
-        <button type="submit" class="button search-button">
-
-            <?php svg()->show('search.svg'); ?>
-
-        </button>
-    </form>
-
-    <hr>
-
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button secondary-button <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button secondary-button <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
-    <a href="<?php echo page()->url(); ?>" style="margin-top: 20px; margin-bottom: 5px;" class="button remove-filters">Filters verwijderen</a>
+    <?php view()->render('views/molecules/table-filters.php', ['search' => $flightId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
 
     <?php if($flights->count() > 0): ?>
 

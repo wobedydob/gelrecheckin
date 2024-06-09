@@ -40,20 +40,5 @@ Route::get('/vluchten/{id}/bewerken', [FlightsController::class, 'edit'])->name(
 Route::post('/vluchten/{id}/bewerken', [FlightsController::class, 'editFlight'])->name('flights.edit.flight')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/vluchten/{id}/verwijderen', [FlightsController::class, 'delete'])->name('flights.delete.flight')->auth([ServiceDesk::USER_ROLE]);
 
-//Route::group('/service-desk', function () {
-//
-//    Route::get('/login', [ServiceDeskController::class, 'login'])->name('service.desk.login')->guest();
-//    Route::post('/login', [ServiceDeskController::class, 'authenticate'])->name('service.desk.authenticate')->guest();
-//
-//    Route::get('/dashboard', [ServiceDeskController::class, 'dashboard'])->name('service.desk.dashboard')->auth([ServiceDesk::USER_ROLE]);
-//
-//});
-//
-//Route::get('/vluchten', [FlightsController::class, 'serviceDesk'])->name('flights.service.desk')->auth([ServiceDesk::USER_ROLE]);
-//Route::get('/vluchten/add', [FlightsController::class, 'add'])->name('flights.add')->auth([ServiceDesk::USER_ROLE]);
-//Route::post('/vluchten/add', [FlightsController::class, 'addFlight'])->name('flights.add.flight')->auth([ServiceDesk::USER_ROLE]);
-//
-//Route::get('/vluchten/{id}', [FlightsController::class, 'show'])->name('flights.show')->auth([ServiceDesk::USER_ROLE]);
-//
-//Route::get('/mijn-vluchten', [FlightsController::class, 'passenger'])->name('flights.passenger')->auth([Passenger::USER_ROLE]);
-
+Route::get('/passagiers', [PassengerController::class, 'serviceDesk'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
+Route::get('/passagiers/{id}', [PassengerController::class, 'show'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
