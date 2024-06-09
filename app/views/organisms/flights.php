@@ -31,14 +31,14 @@ $isAirline = $active == 'maatschappijcode';
             <?php foreach ($flights as $flight) : ?>
                 <?php $url = '/vluchten/' . urlencode($flight->vluchtnummer); ?>
                 <tr onclick="window.location='<?php echo $url; ?>';">
-                    <td><?php echo $flight->vluchtnummer ?></td>
-                    <td><?php echo $flight->bestemming ?></td>
-                    <td><?php echo $flight->gatecode ?></td>
-                    <td><?php echo $flight->max_aantal ?></td>
-                    <td><?php echo $flight->max_gewicht_pp ?></td>
-                    <td><?php echo $flight->max_totaalgewicht ?></td>
-                    <td><?php echo $flight->vertrektijd ?></td>
-                    <td><?php echo $flight->maatschappijcode ?></td>
+                    <td><?php echo $flight->vluchtnummer; ?></td>
+                    <td><?php echo $flight->bestemming; ?></td>
+                    <td><?php echo $flight->gatecode; ?></td>
+                    <td><?php echo $flight->max_aantal; ?></td>
+                    <td><?php echo $flight->max_gewicht_pp; ?></td>
+                    <td><?php echo $flight->max_totaalgewicht; ?></td>
+                    <td><?php echo $flight->vertrektijd ?: 'Vertrektijd is onbekend'; ?></td>
+                    <td><?php echo $flight->maatschappijcode; ?></td>
                 </tr>
             <?php endforeach; ?>
             </tbody>

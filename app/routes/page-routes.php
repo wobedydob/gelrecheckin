@@ -36,6 +36,9 @@ Route::get('/vluchten', [FlightsController::class, 'handle'])->name('flights')->
 Route::get('/vluchten/{id}', [FlightsController::class, 'show'])->name('flights.show')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/vluchten/toevoegen', [FlightsController::class, 'add'])->name('flights.add')->auth([ServiceDesk::USER_ROLE]);
 Route::post('/vluchten/toevoegen', [FlightsController::class, 'addFlight'])->name('flights.add.flight')->auth([ServiceDesk::USER_ROLE]);
+Route::get('/vluchten/{id}/bewerken', [FlightsController::class, 'edit'])->name('flights.edit')->auth([ServiceDesk::USER_ROLE]);
+Route::post('/vluchten/{id}/bewerken', [FlightsController::class, 'editFlight'])->name('flights.edit.flight')->auth([ServiceDesk::USER_ROLE]);
+Route::get('/vluchten/{id}/verwijderen', [FlightsController::class, 'delete'])->name('flights.delete.flight')->auth([ServiceDesk::USER_ROLE]);
 
 //Route::group('/service-desk', function () {
 //

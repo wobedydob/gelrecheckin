@@ -1,10 +1,15 @@
 <?php declare(strict_types=1);
 /** @var $flight \Model\Flight */
+
+$editUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/bewerken';
+$deleteUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/verwijderen';
 ?>
 
 <div class="container">
 
     <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Terug naar Overzicht</a>
+    <a href="<?php echo site_url($editUrl); ?>" class="button secondary-button">Bewerken</a>
+    <a href="<?php echo site_url($deleteUrl); ?>" class="button tertiary-button">Verwijderen</a>
 
     <div class="flight-details">
         <h1>Vluchtdetails</h1>
@@ -38,12 +43,7 @@
                 <tr>
                     <th>Vertrektijd</th>
                     <td>
-                        <?php
-
-                        dump($flight->vertrektijd);
-                        //echo htmlspecialchars($flight->vertrektijd);
-
-                        ?>
+                        <?php echo htmlspecialchars($flight->vertrektijd) ?: 'Vertrektijd is onbekend'; ?>
                     </td>
                 </tr>
                 <tr>
