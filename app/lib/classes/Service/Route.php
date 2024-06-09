@@ -154,9 +154,15 @@ class Route
             }
         }
 
-        header("HTTP/1.0 404 Not Found");
-        echo "404 Not Found";
-        echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
-        echo "<br> [CODE] 1717447743431";
+        self::notFound();
+    }
+
+    public static function notFound(): void
+    {
+        View::new()->render('views/templates/404.php');
+//        header("HTTP/1.0 404 Not Found");
+//        echo "404 Not Found";
+//        echo "<br> --- THIS SHOULD BE REPLACED WITH REDIRECTION OR A DIFFERENT WAY OF MANAGEMENT";
+//        echo "<br> [CODE] 1717447743431";
     }
 }

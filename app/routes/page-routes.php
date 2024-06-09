@@ -16,7 +16,7 @@ Route::get('/phpinfo', function () {
 })->name('home');
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::addRedirect('/home', '/'); // todo: make this redirection work
+Route::addRedirect('/home', '/');
 
 Route::get('/login', [PassengerController::class, 'login'])->name('login')->guest();
 Route::post('/login', [PassengerController::class, 'authenticate'])->name('login.authenticate')->guest();

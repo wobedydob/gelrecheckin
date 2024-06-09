@@ -1,0 +1,16 @@
+// 404 Page styles
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: $background-color;
+  color: $primary-color;
+
+  h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+  }
+}

@@ -1,6 +1,5 @@
 <?php declare(strict_types=1);
 
-use JetBrains\PhpStorm\NoReturn;
 use Service\Route;
 
 include_once 'debug.php';

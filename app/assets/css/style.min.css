@@ -88,6 +88,21 @@ hr {
   margin: 5px 0;
 }
 
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  background-color: #f4f4f4;
+  color: #333;
+}
+.not-found-container h1 {
+  font-size: 3em;
+  margin-bottom: 20px;
+}
+
 .login-container {
   display: flex;
   justify-content: center;
