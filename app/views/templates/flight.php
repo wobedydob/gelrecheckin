@@ -8,8 +8,8 @@ $deleteUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/verwijderen';
 <div class="container">
 
     <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Terug naar Overzicht</a>
-    <a href="<?php echo site_url($editUrl); ?>" class="button secondary-button">Bewerken</a>
-    <a href="<?php echo site_url($deleteUrl); ?>" class="button tertiary-button">Verwijderen</a>
+    <a href="<?php echo site_url($editUrl); ?>" class="button secondary-button">✎</a>
+    <a href="<?php echo site_url($deleteUrl); ?>" class="button tertiary-button">✖</a>
 
     <div class="flight-details">
         <h1>Vluchtdetails</h1>

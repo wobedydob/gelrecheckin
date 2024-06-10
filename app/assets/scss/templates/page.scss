@@ -1,3 +1,16 @@
 @import "../variables";
 
 // Page styles
+.pagination, .action-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 30px;
+
+  @media (max-width: 800px) {
+    .right {
+      margin-left: 0;
+    }
+  }
+}

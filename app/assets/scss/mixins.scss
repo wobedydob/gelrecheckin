@@ -9,10 +9,11 @@
     align-items: center;
   }
 
-  &.half-container {
-    display: flex;
-    flex-wrap: wrap;
+  &.container-transparent {
+    background-color: transparent;
   }
+
+
 
   &.container-image {
     background-repeat: no-repeat;

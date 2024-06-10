@@ -2,13 +2,12 @@
 /** @var $user Entity\User */
 ?>
 
-<div class="container primary-container">
+<div class="container center">
     <?php $deskId = auth()->user()->getModel()?->balienummer; ?>
     <h1><?php echo $deskId ? 'Balienummer ' . $deskId : 'Onbekend balienummer'; ?></h1>
-</div>
 
-<div class="half-container content-center">
-    <div class="card">
+
+    <div class="card half content-center">
         <h3>Vluchten</h3>
 
         <br>
@@ -21,10 +20,12 @@
 
         <br>
 
-        <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Ga naar vluchten</a>
+        <a href="<?php echo site_url('vluchten'); ?>"
+           class="button primary"
+        >Ga naar vluchten</a>
     </div>
 
-    <div class="card">
+    <div class="card half content-center">
         <h3>Passagiers</h3>
 
         <br>
@@ -35,14 +36,14 @@
 
         <br>
 
-        <a href="<?php echo site_url('passagiers'); ?>" class="button secondary-button">Ga naar passagiers</a>
+        <a href="<?php echo site_url('passagiers'); ?>"
+           class="button secondary"
+        >Ga naar passagiers</a>
 
     </div>
-</div>
 
-<div class="half-container content-center">
 
-    <div class="card">
+    <div class="card half content-center">
         <h3>Bagage</h3>
 
         <br>
@@ -53,16 +54,20 @@
 
         <br>
 
-        <a href="<?php echo site_url('inloggen/medewerker'); ?>" class="button dark-button">Ga naar bagage</a>
+        <a href="<?php echo site_url('inloggen/medewerker'); ?>"
+           class="button dark"
+        >Ga naar bagage</a>
     </div>
 
-    <div class="card">
+    <div class="card half content-center">
         <h3>Uitloggen</h3>
 
         <br>
 
         <br>
 
-        <a href="<?php echo site_url('logout'); ?>" class="button tertiary-button">Uitloggen</a>
+        <a href="<?php echo site_url('logout'); ?>"
+           class="button tertiary"
+        >Uitloggen</a>
     </div>
 </div>

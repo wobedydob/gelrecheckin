@@ -2,7 +2,6 @@
 
 button, .button {
   display: inline-block;
-  margin-bottom: 20px;
   padding: 10px 20px;
   background-color: $primary-color;
   color: $white;
@@ -16,28 +15,9 @@ button, .button {
     background-color: darken($primary-color, 10%);
   }
 
-  &.navbar-button {
-    background-color: transparent;
-  }
-
-  &.dark-button {
-    color: $white;
-    background-color: $back-color;
-
-    &:hover {
-      background-color: darken($sort-color, 10%);
-    }
-
-  }
-
-  &.remove-filters {
-    color: $white;
-    background-color: $remove-color;
-
-    &:hover {
-      background-color: darken($remove-color, 10%);
-    }
-  }
+  //&.navbar-button {
+  //  background-color: transparent;
+  //}
 
 }
 

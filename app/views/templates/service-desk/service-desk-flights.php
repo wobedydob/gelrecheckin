@@ -34,22 +34,31 @@ if($flightId) {
 ?>
 
 <div class="container">
-    <h1>Vluchten</h1>
 
-    <a href="<?php echo site_url('vluchten/toevoegen'); ?>" class="button primary-button">Vlucht Toevoegen</a>
+    <div class="card action-bar">
 
-    <?php view()->render('views/molecules/table-filters.php', ['search' => $flightId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
+        <h1>Vluchten</h1>
 
-    <?php if($flights->count() > 0): ?>
+        <a href="<?php echo site_url('vluchten/toevoegen'); ?>" class="button primary-button ml-10">✙</a>
 
-        <?php view()->render('views/organisms/flights.php', compact('flights')); ?>
+    </div>
 
-        <?php if($flights->count() > 1): ?>
-            <?php view()->render('views/molecules/pagination.php', ['collection' => $flights]); ?>
+    <div class="card">
+
+        <?php if($flights->count() > 0): ?>
+
+            <?php view()->render('views/molecules/table-filters.php', ['search' => $flightId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
+
+            <?php view()->render('views/organisms/flights.php', compact('flights')); ?>
+
+            <?php if($flights->count() > 1): ?>
+                <?php view()->render('views/molecules/pagination.php', ['collection' => $flights]); ?>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <h2>Geen vluchten gevonden</h2>
         <?php endif; ?>
 
-    <?php else: ?>
-        <h2>Geen vluchten gevonden</h2>
-    <?php endif; ?>
+    </div>
 
 </div>

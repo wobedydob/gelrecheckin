@@ -26,3 +26,21 @@
     background-color: darken($tertiary-color, 10%) !important;
   }
 }
+
+.dark {
+  color: $white !important;
+  background-color: $dark-grey !important;
+
+  &:hover:not(.no-hover), &.active:not(.not-active) {
+    background-color: darken($dark-grey, 10%) !important;
+  }
+}
+
+.remove-filters {
+  color: $white !important;
+  background-color: $remove-color !important;
+
+  &:hover:not(.no-hover), &.active:not(.not-active) {
+    background-color: darken($remove-color, 10%) !important;
+  }
+}

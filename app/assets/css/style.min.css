@@ -82,6 +82,22 @@ body {
   background-color: #fe0043 !important;
 }
 
+.dark {
+  color: #ffffff !important;
+  background-color: #333 !important;
+}
+.dark:hover:not(.no-hover), .dark.active:not(.not-active) {
+  background-color: #1a1a1a !important;
+}
+
+.remove-filters {
+  color: #ffffff !important;
+  background-color: #d54444 !important;
+}
+.remove-filters:hover:not(.no-hover), .remove-filters.active:not(.not-active) {
+  background-color: #bc2a2a !important;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -106,9 +122,8 @@ body {
   flex-direction: column;
   align-items: center;
 }
-.container.half-container {
-  display: flex;
-  flex-wrap: wrap;
+.container.container-transparent {
+  background-color: transparent;
 }
 .container.container-image {
   background-repeat: no-repeat;
@@ -141,6 +156,10 @@ hr {
 
 .full {
   width: 100%;
+}
+
+.right {
+  margin-left: auto;
 }
 
 .content-center {
@@ -316,6 +335,19 @@ hr {
 .not-found-container h1 {
   font-size: 3em;
   margin-bottom: 20px;
+}
+
+.pagination, .action-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 10px 30px;
+}
+@media (max-width: 800px) {
+  .pagination .right, .action-bar .right {
+    margin-left: 0;
+  }
 }
 
 .login-container {
@@ -528,7 +560,7 @@ footer .footer-bottom {
     margin: 20px 0;
   }
 }
-.table-container {
+.container-table {
   width: 100%;
   overflow-x: auto;
 }
@@ -536,10 +568,11 @@ footer .footer-bottom {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  margin: 25px 0;
   font-size: 0.9em;
   font-family: "Arial", sans-serif;
   min-width: 400px;
+}
+.styled-table:not(.no-shadow) {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 .styled-table thead tr {
@@ -601,7 +634,7 @@ form button {
   width: 100%;
   padding: 10px;
   background-color: #39D777;
-  color: #2611A0;
+  color: #ffffff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -614,7 +647,6 @@ form input[type=text] {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  margin-right: 10px;
   font-size: 1em;
   flex: 1;
 }
@@ -636,7 +668,6 @@ form .search-button:hover {
 
 button, .button {
   display: inline-block;
-  margin-bottom: 20px;
   padding: 10px 20px;
   background-color: #39D777;
   color: #ffffff;
@@ -648,23 +679,6 @@ button, .button {
 }
 button:hover, .button:hover {
   background-color: #25b85f;
-}
-button.navbar-button, .button.navbar-button {
-  background-color: transparent;
-}
-button.dark-button, .button.dark-button {
-  color: #ffffff;
-  background-color: #333;
-}
-button.dark-button:hover, .button.dark-button:hover {
-  background-color: #4b4b4b;
-}
-button.remove-filters, .button.remove-filters {
-  color: #ffffff;
-  background-color: #ad4343;
-}
-button.remove-filters:hover, .button.remove-filters:hover {
-  background-color: #883535;
 }
 
 .card {
