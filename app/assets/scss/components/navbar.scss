@@ -60,6 +60,23 @@
 
       .navbar-item {
         margin-left: 20px;
+
+        a {
+          display: inline-block;
+          padding: 10px 20px;
+          background-color: transparent;
+          color: $secondary-color;
+          text-decoration: none;
+          border-radius: 5px;
+          font-size: 1em;
+          text-align: center;
+          transition: background-color 0.3s ease;
+
+          &.button {
+            margin-bottom: 0;
+          }
+        }
+
       }
     }
   }

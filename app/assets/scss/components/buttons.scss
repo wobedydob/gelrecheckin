@@ -5,7 +5,7 @@ button, .button {
   margin-bottom: 20px;
   padding: 10px 20px;
   background-color: $primary-color;
-  color: $secondary-color;
+  color: $white;
   text-decoration: none;
   border-radius: 5px;
   font-size: 1em;
@@ -14,37 +14,6 @@ button, .button {
 
   &:hover {
     background-color: darken($primary-color, 10%);
-  }
-
-  &.primary-button {
-    background-color: $primary-color;
-    color: $white;
-
-    &:hover {
-      background-color: darken($primary-color, 10%);
-    }
-  }
-
-  &.secondary-button {
-    background-color: $secondary-color;
-    color: $white;
-
-    &:hover {
-      background-color: darken($secondary-color, 10%);
-    }
-
-    &.active {
-      background-color: darken($secondary-color, 10%);
-    }
-  }
-
-  &.tertiary-button {
-    background-color: $tertiary-color;
-    color: $white;
-
-    &:hover {
-      background-color: darken($tertiary-color, 10%);
-    }
   }
 
   &.navbar-button {
@@ -59,33 +28,6 @@ button, .button {
       background-color: darken($sort-color, 10%);
     }
 
-  }
-
-  &.home-button {
-    background-color: transparent;
-  }
-
-  &.login-button {
-    color: $white;
-    background-color: $secondary-color;
-
-    &:hover {
-      background-color: darken($secondary-color, 10%);
-    }
-  }
-
-  &.logout-button {
-    color: $white;
-    background-color: $tertiary-color;
-
-    &:hover {
-      background-color: darken($tertiary-color, 10%);
-    }
-  }
-
-  &.add-button {
-    color: $white;
-    background-color: $primary-color;
   }
 
   &.remove-filters {

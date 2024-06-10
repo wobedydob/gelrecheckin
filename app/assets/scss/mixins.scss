@@ -2,17 +2,19 @@
 @mixin container {
   padding: 20px;
   margin: 10px;
-  background-color: $container-background;
-  border-radius: 5px;
-  box-shadow: $box-shadow;
 
-  &.background-container {
-    background-color: $background-color;
-    color: $text-color;
-    box-shadow: none;
+  &.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
-  .container-image {
+  &.half-container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  &.container-image {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -23,26 +25,10 @@
       min-height: 50vh;
     }
   }
-
-  &.primary-container {
-    background-color: $primary-color;
-    color: #ffffff;
-  }
-
-  &.secondary-container {
-    background-color: $secondary-color;
-    color: #ffffff;
-  }
-
-  &.tertiary-container {
-    background-color: $tertiary-color;
-    color: #ffffff;
-  }
 }
 
 @mixin card {
-
-  padding: 20px;
+  padding: 30px;
   margin: 10px;
   background-color: $container-background;
   border-radius: 5px;
@@ -53,15 +39,10 @@
   @media (max-width: 768px) {
     flex: 1 1 100%;
     margin: 0 0 20px 0;
+
+    //&.half {
+    //  width: 100%;
+    //}
   }
 
-  &.card-passenger {
-    background-color: $tertiary-color;
-    color: #ffffff;
-  }
-
-  &.card-service-desk {
-    background-color: $secondary-color;
-    color: #ffffff;
-  }
 }

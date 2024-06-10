@@ -1,0 +1,28 @@
+@import "variables";
+
+.primary {
+  color: $white !important;
+  background-color: $primary-color !important;
+
+  &:hover:not(.no-hover), &.active:not(.not-active) {
+    background-color: darken($primary-color, 10%) !important;
+  }
+}
+
+.secondary {
+  color: $white !important;
+  background-color: $secondary-color !important;
+
+  &:hover:not(.no-hover), &.active:not(.not-active) {
+    background-color: darken($secondary-color, 10%) !important;
+  }
+}
+
+.tertiary {
+  color: $white !important;
+  background-color: $tertiary-color !important;
+
+  &:hover:not(.no-hover), &.active:not(.not-active) {
+    background-color: darken($tertiary-color, 10%) !important;
+  }
+}

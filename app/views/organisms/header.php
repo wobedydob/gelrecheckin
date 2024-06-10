@@ -11,7 +11,7 @@
 
         <ul class="navbar-list">
 
-            <li class="navbar-item"><a class="button navbar-button home-button" href="<?php echo site_url(); ?>">Home</a></li>
+            <li class="navbar-item"><a class="" href="<?php echo site_url(); ?>">Home</a></li>
 
             <?php if(auth()->guest()): ?>
 
@@ -28,7 +28,7 @@
             <?php endif; ?>
 
             <?php if(auth()->isAuthenticated()): ?>
-                <li class="navbar-item"><a class="button logout-button" href="<?php echo site_url('logout'); ?>">Uitloggen</a></li>
+                <li class="navbar-item"><a class="button tertiary" href="<?php echo site_url('logout'); ?>">Uitloggen</a></li>
             <?php endif; ?>
 
         </ul>
