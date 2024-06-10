@@ -19,7 +19,7 @@
         <label for="password">Wachtwoord</label>
         <input type="password" id="password" name="password" required>
     </div>
-    <button class="button primary-button" type="submit" name="submit" value="submit">Login</button>
+    <button class="button primary" type="submit" name="submit" value="submit">Login</button>
 
     <input type="hidden" name="action" value="login">
 </form>

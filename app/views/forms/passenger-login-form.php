@@ -13,7 +13,7 @@
         <input type="password" id="password" name="password" required>
     </div>
 
-    <button class="button secondary-button" type="submit" name="submit" value="submit">Inloggen</button>
+    <button class="button secondary" type="submit" name="submit" value="submit">Inloggen</button>
 
     <input type="hidden" name="action" value="login">
 </form>
