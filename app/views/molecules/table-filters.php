@@ -11,7 +11,7 @@ $searchPlaceholder = $searchPlaceholder ?? 'Zoek op ... ';
 
     <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button secondary <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
     <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button secondary <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
-    <a href="<?php echo page()->url(); ?>" class="button remove-filters">Filters verwijderen</a>
+    <a href="<?php echo page()->url(); ?>" class="button danger">Filters verwijderen</a>
 
     <form method="GET" class="search-form right">
         <label>

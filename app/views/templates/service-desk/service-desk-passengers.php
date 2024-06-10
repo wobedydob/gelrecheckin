@@ -35,13 +35,9 @@ if($passengerId) {
 <div class="container">
 
     <div class="card action-bar">
-
         <h1>Passagiers</h1>
-
         <a href="<?php echo site_url('passagiers/toevoegen'); ?>" class="button primary-button ml-10">✙</a>
-
     </div>
-
 
     <div class="card">
 
@@ -56,7 +52,12 @@ if($passengerId) {
             <?php endif; ?>
 
         <?php else: ?>
-            <h2>Geen passagier(s) gevonden</h2>
+
+            <div class="action-bar">
+                <h2>Geen passagier(s) gevonden</h2>
+                <a href="<?php echo page()->url(); ?>" class="button secondary">Terug naar het overzicht</a>
+            </div>
+
         <?php endif; ?>
 
     </div>

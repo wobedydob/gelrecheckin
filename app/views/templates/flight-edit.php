@@ -6,7 +6,7 @@
 
     <div class="card half action-bar">
         <a href="<?php echo site_url('vluchten'); ?>" class="button secondary-button">Terug</a>
-        <h1 class="ml-10">Vlucht [<?php echo $flight->vluchtnummer; ?>] Beweren</h1>
+        <h1 class="ml-10">Vlucht [<?php echo $flight->vluchtnummer; ?>] Bewerken</h1>
     </div>
 
     <div class="card half">

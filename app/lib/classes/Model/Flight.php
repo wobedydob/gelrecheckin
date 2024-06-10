@@ -21,7 +21,7 @@ class Flight extends Model
         'bestemming' => 'Bestemming',
         'gatecode' => 'Gate',
         'max_aantal' => 'Max. Aantal',
-        'max_gewicht_pp' => 'Max. Gewicht',
+        'max_gewicht_pp' => 'Max. Gewicht PP',
         'max_totaalgewicht' => 'Max. Totaalgewicht',
         'vertrektijd' => 'Vertrektijd',
         'maatschappijcode' => 'Maatschappij',

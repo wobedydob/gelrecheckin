@@ -56,7 +56,12 @@ if($flightId) {
             <?php endif; ?>
 
         <?php else: ?>
-            <h2>Geen vluchten gevonden</h2>
+
+            <div class="action-bar">
+                <h2>Geen vluchten gevonden</h2>
+                <a href="<?php echo page()->url(); ?>" class="button secondary">Terug naar het overzicht</a>
+            </div>
+
         <?php endif; ?>
 
     </div>

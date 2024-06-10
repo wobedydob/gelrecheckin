@@ -16,12 +16,12 @@ $sort = page()->get('sort', $pk);
 <table class="styled-table no-shadow">
     <?php if($columns): ?>
     <thead>
-    <tr>
-        <?php foreach($columns as $name => $label): ?>
-        <?php $active = $sort === $name ? 'active' : ''; ?>
-        <th><a href="<?php echo page()->updateUrlParams(['sort' => $name]); ?>" class="<?php echo $active; ?>"><?php echo $label; ?></a></th>
-        <?php endforeach; ?>
-    </tr>
+        <tr>
+            <?php foreach($columns as $name => $label): ?>
+                <?php $active = $sort === $name ? 'active' : ''; ?>
+                <th><a href="<?php echo page()->updateUrlParams(['sort' => $name]); ?>" class="<?php echo $active; ?>"><?php echo $label; ?></a></th>
+            <?php endforeach; ?>
+        </tr>
     </thead>
     <?php endif; ?>
 

@@ -90,11 +90,11 @@ body {
   background-color: #1a1a1a !important;
 }
 
-.remove-filters {
+.danger {
   color: #ffffff !important;
   background-color: #d54444 !important;
 }
-.remove-filters:hover:not(.no-hover), .remove-filters.active:not(.not-active) {
+.danger:hover:not(.no-hover), .danger.active:not(.not-active) {
   background-color: #bc2a2a !important;
 }
 
