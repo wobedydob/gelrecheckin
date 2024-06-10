@@ -2,14 +2,18 @@
 /** @var $flight \Model\Flight */
 ?>
 
-<div class="container">
+<div class="container center">
 
-    <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Terug naar Overzicht</a>
+    <div class="card half action-bar">
+        <a href="<?php echo site_url('vluchten'); ?>" class="button secondary-button">Terug</a>
+        <h1 class="ml-10">Vlucht [<?php echo $flight->vluchtnummer; ?>] Beweren</h1>
+    </div>
 
-    <div class="flight-details">
-        <h1>Vluchtdetails</h1>
+    <div class="card half">
         <?php if ($flight): ?>
             <?php view()->render('views/forms/flight-edit-form.php', compact('flight')); ?>
         <?php endif; ?>
     </div>
+
 </div>
+

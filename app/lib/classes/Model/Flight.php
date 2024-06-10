@@ -16,16 +16,15 @@ class Flight extends Model
 {
     protected static string $table = 'Vlucht';
     protected static string $primaryKey = 'vluchtnummer';
-
-    public static array $fillable = [
-        'vluchtnummer',
-        'bestemming',
-        'gatecode',
-        'max_aantal',
-        'max_gewicht_pp',
-        'max_totaalgewicht',
-        'vertrektijd',
-        'maatschappijcode'
+    protected static array $columns = [
+        'vluchtnummer' => 'Vluchtnummer',
+        'bestemming' => 'Bestemming',
+        'gatecode' => 'Gate',
+        'max_aantal' => 'Max. Aantal',
+        'max_gewicht_pp' => 'Max. Gewicht',
+        'max_totaalgewicht' => 'Max. Totaalgewicht',
+        'vertrektijd' => 'Vertrektijd',
+        'maatschappijcode' => 'Maatschappij',
     ];
 
 }

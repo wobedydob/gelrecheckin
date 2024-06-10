@@ -1,20 +1,25 @@
 <?php declare(strict_types=1);
 /** @var $flight \Model\Flight */
 
+$backUrl = 'vluchten';
 $editUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/bewerken';
 $deleteUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/verwijderen';
 ?>
 
 <div class="container">
 
-    <a href="<?php echo site_url('vluchten'); ?>" class="button primary-button">Terug naar Overzicht</a>
-    <a href="<?php echo site_url($editUrl); ?>" class="button secondary-button">✎</a>
-    <a href="<?php echo site_url($deleteUrl); ?>" class="button tertiary-button">✖</a>
-
-    <div class="flight-details">
+    <div class="card action-bar">
+        <a href="<?php echo site_url($backUrl); ?>" class="button primary">Terug</a>
         <h1>Vluchtdetails</h1>
+        <div class="right">
+            <?php view()-> render('views/molecules/edit-tools.php', compact('editUrl', 'deleteUrl')); ?>
+        </div>
+    </div>
+
+    <div class="card flight-details">
+
         <?php if ($flight): ?>
-            <table class="styled-table">
+            <table class="styled-table no-shadow">
                 <tbody>
                 <tr>
                     <th>Vluchtnummer</th>

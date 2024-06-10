@@ -1,5 +1,5 @@
 <?php declare(strict_types=1);
-/** @var $flights \Model\Flight[] */
+/** @var $flights \Entity\Collection */
 
 $active = page()->get('sort', 'vluchtnummer');
 $isFlight = $active == 'vluchtnummer';
@@ -11,6 +11,10 @@ $isMaxTotalWeight = $active == 'max_totaalgewicht';
 $isDepartureTime = $active == 'vertrektijd';
 $isAirline = $active == 'maatschappijcode';
 ?>
+
+<div class="container container-transparent container-table">
+    <?php view()->render('views/organisms/model-table.php', ['collection' => $flights, 'url' => site_url('vluchten')]); ?>
+</div>
 
 <div class="container container-transparent container-table">
     <table class="styled-table no-shadow">

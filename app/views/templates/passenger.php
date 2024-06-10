@@ -5,13 +5,13 @@ $editUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/bewerken';
 $deleteUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/verwijderen';
 ?>
 
-<div class="container">
+<div class="container container-table">
 
     <a href="<?php echo site_url('passagiers'); ?>" class="button primary-button">Terug naar Overzicht</a>
     <a href="<?php echo site_url($editUrl); ?>" class="button secondary-button">Bewerken</a>
     <a href="<?php echo site_url($deleteUrl); ?>" class="button tertiary-button">Verwijderen</a>
 
-    <div class="passenger-details">
+    <div class="card passenger-details">
         <h1>Passagierdetails</h1>
         <?php if ($passenger): ?>
             <table class="styled-table">

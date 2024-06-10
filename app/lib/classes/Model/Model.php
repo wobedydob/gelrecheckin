@@ -4,17 +4,19 @@ namespace Model;
 
 use Entity\Collection;
 use Exceptions\MissingPropertyException;
+use Interfaces\ITable;
 use Service\Query;
 use Traits\Values;
 
-abstract class Model
+abstract class Model implements ITable
 {
     use Values;
 
     protected static string $table;
     protected static string $primaryKey = 'id';
+    protected static array $columns = [];
 
-    private static function table()
+    private static function table(): string
     {
         if (!isset(static::$table)) {
             throw new MissingPropertyException('Define `protected static string $table` in your model', static::class, 1717407958262);
@@ -22,7 +24,7 @@ abstract class Model
         return static::$table;
     }
 
-    private static function pk(): string
+    public static function pk(): string
     {
         if (!isset(static::$primaryKey)) {
             throw new MissingPropertyException('Define `protected static string $primaryKey` in your model', static::class, 1717407958261);
@@ -68,5 +70,18 @@ abstract class Model
         return Query::new(self::table())->count();
     }
 
+    public function columns(): array
+    {
+        return static::$columns;
+    }
+
+    public function toArray(): array
+    {
+        $array = [];
+        foreach ($this->columns() as $name => $label) {
+            $array[$name] = $this->$name;
+        }
+        return $array;
+    }
 
 }

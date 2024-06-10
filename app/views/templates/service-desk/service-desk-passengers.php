@@ -33,23 +33,32 @@ if($passengerId) {
 ?>
 
 <div class="container">
-    <h1>Passagiers</h1>
 
-    <a href="<?php echo site_url('passagiers/toevoegen'); ?>" class="button primary-button">Passagier Toevoegen</a>
+    <div class="card action-bar">
 
-    <?php view()->render('views/molecules/table-filters.php', ['search' => $passengerId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
+        <h1>Passagiers</h1>
+
+        <a href="<?php echo site_url('passagiers/toevoegen'); ?>" class="button primary-button ml-10">✙</a>
+
+    </div>
 
 
-    <?php if($passengers->count() > 0): ?>
+    <div class="card">
 
-        <?php view()->render('views/organisms/passengers.php', compact('passengers'));?>
+        <?php if($passengers->count() > 0): ?>
 
-        <?php if($passengers->count() > 1): ?>
-            <?php view()->render('views/molecules/pagination.php', ['collection' => $passengers]); ?>
+            <?php view()->render('views/molecules/table-filters.php', ['search' => $passengerId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
+
+            <?php view()->render('views/organisms/passengers.php', compact('passengers'));?>
+
+            <?php if($passengers->count() > 1): ?>
+                <?php view()->render('views/molecules/pagination.php', ['collection' => $passengers]); ?>
+            <?php endif; ?>
+
+        <?php else: ?>
+            <h2>Geen passagier(s) gevonden</h2>
         <?php endif; ?>
 
-    <?php else: ?>
-        <h2>Geen passagier(s) gevonden</h2>
-    <?php endif; ?>
+    </div>
 
 </div>
