@@ -2,16 +2,18 @@
 
 namespace Controller;
 
+use JetBrains\PhpStorm\NoReturn;
 use Model\Flight;
 use Model\Passenger;
 use Model\ServiceDesk;
-use Service\Page;
 use Service\Redirect;
 use Service\View;
 use Util\StringHelper;
 
 class FlightsController
 {
+    private array $errors = [];
+
     public function handle(): void
     {
         $role = auth()->user()->getRole();
@@ -26,13 +28,7 @@ class FlightsController
 
     public function serviceDesk(): void
     {
-        $post = $_POST;
-
-        if (isset($post['search'])) {
-            Page::new()->updateUrlParams(['search' => $post['search']]);
-        }
-
-        View::new()->render('views/templates/service-desk/service-desk-flights.php');
+        (new ServiceDeskController())->flights();
     }
 
     public function passenger(): void
@@ -58,66 +54,32 @@ class FlightsController
 
     public function addFlight(): void
     {
-        $post = $_POST;
-
-        if (!isset($post['submit'])) {
-            return;
-        }
-
-        $destination = $post['destination'] ? StringHelper::sanitize($post['destination']) : false;
-        $gate = $post['gate_id'] ? StringHelper::sanitize($post['gate_id']) : false;
-        $maxLimit = $post['max_limit'] ? StringHelper::sanitize($post['max_limit']) : false;
-        $maxWeightPP = $post['max_weight_pp'] ? StringHelper::sanitize($post['max_weight_pp']) : false;
-        $maxTotalWeight = $post['max_total_weight'] ? StringHelper::sanitize($post['max_total_weight']) : false;
-        $departure = $post['departure_time'] ? StringHelper::toDateTime($post['departure_time']) : false;
-        $airline = $post['airline_id'] ? StringHelper::sanitize($post['airline_id']) : false;
-
-        if (!$destination) {
-            $this->errors['destination'] = 'none given';
-        }
-
-        if (!$gate) {
-            $this->errors['gate_id'] = 'none given';
-        }
-
-        if (!$maxLimit) {
-            $this->errors['max_limit'] = 'none given';
-        }
-
-        if (!$maxWeightPP) {
-            $this->errors['max_weight_pp'] = 'none given';
-        }
-
-        if (!$maxTotalWeight) {
-            $this->errors['max_total_weight'] = 'none given';
-        }
-
-        if (!$departure) {
-            $this->errors['departure_time'] = 'none given';
-        }
-
-        if (!$airline) {
-            $this->errors['airline_id'] = 'none given';
-        }
+        $post = $this->handlePost();
+        $action = false;
 
         if (!empty($this->errors)) {
             View::new()->render('views/templates/flight/flight-add.php', ['errors' => $this->errors]);
             return;
         }
 
-        $action = \Model\Flight::create([
-            'bestemming' => $destination,
-            'gatecode' => $gate,
-            'max_aantal' => $maxLimit,
-            'max_gewicht_pp' => $maxWeightPP,
-            'max_totaalgewicht' => $maxTotalWeight,
-            'vertrektijd' => $departure,
-            'maatschappijcode' => $airline,
-        ]);
+        if ($post) {
 
-        if(!$action) {
+            $action = Flight::create([
+                'bestemming' => $post['destination'],
+                'gatecode' => $post['gate_id'],
+                'max_aantal' => $post['max_limit'],
+                'max_gewicht_pp' => $post['max_weight_pp'],
+                'max_totaalgewicht' => $post['max_total_weight'],
+                'vertrektijd' => $post['departure_time'],
+                'maatschappijcode' => $post['airline_id'],
+            ]);
+
+        }
+
+        if (!$action) {
             $error = ['errors' => 'Flight could not be added'];
             View::new()->render('views/templates/flight/flight-add.php', $error);
+            return;
         }
 
         Redirect::to('/vluchten');
@@ -136,19 +98,58 @@ class FlightsController
 
     public function editFlight($id): void
     {
-        $post = $_POST;
+        $post = $this->handlePost();
+        $action = false;
 
-        if (!isset($post['submit'])) {
+        if (!empty($this->errors)) {
+            View::new()->render('views/templates/flight/flight-add.php', ['errors' => $this->errors]);
             return;
         }
 
-        $destination = $post['destination'] ? StringHelper::sanitize($post['destination']) : false;
-        $gate = $post['gate_id'] ? StringHelper::sanitize($post['gate_id']) : false;
-        $maxLimit = $post['max_limit'] ? StringHelper::sanitize($post['max_limit']) : false;
-        $maxWeightPP = $post['max_weight_pp'] ? StringHelper::sanitize($post['max_weight_pp']) : false;
-        $maxTotalWeight = $post['max_total_weight'] ? StringHelper::sanitize($post['max_total_weight']) : false;
-        $departure = $post['departure_time'] ? StringHelper::toDateTime($post['departure_time']) : false;
-        $airline = $post['airline_id'] ? StringHelper::sanitize($post['airline_id']) : false;
+        if ($post) {
+
+            $action = Flight::where('vluchtnummer', '=', $id)->update([
+                'vluchtnummer' => $id,
+                'bestemming' => $post['destination'],
+                'gatecode' => $post['gate_id'],
+                'max_aantal' => $post['max_limit'],
+                'max_gewicht_pp' => $post['max_weight_pp'],
+                'max_totaalgewicht' => $post['max_total_weight'],
+                'vertrektijd' => $post['departure_time'],
+                'maatschappijcode' => $post['airline_id'],
+            ]);
+
+        }
+
+        if (!$action) {
+            $error = ['errors' => 'Flight could not be edited'];
+            View::new()->render('views/templates/flight-add.php', $error);
+        }
+
+        Redirect::to('/vluchten');
+    }
+
+    #[NoReturn] public function delete($id): void
+    {
+        Flight::where('vluchtnummer', '=', $id)->delete();
+        Redirect::to('/vluchten');
+    }
+
+    public function handlePost(): array
+    {
+        $post = [];
+
+        if (!isset($_POST['submit'])) {
+            return [];
+        }
+
+        $destination = $_POST['destination'] ? $post['destination'] = StringHelper::sanitize($_POST['destination']) : false;
+        $gate = $_POST['gate_id'] ? $post['gate_id'] = StringHelper::sanitize($_POST['gate_id']) : false;
+        $maxLimit = $_POST['max_limit'] ? $post['max_limit'] = StringHelper::sanitize($_POST['max_limit']) : false;
+        $maxWeightPP = $_POST['max_weight_pp'] ? $post['max_weight_pp'] = StringHelper::sanitize($_POST['max_weight_pp']) : false;
+        $maxTotalWeight = $_POST['max_total_weight'] ? $post['max_total_weight'] = StringHelper::sanitize($_POST['max_total_weight']) : false;
+        $departure = $_POST['departure_time'] ? $post['departure_time'] = StringHelper::toDateTime($_POST['departure_time']) : false;
+        $airline = $_POST['airline_id'] ? $post['airline_id'] = StringHelper::sanitize($_POST['airline_id']) : false;
 
         if (!$destination) {
             $this->errors['destination'] = 'none given';
@@ -178,34 +179,7 @@ class FlightsController
             $this->errors['airline_id'] = 'none given';
         }
 
-        if (!empty($this->errors)) {
-            View::new()->render('views/forms/flight/flight-edit-form.php', ['errors' => $this->errors]);
-            return;
-        }
-
-        $action = \Model\Flight::where('vluchtnummer', '=', $id)->update([
-            'vluchtnummer' => $id,
-            'bestemming' => $destination,
-            'gatecode' => $gate,
-            'max_aantal' => $maxLimit,
-            'max_gewicht_pp' => $maxWeightPP,
-            'max_totaalgewicht' => $maxTotalWeight,
-            'vertrektijd' => $departure,
-            'maatschappijcode' => $airline,
-        ]);
-
-        if(!$action) {
-            $error = ['errors' => 'Flight could not be edited'];
-            View::new()->render('views/templates/flight-add.php', $error);
-        }
-
-        Redirect::to('/vluchten');
-    }
-
-    public function delete($id): void
-    {
-        Flight::where('vluchtnummer', '=', $id)->delete();
-        Redirect::to('/vluchten');
+        return $post;
     }
 
 }

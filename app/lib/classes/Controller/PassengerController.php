@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use JetBrains\PhpStorm\NoReturn;
 use Model\Passenger;
 use Service\Redirect;
 use Service\Session;
@@ -10,6 +11,7 @@ use Util\StringHelper;
 
 class PassengerController
 {
+    private array $errors = [];
 
     public function login(): void
     {
@@ -60,7 +62,7 @@ class PassengerController
 
     public function serviceDesk(): void
     {
-        View::new()->render('views/templates/service-desk/service-desk-passengers.php');
+        (new ServiceDeskController())->passengers();
     }
 
     public function show($id): void
@@ -81,63 +83,27 @@ class PassengerController
 
     public function addPassenger(): void
     {
-        $post = $_POST;
-
-        if (!isset($post['submit'])) {
-            return;
-        }
-
-        $name = $post['name'] ? StringHelper::sanitize($post['name']) : false;
-        $flightId = $post['flight_id'] ? StringHelper::sanitize($post['flight_id']) : false;
-        $gender = $post['gender'] ? StringHelper::sanitize($post['gender']) : false;
-        $deskId = $post['desk_id'] ? StringHelper::sanitize($post['desk_id']) : false;
-        $seat = $post['seat'] ? StringHelper::sanitize($post['seat']) : false;
-        $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
-        $checkinTime = $post['checkin_time'] ? StringHelper::toDateTime($post['checkin_time']) : false;
-        $password = $post['password'] ? StringHelper::hash($post['password']) : false;
-
-        if (!$name) {
-            $this->errors['name'] = 'none given';
-        }
-
-        if (!$flightId) {
-            $this->errors['flight_id'] = 'none given';
-        }
-
-        if (!$gender) {
-            $this->errors['gender'] = 'none given';
-        }
-
-        if (!$deskId) {
-            $this->errors['desk_id'] = 'none given';
-        }
-
-        if (!$seat) {
-            $this->errors['seat'] = 'none given';
-        }
-
-        if (!$checkinTime) {
-            $this->errors['checkin_time'] = 'none given';
-        }
-
-        if (!$password) {
-            $this->errors['password'] = 'none given';
-        }
+        $post = $this->handlePost();
+        $action = false;
 
         if (!empty($this->errors)) {
             View::new()->render('views/templates/passenger/passenger-add.php', ['errors' => $this->errors]);
             return;
         }
 
-        $action = Passenger::create([
-            'naam' => $name,
-            'vluchtnummer' => $flightId,
-            'geslacht' => $gender,
-            'balienummer' => $deskId,
-            'stoel' => $seat,
-            'inchecktijdstip' => $checkinTime,
-            'wachtwoord' => $password,
-        ]);
+        if($post) {
+
+            $action = Passenger::create([
+                'naam' => $post['name'],
+                'vluchtnummer' => $post['flight_id'],
+                'geslacht' => $post['gender'],
+                'balienummer' => $post['desk_id'],
+                'stoel' => $post['seat'],
+                'inchecktijdstip' => $post['checkin_time'],
+                'wachtwoord' => $post['password'],
+            ]);
+
+        }
 
         if(!$action) {
             $error = ['errors' => 'Passenger could not be added'];
@@ -160,20 +126,60 @@ class PassengerController
 
     public function editPassenger($id): void
     {
-        $post = $_POST;
+        $post = $this->handlePost();
+        $action = false;
 
-        if (!isset($post['submit'])) {
+        if (!empty($this->errors)) {
+            View::new()->render('views/forms/passenger-edit-form.php', ['errors' => $this->errors]);
             return;
         }
 
-        $name = $post['name'] ? StringHelper::sanitize($post['name']) : false;
-        $flightId = $post['flight_id'] ? StringHelper::sanitize($post['flight_id']) : false;
-        $gender = $post['gender'] ? StringHelper::sanitize($post['gender']) : false;
-        $deskId = $post['desk_id'] ? StringHelper::sanitize($post['desk_id']) : false;
-        $seat = $post['seat'] ? StringHelper::sanitize($post['seat']) : false;
+        if($post) {
+
+            $action = Passenger::where('passagiernummer', '=', $id)->update([
+                'passagiernummer' => $id,
+                'naam' => $post['name'],
+                'vluchtnummer' => $post['flight_id'],
+                'geslacht' => $post['gender'],
+                'balienummer' => $post['desk_id'],
+                'stoel' => $post['seat'],
+                'inchecktijdstip' => $post['checkin_time'],
+                'wachtwoord' => $post['password'],
+            ]);
+
+        }
+
+        if(!$action) {
+            $error = ['errors' => 'Passenger could not be added'];
+            View::new()->render('views/templates/passenger/passenger-add.php', $error);
+        }
+
+        Redirect::to('/passagiers');
+    }
+
+    #[NoReturn] public function delete($id): void
+    {
+        Passenger::where('passagiernummer', '=', $id)->delete();
+        Redirect::to('/passagiers');
+    }
+
+    public function handlePost(): array
+    {
+        $post = [];
+
+        if (!isset($_POST['submit'])) {
+            return $post;
+        }
+
+        $name = $_POST['name'] ? $post['name'] = StringHelper::sanitize($_POST['name']) : false;
+        $flightId = $_POST['flight_id'] ? $post['flight_id'] = StringHelper::sanitize($_POST['flight_id']) : false;
+        $gender = $_POST['gender'] ? $post['gender'] = StringHelper::sanitize($_POST['gender']) : false;
+        $deskId = $_POST['desk_id'] ? $post['desk_id'] = StringHelper::sanitize($_POST['desk_id']) : false;
+        $seat = $_POST['seat'] ? StringHelper::sanitize($_POST['seat']) : false;
         $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
-        $checkinTime = $post['checkin_time'] ? StringHelper::toDateTime($post['checkin_time']) : false;
-        $password = $post['password'] ? StringHelper::hash($post['password']) : false;
+        $post['seat'] = $seat;
+        $checkinTime = $_POST['checkin_time'] ? $post['checkin_time'] = StringHelper::toDateTime($_POST['checkin_time']) : false;
+        $password = $_POST['password'] ? $post['password'] = StringHelper::hash($_POST['password']) : false;
 
         if (!$name) {
             $this->errors['name'] = 'none given';
@@ -203,34 +209,8 @@ class PassengerController
             $this->errors['password'] = 'none given';
         }
 
-        if (!empty($this->errors)) {
-            View::new()->render('views/forms/passenger-edit-form.php', ['errors' => $this->errors]);
-            return;
-        }
-
-        $action = Passenger::where('passagiernummer', '=', $id)->update([
-            'passagiernummer' => $id,
-            'naam' => $name,
-            'vluchtnummer' => $flightId,
-            'geslacht' => $gender,
-            'balienummer' => $deskId,
-            'stoel' => $seat,
-            'inchecktijdstip' => $checkinTime,
-            'wachtwoord' => $password,
-        ]);
-
-        if(!$action) {
-            $error = ['errors' => 'Passenger could not be added'];
-            View::new()->render('views/templates/passenger/passenger-add.php', $error);
-        }
-
-        Redirect::to('/passagiers');
+        return $post;
     }
 
-    public function delete($id): void
-    {
-        Passenger::where('passagiernummer', '=', $id)->delete();
-        Redirect::to('/passagiers');
-    }
     
 }

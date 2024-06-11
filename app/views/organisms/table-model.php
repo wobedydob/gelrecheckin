@@ -11,7 +11,11 @@ $array = $model->toArray();
             <?php $label = $columns[$name] ?? $name;?>
         <tr>
             <th><?php echo $label; ?></th>
-            <td><?php echo htmlspecialchars($model->$name); ?></td>
+            <?php if($model->$name): ?>
+                <td><?php echo htmlspecialchars($model->$name); ?></td>
+            <?php else: ?>
+                <td>Onbekend</td>
+            <?php endif; ?>
         </tr>
         <?php endforeach; ?>
     </tbody>

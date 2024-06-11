@@ -1,28 +1,8 @@
 <?php
-
-use Entity\Collection;
-use Model\Flight;
-
-$search = page()->get('search');
-$page = page()->get('page', 1);
-$orderBY = page()->get('sort', 'vluchtnummer');
-$orderDirection = page()->get('direction', 'ASC');
-
-$limit = page()->get('limit', 20);
-$offset = $limit * ($page - 1);
-
-$flightId = $search;
-if($flightId) {
-    $flight = Flight::find($flightId);
-    $flights = new Collection();
-
-    if($flight) {
-        $flights->addToCollection($flight);
-    }
-
-} else {
-    $flights = Flight::all($limit, $offset, $orderBY, $orderDirection);
-}
+/* @var $flights \Model\Flight[] */
+/* @var $search string */
+/* @var $limit int */
+/* @var $orderDirection string */
 ?>
 
 <div class="container">

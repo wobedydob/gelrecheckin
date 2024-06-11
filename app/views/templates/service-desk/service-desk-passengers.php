@@ -1,26 +1,8 @@
 <?php
-
-$search = page()->get('search');
-$page = page()->get('page', 1);
-$orderBY = page()->get('sort', 'passagiernummer');
-$orderDirection = page()->get('direction', 'ASC');
-
-$limit = page()->get('limit', 20);
-$offset = $limit * ($page - 1);
-
-$passengerId = $search;
-if($passengerId) {
-    $passenger = \Model\Passenger::find($passengerId);
-    $passengers = new \Entity\Collection();
-
-    if($passenger) {
-        $passengers->addToCollection($passenger);
-    }
-
-} else {
-    $passengers = \Model\Passenger::all($limit, $offset, $orderBY, $orderDirection);
-}
-
+/* @var $passengers \Model\Passenger[] */
+/* @var $search string */
+/* @var $limit int */
+/* @var $orderDirection string */
 ?>
 
 <div class="container">
@@ -34,7 +16,7 @@ if($passengerId) {
 
         <?php if($passengers->count() > 0): ?>
 
-            <?php view()->render('views/molecules/table-filters.php', ['search' => $passengerId ?? '', 'limit' => $limit, 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
+            <?php view()->render('views/molecules/table-filters.php', ['search' => $search ?? '', 'limit' => $limit, 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
 
             <?php view()->render('views/organisms/passengers.php', compact('passengers'));?>
 

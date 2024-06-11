@@ -24,7 +24,6 @@ class Passenger extends Model
         'balienummer' => 'Balie Nummer',
         'stoel' => 'Stoel',
         'inchecktijdstip' => 'Inchecktijdstip',
-        'wachtwoord' => 'Wachtwoord',
     ];
 
     public const string USER_ROLE = 'passenger';

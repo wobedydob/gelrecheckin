@@ -2,13 +2,18 @@
 
 namespace Controller;
 
+use Entity\Collection;
+use Model\Flight;
+use Model\Passenger;
 use Model\ServiceDesk;
+use Service\Page;
 use Service\Redirect;
 use Service\Session;
 use Service\View;
 
 class ServiceDeskController
 {
+    private array $errors = [];
 
     public function login(): void
     {
@@ -53,6 +58,56 @@ class ServiceDeskController
 
         Session::instance()->set('user', $user);
         Redirect::to('/dashboard');
+    }
+
+    public function flights(): void
+    {
+        $search = page()->get('search');
+        $page = page()->get('page', 1);
+        $orderBY = page()->get('sort', 'vluchtnummer');
+        $orderDirection = page()->get('direction', 'DESC');
+
+        $limit = page()->get('limit', 20);
+        $offset = $limit * ($page - 1);
+
+        if($search) {
+            $flight = Flight::find($search);
+            $flights = new Collection();
+
+            if($flight) {
+                $flights->addToCollection($flight);
+            }
+
+        } else {
+            $flights = Flight::all($limit, $offset, $orderBY, $orderDirection);
+        }
+
+        View::new()->render('views/templates/service-desk/service-desk-flights.php', compact('flights', 'search', 'limit', 'orderBY', 'orderDirection'));
+    }
+
+    public function passengers(): void
+    {
+        $search = page()->get('search');
+        $page = page()->get('page', 1);
+        $orderBY = page()->get('sort', 'passagiernummer');
+        $orderDirection = page()->get('direction', 'DESC');
+
+        $limit = page()->get('limit', 20);
+        $offset = $limit * ($page - 1);
+
+        if($search) {
+            $passenger = Passenger::find($search);
+            $passengers = new Collection();
+
+            if($passenger) {
+                $passengers->addToCollection($passenger);
+            }
+
+        } else {
+            $passengers = Passenger::all($limit, $offset, $orderBY, $orderDirection);
+        }
+
+        View::new()->render('views/templates/service-desk/service-desk-passengers.php', compact('passengers', 'search', 'limit', 'orderBY', 'orderDirection'));
     }
 
 }

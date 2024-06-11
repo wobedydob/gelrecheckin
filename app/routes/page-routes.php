@@ -42,7 +42,7 @@ Route::get('/vluchten/{id}/verwijderen', [FlightsController::class, 'delete'])->
 
 Route::get('/passagiers', [PassengerController::class, 'serviceDesk'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/passagiers/toevoegen', [PassengerController::class, 'add'])->name('flights.add')->auth([ServiceDesk::USER_ROLE]);
-Route::post('/passagiers/toevoegen', [PassengerController::class, 'addFlight'])->name('flights.add.flight')->auth([ServiceDesk::USER_ROLE]);
+Route::post('/passagiers/toevoegen', [PassengerController::class, 'addPassenger'])->name('flights.add.flight')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/passagiers/{id}', [PassengerController::class, 'show'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/passagiers/{id}/bewerken', [PassengerController::class, 'edit'])->name('passenger.edit')->auth([ServiceDesk::USER_ROLE]);
 Route::post('/passagiers/{id}/bewerken', [PassengerController::class, 'editPassenger'])->name('passenger.edit.post')->auth([ServiceDesk::USER_ROLE]);
