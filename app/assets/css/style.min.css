@@ -1867,40 +1867,55 @@ body {
   color: #ffffff;
   background-color: #39D777;
 }
-.primary:hover:not(.no-hover), .primary-active.active:hover:not(.no-hover), .primary-active-l10.active:hover:not(.no-hover), .primary-active-d10.active:hover:not(.no-hover), .primary-active-l20.active:hover:not(.no-hover), .primary-active-d20.active:hover:not(.no-hover), .primary-active-l30.active:hover:not(.no-hover), .primary-active-d30.active:hover:not(.no-hover), .primary-active-l40.active:hover:not(.no-hover), .primary-active-d40.active:hover:not(.no-hover), .primary-active-l50.active:hover:not(.no-hover), .primary-active-d50.active:hover:not(.no-hover), .primary-active-l60.active:hover:not(.no-hover), .primary-active-d60.active:hover:not(.no-hover), .primary-active-l70.active:hover:not(.no-hover), .primary-active-d70.active:hover:not(.no-hover), .primary-active-l80.active:hover:not(.no-hover), .primary-active-d80.active:hover:not(.no-hover), .primary-active-l90.active:hover:not(.no-hover), .primary-active-d90.active:hover:not(.no-hover) {
+.primary:hover, .primary-active.active:hover, .primary-active-l10.active:hover, .primary-active-d10.active:hover, .primary-active-l20.active:hover, .primary-active-d20.active:hover, .primary-active-l30.active:hover, .primary-active-d30.active:hover, .primary-active-l40.active:hover, .primary-active-d40.active:hover, .primary-active-l50.active:hover, .primary-active-d50.active:hover, .primary-active-l60.active:hover, .primary-active-d60.active:hover, .primary-active-l70.active:hover, .primary-active-d70.active:hover, .primary-active-l80.active:hover, .primary-active-d80.active:hover, .primary-active-l90.active:hover, .primary-active-d90.active:hover {
   background-color: #25b85f;
+}
+.primary.no-hover, .no-hover.primary-active.active, .no-hover.primary-active-l10.active, .no-hover.primary-active-d10.active, .no-hover.primary-active-l20.active, .no-hover.primary-active-d20.active, .no-hover.primary-active-l30.active, .no-hover.primary-active-d30.active, .no-hover.primary-active-l40.active, .no-hover.primary-active-d40.active, .no-hover.primary-active-l50.active, .no-hover.primary-active-d50.active, .no-hover.primary-active-l60.active, .no-hover.primary-active-d60.active, .no-hover.primary-active-l70.active, .no-hover.primary-active-d70.active, .no-hover.primary-active-l80.active, .no-hover.primary-active-d80.active, .no-hover.primary-active-l90.active, .no-hover.primary-active-d90.active {
+  background-color: #39D777;
 }
 
 .secondary, .secondary-active.active, .secondary-active-l10.active, .secondary-active-d10.active, .secondary-active-l20.active, .secondary-active-d20.active, .secondary-active-l30.active, .secondary-active-d30.active, .secondary-active-l40.active, .secondary-active-d40.active, .secondary-active-l50.active, .secondary-active-d50.active, .secondary-active-l60.active, .secondary-active-d60.active, .secondary-active-l70.active, .secondary-active-d70.active, .secondary-active-l80.active, .secondary-active-d80.active, .secondary-active-l90.active, .secondary-active-d90.active {
   color: #ffffff;
   background-color: #2611A0;
 }
-.secondary:hover:not(.no-hover), .secondary-active.active:hover:not(.no-hover), .secondary-active-l10.active:hover:not(.no-hover), .secondary-active-d10.active:hover:not(.no-hover), .secondary-active-l20.active:hover:not(.no-hover), .secondary-active-d20.active:hover:not(.no-hover), .secondary-active-l30.active:hover:not(.no-hover), .secondary-active-d30.active:hover:not(.no-hover), .secondary-active-l40.active:hover:not(.no-hover), .secondary-active-d40.active:hover:not(.no-hover), .secondary-active-l50.active:hover:not(.no-hover), .secondary-active-d50.active:hover:not(.no-hover), .secondary-active-l60.active:hover:not(.no-hover), .secondary-active-d60.active:hover:not(.no-hover), .secondary-active-l70.active:hover:not(.no-hover), .secondary-active-d70.active:hover:not(.no-hover), .secondary-active-l80.active:hover:not(.no-hover), .secondary-active-d80.active:hover:not(.no-hover), .secondary-active-l90.active:hover:not(.no-hover), .secondary-active-d90.active:hover:not(.no-hover) {
+.secondary:hover, .secondary-active.active:hover, .secondary-active-l10.active:hover, .secondary-active-d10.active:hover, .secondary-active-l20.active:hover, .secondary-active-d20.active:hover, .secondary-active-l30.active:hover, .secondary-active-d30.active:hover, .secondary-active-l40.active:hover, .secondary-active-d40.active:hover, .secondary-active-l50.active:hover, .secondary-active-d50.active:hover, .secondary-active-l60.active:hover, .secondary-active-d60.active:hover, .secondary-active-l70.active:hover, .secondary-active-d70.active:hover, .secondary-active-l80.active:hover, .secondary-active-d80.active:hover, .secondary-active-l90.active:hover, .secondary-active-d90.active:hover {
   background-color: #1b0c72;
+}
+.secondary.no-hover, .no-hover.secondary-active.active, .no-hover.secondary-active-l10.active, .no-hover.secondary-active-d10.active, .no-hover.secondary-active-l20.active, .no-hover.secondary-active-d20.active, .no-hover.secondary-active-l30.active, .no-hover.secondary-active-d30.active, .no-hover.secondary-active-l40.active, .no-hover.secondary-active-d40.active, .no-hover.secondary-active-l50.active, .no-hover.secondary-active-d50.active, .no-hover.secondary-active-l60.active, .no-hover.secondary-active-d60.active, .no-hover.secondary-active-l70.active, .no-hover.secondary-active-d70.active, .no-hover.secondary-active-l80.active, .no-hover.secondary-active-d80.active, .no-hover.secondary-active-l90.active, .no-hover.secondary-active-d90.active {
+  background-color: #2611A0;
 }
 
 .tertiary, .tertiary-active.active, .tertiary-active-l10.active, .tertiary-active-d10.active, .tertiary-active-l20.active, .tertiary-active-d20.active, .tertiary-active-l30.active, .tertiary-active-d30.active, .tertiary-active-l40.active, .tertiary-active-d40.active, .tertiary-active-l50.active, .tertiary-active-d50.active, .tertiary-active-l60.active, .tertiary-active-d60.active, .tertiary-active-l70.active, .tertiary-active-d70.active, .tertiary-active-l80.active, .tertiary-active-d80.active, .tertiary-active-l90.active, .tertiary-active-d90.active {
   color: #ffffff;
   background-color: #FF3268;
 }
-.tertiary:hover:not(.no-hover), .tertiary-active.active:hover:not(.no-hover), .tertiary-active-l10.active:hover:not(.no-hover), .tertiary-active-d10.active:hover:not(.no-hover), .tertiary-active-l20.active:hover:not(.no-hover), .tertiary-active-d20.active:hover:not(.no-hover), .tertiary-active-l30.active:hover:not(.no-hover), .tertiary-active-d30.active:hover:not(.no-hover), .tertiary-active-l40.active:hover:not(.no-hover), .tertiary-active-d40.active:hover:not(.no-hover), .tertiary-active-l50.active:hover:not(.no-hover), .tertiary-active-d50.active:hover:not(.no-hover), .tertiary-active-l60.active:hover:not(.no-hover), .tertiary-active-d60.active:hover:not(.no-hover), .tertiary-active-l70.active:hover:not(.no-hover), .tertiary-active-d70.active:hover:not(.no-hover), .tertiary-active-l80.active:hover:not(.no-hover), .tertiary-active-d80.active:hover:not(.no-hover), .tertiary-active-l90.active:hover:not(.no-hover), .tertiary-active-d90.active:hover:not(.no-hover) {
+.tertiary:hover, .tertiary-active.active:hover, .tertiary-active-l10.active:hover, .tertiary-active-d10.active:hover, .tertiary-active-l20.active:hover, .tertiary-active-d20.active:hover, .tertiary-active-l30.active:hover, .tertiary-active-d30.active:hover, .tertiary-active-l40.active:hover, .tertiary-active-d40.active:hover, .tertiary-active-l50.active:hover, .tertiary-active-d50.active:hover, .tertiary-active-l60.active:hover, .tertiary-active-d60.active:hover, .tertiary-active-l70.active:hover, .tertiary-active-d70.active:hover, .tertiary-active-l80.active:hover, .tertiary-active-d80.active:hover, .tertiary-active-l90.active:hover, .tertiary-active-d90.active:hover {
   background-color: #fe0043;
+}
+.tertiary:hover.no-hover, .tertiary-active.active:hover.no-hover, .tertiary-active-l10.active:hover.no-hover, .tertiary-active-d10.active:hover.no-hover, .tertiary-active-l20.active:hover.no-hover, .tertiary-active-d20.active:hover.no-hover, .tertiary-active-l30.active:hover.no-hover, .tertiary-active-d30.active:hover.no-hover, .tertiary-active-l40.active:hover.no-hover, .tertiary-active-d40.active:hover.no-hover, .tertiary-active-l50.active:hover.no-hover, .tertiary-active-d50.active:hover.no-hover, .tertiary-active-l60.active:hover.no-hover, .tertiary-active-d60.active:hover.no-hover, .tertiary-active-l70.active:hover.no-hover, .tertiary-active-d70.active:hover.no-hover, .tertiary-active-l80.active:hover.no-hover, .tertiary-active-d80.active:hover.no-hover, .tertiary-active-l90.active:hover.no-hover, .tertiary-active-d90.active:hover.no-hover {
+  background-color: #FF3268;
 }
 
 .dark, .dark-active.active, .dark-active-l10.active, .dark-active-d10.active, .dark-active-l20.active, .dark-active-d20.active, .dark-active-l30.active, .dark-active-d30.active, .dark-active-l40.active, .dark-active-d40.active, .dark-active-l50.active, .dark-active-d50.active, .dark-active-l60.active, .dark-active-d60.active, .dark-active-l70.active, .dark-active-d70.active, .dark-active-l80.active, .dark-active-d80.active, .dark-active-l90.active, .dark-active-d90.active {
   color: #ffffff;
   background-color: #333;
 }
-.dark:hover:not(.no-hover), .dark-active.active:hover:not(.no-hover), .dark-active-l10.active:hover:not(.no-hover), .dark-active-d10.active:hover:not(.no-hover), .dark-active-l20.active:hover:not(.no-hover), .dark-active-d20.active:hover:not(.no-hover), .dark-active-l30.active:hover:not(.no-hover), .dark-active-d30.active:hover:not(.no-hover), .dark-active-l40.active:hover:not(.no-hover), .dark-active-d40.active:hover:not(.no-hover), .dark-active-l50.active:hover:not(.no-hover), .dark-active-d50.active:hover:not(.no-hover), .dark-active-l60.active:hover:not(.no-hover), .dark-active-d60.active:hover:not(.no-hover), .dark-active-l70.active:hover:not(.no-hover), .dark-active-d70.active:hover:not(.no-hover), .dark-active-l80.active:hover:not(.no-hover), .dark-active-d80.active:hover:not(.no-hover), .dark-active-l90.active:hover:not(.no-hover), .dark-active-d90.active:hover:not(.no-hover) {
+.dark:hover, .dark-active.active:hover, .dark-active-l10.active:hover, .dark-active-d10.active:hover, .dark-active-l20.active:hover, .dark-active-d20.active:hover, .dark-active-l30.active:hover, .dark-active-d30.active:hover, .dark-active-l40.active:hover, .dark-active-d40.active:hover, .dark-active-l50.active:hover, .dark-active-d50.active:hover, .dark-active-l60.active:hover, .dark-active-d60.active:hover, .dark-active-l70.active:hover, .dark-active-d70.active:hover, .dark-active-l80.active:hover, .dark-active-d80.active:hover, .dark-active-l90.active:hover, .dark-active-d90.active:hover {
   background-color: #1a1a1a;
+}
+.dark.no-hover, .no-hover.dark-active.active, .no-hover.dark-active-l10.active, .no-hover.dark-active-d10.active, .no-hover.dark-active-l20.active, .no-hover.dark-active-d20.active, .no-hover.dark-active-l30.active, .no-hover.dark-active-d30.active, .no-hover.dark-active-l40.active, .no-hover.dark-active-d40.active, .no-hover.dark-active-l50.active, .no-hover.dark-active-d50.active, .no-hover.dark-active-l60.active, .no-hover.dark-active-d60.active, .no-hover.dark-active-l70.active, .no-hover.dark-active-d70.active, .no-hover.dark-active-l80.active, .no-hover.dark-active-d80.active, .no-hover.dark-active-l90.active, .no-hover.dark-active-d90.active {
+  background-color: #333;
 }
 
 .danger, .danger-active.active, .danger-active-l10.active, .danger-active-d10.active, .danger-active-l20.active, .danger-active-d20.active, .danger-active-l30.active, .danger-active-d30.active, .danger-active-l40.active, .danger-active-d40.active, .danger-active-l50.active, .danger-active-d50.active, .danger-active-l60.active, .danger-active-d60.active, .danger-active-l70.active, .danger-active-d70.active, .danger-active-l80.active, .danger-active-d80.active, .danger-active-l90.active, .danger-active-d90.active {
   color: #ffffff;
   background-color: #d54444;
 }
-.danger:hover:not(.no-hover), .danger-active.active:hover:not(.no-hover), .danger-active-l10.active:hover:not(.no-hover), .danger-active-d10.active:hover:not(.no-hover), .danger-active-l20.active:hover:not(.no-hover), .danger-active-d20.active:hover:not(.no-hover), .danger-active-l30.active:hover:not(.no-hover), .danger-active-d30.active:hover:not(.no-hover), .danger-active-l40.active:hover:not(.no-hover), .danger-active-d40.active:hover:not(.no-hover), .danger-active-l50.active:hover:not(.no-hover), .danger-active-d50.active:hover:not(.no-hover), .danger-active-l60.active:hover:not(.no-hover), .danger-active-d60.active:hover:not(.no-hover), .danger-active-l70.active:hover:not(.no-hover), .danger-active-d70.active:hover:not(.no-hover), .danger-active-l80.active:hover:not(.no-hover), .danger-active-d80.active:hover:not(.no-hover), .danger-active-l90.active:hover:not(.no-hover), .danger-active-d90.active:hover:not(.no-hover) {
+.danger:hover, .danger-active.active:hover, .danger-active-l10.active:hover, .danger-active-d10.active:hover, .danger-active-l20.active:hover, .danger-active-d20.active:hover, .danger-active-l30.active:hover, .danger-active-d30.active:hover, .danger-active-l40.active:hover, .danger-active-d40.active:hover, .danger-active-l50.active:hover, .danger-active-d50.active:hover, .danger-active-l60.active:hover, .danger-active-d60.active:hover, .danger-active-l70.active:hover, .danger-active-d70.active:hover, .danger-active-l80.active:hover, .danger-active-d80.active:hover, .danger-active-l90.active:hover, .danger-active-d90.active:hover {
   background-color: #bc2a2a;
+}
+.danger.no-hover, .no-hover.danger-active.active, .no-hover.danger-active-l10.active, .no-hover.danger-active-d10.active, .no-hover.danger-active-l20.active, .no-hover.danger-active-d20.active, .no-hover.danger-active-l30.active, .no-hover.danger-active-d30.active, .no-hover.danger-active-l40.active, .no-hover.danger-active-d40.active, .no-hover.danger-active-l50.active, .no-hover.danger-active-d50.active, .no-hover.danger-active-l60.active, .no-hover.danger-active-d60.active, .no-hover.danger-active-l70.active, .no-hover.danger-active-d70.active, .no-hover.danger-active-l80.active, .no-hover.danger-active-d80.active, .no-hover.danger-active-l90.active, .no-hover.danger-active-d90.active {
+  background-color: #d54444;
 }
 
 * {
@@ -9650,20 +9665,18 @@ form input[type=text] {
   font-size: 1em;
   flex: 1;
 }
-form .search-button {
-  width: auto;
-  padding: 10px 20px;
-  background-color: #39D777;
-  color: #2611A0;
-  border: none;
+form input[type=number] {
+  padding: 10px;
+  border: 1px solid #ccc;
   border-radius: 5px;
-  cursor: pointer;
   font-size: 1em;
-  text-align: center;
-  transition: background-color 0.3s ease;
+  flex: 1;
 }
-form .search-button:hover {
-  background-color: #25b85f;
+form.limit-form {
+  width: 150px;
+}
+form.limit-form input[type=number] {
+  width: 75px;
 }
 
 .primary-l10 {

@@ -48,12 +48,12 @@ class FlightsController
             Redirect::to('/vluchten');
         }
 
-        View::new()->render('views/templates/flight.php', compact('flight'));
+        View::new()->render('views/templates/flight/flight.php', compact('flight'));
     }
 
     public function add(): void
     {
-        View::new()->render('views/templates/flight-add.php');
+        View::new()->render('views/templates/flight/flight-add.php');
     }
 
     public function addFlight(): void
@@ -101,7 +101,7 @@ class FlightsController
         }
 
         if (!empty($this->errors)) {
-            View::new()->render('views/templates/flight-add.php', ['errors' => $this->errors]);
+            View::new()->render('views/templates/flight/flight-add.php', ['errors' => $this->errors]);
             return;
         }
 
@@ -117,7 +117,7 @@ class FlightsController
 
         if(!$action) {
             $error = ['errors' => 'Flight could not be added'];
-            View::new()->render('views/templates/flight-add.php', $error);
+            View::new()->render('views/templates/flight/flight-add.php', $error);
         }
 
         Redirect::to('/vluchten');
@@ -131,7 +131,7 @@ class FlightsController
             Redirect::to('/vluchten');
         }
 
-        View::new()->render('views/templates/flight-edit.php', compact('flight'));
+        View::new()->render('views/templates/flight/flight-edit.php', compact('flight'));
     }
 
     public function editFlight($id): void
@@ -179,7 +179,7 @@ class FlightsController
         }
 
         if (!empty($this->errors)) {
-            View::new()->render('views/forms/flight-edit-form.php', ['errors' => $this->errors]);
+            View::new()->render('views/forms/flight/flight-edit-form.php', ['errors' => $this->errors]);
             return;
         }
 

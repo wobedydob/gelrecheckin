@@ -1,35 +1,27 @@
 <?php
 
-$flightId = page()->get('search');
+use Entity\Collection;
+use Model\Flight;
+
+$search = page()->get('search');
 $page = page()->get('page', 1);
 $orderBY = page()->get('sort', 'vluchtnummer');
 $orderDirection = page()->get('direction', 'ASC');
 
-$limit = 40;
+$limit = page()->get('limit', 20);
 $offset = $limit * ($page - 1);
 
-$columns =
-    [
-        'vluchtnummer',
-        'bestemming',
-        'gatecode',
-        'max_aantal',
-        'max_gewicht_pp',
-        'max_totaalgewicht',
-        'vertrektijd',
-        'maatschappijcode'
-    ];
-
+$flightId = $search;
 if($flightId) {
-    $flight = \Model\Flight::find($flightId);
-    $flights = new \Entity\Collection();
+    $flight = Flight::find($flightId);
+    $flights = new Collection();
 
     if($flight) {
         $flights->addToCollection($flight);
     }
 
 } else {
-    $flights = \Model\Flight::with($columns)->all($limit, $offset, $orderBY, $orderDirection);
+    $flights = Flight::all($limit, $offset, $orderBY, $orderDirection);
 }
 ?>
 
@@ -47,7 +39,7 @@ if($flightId) {
 
         <?php if($flights->count() > 0): ?>
 
-            <?php view()->render('views/molecules/table-filters.php', ['search' => $flightId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
+            <?php view()->render('views/molecules/table-filters.php', ['search' => $search ?? '', 'limit' => $limit,  'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
 
             <?php view()->render('views/organisms/flights.php', compact('flights')); ?>
 

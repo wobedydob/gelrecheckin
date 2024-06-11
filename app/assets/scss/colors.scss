@@ -9,8 +9,12 @@
   color: $white;
   background-color: $primary-color;
 
-  &:hover:not(.no-hover) {
+  &:hover {
     background-color: darken($primary-color, 10%);
+  }
+
+  &.no-hover {
+    background-color: $primary-color;
   }
 }
 
@@ -18,8 +22,12 @@
   color: $white;
   background-color: $secondary-color;
 
-  &:hover:not(.no-hover) {
+  &:hover {
     background-color: darken($secondary-color, 10%);
+  }
+
+  &.no-hover {
+    background-color: $secondary-color;
   }
 
 }
@@ -28,8 +36,12 @@
   color: $white;
   background-color: $tertiary-color;
 
-  &:hover:not(.no-hover) {
+  &:hover {
     background-color: darken($tertiary-color, 10%);
+
+    &.no-hover {
+      background-color: $tertiary-color;
+    }
   }
 }
 
@@ -37,8 +49,12 @@
   color: $white;
   background-color: $dark-grey;
 
-  &:hover:not(.no-hover) {
+  &:hover {
     background-color: darken($dark-grey, 10%);
+  }
+
+  &.no-hover {
+    background-color: $dark-grey;
   }
 }
 
@@ -46,7 +62,11 @@
   color: $white;
   background-color: $remove-color;
 
-  &:hover:not(.no-hover) {
+  &:hover {
     background-color: darken($remove-color, 10%);
+  }
+
+  &.no-hover {
+    background-color: $remove-color;
   }
 }

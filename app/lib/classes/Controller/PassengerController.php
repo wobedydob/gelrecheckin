@@ -71,12 +71,12 @@ class PassengerController
             Redirect::to('/passagiers');
         }
 
-        View::new()->render('views/templates/passenger.php', compact('passenger'));
+        View::new()->render('views/templates/passenger/passenger.php', compact('passenger'));
     }
 
     public function add(): void
     {
-        View::new()->render('views/templates/passenger-add.php');
+        View::new()->render('views/templates/passenger/passenger-add.php');
     }
 
     public function addPassenger(): void
@@ -125,7 +125,7 @@ class PassengerController
         }
 
         if (!empty($this->errors)) {
-            View::new()->render('views/templates/passenger-add.php', ['errors' => $this->errors]);
+            View::new()->render('views/templates/passenger/passenger-add.php', ['errors' => $this->errors]);
             return;
         }
 
@@ -141,7 +141,7 @@ class PassengerController
 
         if(!$action) {
             $error = ['errors' => 'Passenger could not be added'];
-            View::new()->render('views/templates/passenger-add.php', $error);
+            View::new()->render('views/templates/passenger/passenger-add.php', $error);
         }
 
         Redirect::to('/passagiers');
@@ -155,7 +155,7 @@ class PassengerController
             Redirect::to('/vluchten');
         }
 
-        View::new()->render('views/templates/passenger-edit.php', compact('passenger'));
+        View::new()->render('views/templates/passenger/passenger-edit.php', compact('passenger'));
     }
 
     public function editPassenger($id): void
@@ -221,7 +221,7 @@ class PassengerController
 
         if(!$action) {
             $error = ['errors' => 'Passenger could not be added'];
-            View::new()->render('views/templates/passenger-add.php', $error);
+            View::new()->render('views/templates/passenger/passenger-add.php', $error);
         }
 
         Redirect::to('/passagiers');

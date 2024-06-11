@@ -1,23 +1,14 @@
 <?php
 
-$passengerId = page()->get('search');
+$search = page()->get('search');
 $page = page()->get('page', 1);
 $orderBY = page()->get('sort', 'passagiernummer');
 $orderDirection = page()->get('direction', 'ASC');
 
-$limit = 20;
+$limit = page()->get('limit', 20);
 $offset = $limit * ($page - 1);
 
-$columns =
-    [
-        'passagiernummer',
-        'naam',
-        'vluchtnummer',
-        'geslacht',
-        'balienummer',
-        'stoel',
-        'inchecktijdstip',
-    ];
+$passengerId = $search;
 if($passengerId) {
     $passenger = \Model\Passenger::find($passengerId);
     $passengers = new \Entity\Collection();
@@ -27,7 +18,7 @@ if($passengerId) {
     }
 
 } else {
-    $passengers = \Model\Passenger::with($columns)->all($limit, $offset, $orderBY, $orderDirection);
+    $passengers = \Model\Passenger::all($limit, $offset, $orderBY, $orderDirection);
 }
 
 ?>
@@ -36,14 +27,14 @@ if($passengerId) {
 
     <div class="card white action-bar">
         <h1>Passagiers</h1>
-        <a href="<?php echo site_url('passagiers/toevoegen'); ?>" class="button primary ml-10">✙</a>
+        <a href="<?php echo site_url('passagiers/toevoegen'); ?>" class="button primary ml-10">✚</a>
     </div>
 
     <div class="card white">
 
         <?php if($passengers->count() > 0): ?>
 
-            <?php view()->render('views/molecules/table-filters.php', ['search' => $passengerId ?? '', 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
+            <?php view()->render('views/molecules/table-filters.php', ['search' => $passengerId ?? '', 'limit' => $limit, 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
 
             <?php view()->render('views/organisms/passengers.php', compact('passengers'));?>
 
