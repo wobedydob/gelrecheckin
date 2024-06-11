@@ -71,5 +71,5 @@ $flightAirline = $flight->maatschappijcode;
         </select>
     </div>
 
-    <button class="button secondary-button" type="submit" name="submit" value="submit">Bewerken</button>
+    <button class="button secondary" type="submit" name="submit" value="submit">Bewerken</button>
 </form>

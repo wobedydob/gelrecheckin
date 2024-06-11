@@ -7,7 +7,6 @@
   align-items: center;
   background-color: $header-color;
   padding: 10px 20px;
-  color: $primary-color;
 
   .navbar-brand {
     a {
@@ -64,13 +63,10 @@
         a {
           display: inline-block;
           padding: 10px 20px;
-          background-color: transparent;
-          color: $secondary-color;
           text-decoration: none;
           border-radius: 5px;
           font-size: 1em;
           text-align: center;
-          transition: background-color 0.3s ease;
 
           &.button {
             margin-bottom: 0;

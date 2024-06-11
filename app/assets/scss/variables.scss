@@ -22,3 +22,15 @@ $tertiary-color: #FF3268;
 $back-color: #333;
 $sort-color: #646464;
 $remove-color: #d54444;
+
+@include color-variations($primary-color, $white, 'primary');
+@include color-variations($secondary-color, $white, 'secondary');
+@include color-variations($tertiary-color, $white, 'tertiary');
+@include color-variations($dark-grey, $white, 'dark');
+@include color-variations($remove-color, $white, 'danger');
+
+@include active-color-variations($primary-color, $white, 'primary');
+@include active-color-variations($secondary-color, $white, 'secondary');
+@include active-color-variations($tertiary-color, $white, 'tertiary');
+@include active-color-variations($dark-grey,$white, 'dark');
+@include active-color-variations($remove-color, $white, 'danger');

@@ -35,15 +35,15 @@ if($flightId) {
 
 <div class="container">
 
-    <div class="card action-bar">
+    <div class="card white action-bar">
 
         <h1>Vluchten</h1>
 
-        <a href="<?php echo site_url('vluchten/toevoegen'); ?>" class="button primary-button ml-10">✙</a>
+        <a href="<?php echo site_url('vluchten/toevoegen'); ?>" class="button primary ml-10">✚</a>
 
     </div>
 
-    <div class="card">
+    <div class="card white">
 
         <?php if($flights->count() > 0): ?>
 

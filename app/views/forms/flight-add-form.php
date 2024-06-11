@@ -55,5 +55,5 @@ $airports = Model\Airport::with(['luchthavencode', 'naam'])->all();
         </select>
     </div>
 
-    <button class="button add-button" type="submit" name="submit" value="submit">Toevoegen</button>
+    <button class="button add" type="submit" name="submit" value="submit">Toevoegen</button>
 </form>

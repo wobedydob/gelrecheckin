@@ -1,46 +1,52 @@
 @import "variables";
 
-.primary {
-  color: $white !important;
-  background-color: $primary-color !important;
+.white {
+    color: $text-color;
+    background-color: $white;
+}
 
-  &:hover:not(.no-hover), &.active:not(.not-active) {
-    background-color: darken($primary-color, 10%) !important;
+.primary {
+  color: $white;
+  background-color: $primary-color;
+
+  &:hover:not(.no-hover) {
+    background-color: darken($primary-color, 10%);
   }
 }
 
 .secondary {
-  color: $white !important;
-  background-color: $secondary-color !important;
+  color: $white;
+  background-color: $secondary-color;
 
-  &:hover:not(.no-hover), &.active:not(.not-active) {
-    background-color: darken($secondary-color, 10%) !important;
+  &:hover:not(.no-hover) {
+    background-color: darken($secondary-color, 10%);
   }
+
 }
 
 .tertiary {
-  color: $white !important;
-  background-color: $tertiary-color !important;
+  color: $white;
+  background-color: $tertiary-color;
 
-  &:hover:not(.no-hover), &.active:not(.not-active) {
-    background-color: darken($tertiary-color, 10%) !important;
+  &:hover:not(.no-hover) {
+    background-color: darken($tertiary-color, 10%);
   }
 }
 
 .dark {
-  color: $white !important;
-  background-color: $dark-grey !important;
+  color: $white;
+  background-color: $dark-grey;
 
-  &:hover:not(.no-hover), &.active:not(.not-active) {
-    background-color: darken($dark-grey, 10%) !important;
+  &:hover:not(.no-hover) {
+    background-color: darken($dark-grey, 10%);
   }
 }
 
 .danger {
-  color: $white !important;
-  background-color: $remove-color !important;
+  color: $white;
+  background-color: $remove-color;
 
-  &:hover:not(.no-hover), &.active:not(.not-active) {
-    background-color: darken($remove-color, 10%) !important;
+  &:hover:not(.no-hover) {
+    background-color: darken($remove-color, 10%);
   }
 }

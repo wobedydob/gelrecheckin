@@ -8,7 +8,7 @@ $deleteUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/verwijde
 
 <div class="container container-table">
 
-    <div class="card action-bar">
+    <div class="card white action-bar">
         <a href="<?php echo site_url($backUrl); ?>" class="button primary">Terug</a>
         <h1>Passagier</h1>
         <div class="right">
@@ -16,7 +16,7 @@ $deleteUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/verwijde
         </div>
     </div>
 
-    <div class="card passenger-details">
+    <div class="card white passenger-details">
         <?php if ($passenger): ?>
             <?php view()->render('views/organisms/table-model.php', ['model' => $passenger]);?>
         <?php endif; ?>

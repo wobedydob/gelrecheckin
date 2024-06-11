@@ -1,4 +1,6 @@
 // Mixins
+
+// Container
 @mixin container {
   padding: 20px;
   margin: 10px;
@@ -26,10 +28,11 @@
   }
 }
 
+// Card
 @mixin card {
   padding: 30px;
   margin: 10px;
-  background-color: $container-background;
+  //background-color: $container-background;
   border-radius: 5px;
   box-shadow: $box-shadow;
   flex: 1 1 48%;
@@ -38,10 +41,45 @@
   @media (max-width: 768px) {
     flex: 1 1 100%;
     margin: 0 0 20px 0;
-
-    //&.half {
-    //  width: 100%;
-    //}
   }
 
+}
+
+// Colors
+@mixin color-variations($bg-color, $text-color, $name) {
+  @for $i from 1 through 9 {
+    .#{$name}-l#{$i * 10} {
+      background-color: lighten($bg-color, $i * 10%);
+      color: $text-color;
+    }
+    .#{$name}-d#{$i * 10} {
+      background-color: darken($bg-color, $i * 10%);
+      color: $text-color;
+    }
+  }
+}
+
+@mixin active-color-variations($bg-color, $text-color, $name) {
+  .#{$name}-active {
+    &.active {
+      @extend .#{$name};
+    }
+  }
+
+  @for $i from 1 through 9 {
+    .#{$name}-active-l#{$i * 10} {
+      &.active {
+        @extend .#{$name};
+        background-color: lighten($bg-color, $i * 10%);
+        color: $text-color;
+      }
+    }
+    .#{$name}-active-d#{$i * 10} {
+      &.active {
+        @extend .#{$name};
+        background-color: darken($bg-color, $i * 10%);
+        color: $text-color;
+      }
+    }
+  }
 }

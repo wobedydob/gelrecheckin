@@ -67,5 +67,5 @@ $password = $passenger->wachtwoord;
         <input type="password" id="password" name="password" value="<?php echo $password; ?>" required>
     </div>
 
-    <button class="button add-button" type="submit" name="submit" value="submit">Toevoegen</button>
+    <button class="button add" type="submit" name="submit" value="submit">Toevoegen</button>
 </form>

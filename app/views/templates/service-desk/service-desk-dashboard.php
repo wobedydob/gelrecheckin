@@ -9,7 +9,7 @@
         <h1><?php echo $deskId ? 'Balienummer ' . $deskId : 'Onbekend balienummer'; ?></h1>
     </div>
 
-    <div class="card half content-center">
+    <div class="card white half content-center">
         <h3 class="mb-10">Vluchten</h3>
 
         <p>
@@ -21,7 +21,7 @@
         <a href="<?php echo site_url('vluchten'); ?>" class="button primary mt-20">Ga naar vluchten</a>
     </div>
 
-    <div class="card half content-center">
+    <div class="card white half content-center">
         <h3 class="mb-10">Passagiers</h3>
 
         <p>
@@ -32,7 +32,7 @@
 
     </div>
 
-    <div class="card half content-center">
+    <div class="card white half content-center">
         <h3 class="mb-10">Bagage</h3>
 
         <p>

@@ -2,7 +2,7 @@
 
 <div class="container background-container">
 
-    <a href="<?php echo site_url('passagiers'); ?>" class="button secondary-button">Terug naar Overzicht</a>
+    <a href="<?php echo site_url('passagiers'); ?>" class="button secondary">Terug naar Overzicht</a>
 
     <div class="add-flight-container">
         <h1>Passagier Toevoegen</h1>

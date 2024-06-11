@@ -9,15 +9,15 @@ $searchPlaceholder = $searchPlaceholder ?? 'Zoek op ... ';
 
 <div class="action-bar">
 
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button secondary <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
-    <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button secondary <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
+    <a href="<?php echo page()->updateUrlParams(['direction' => 'ASC']); ?>" class="button secondary secondary-active-d10 <?php if($orderDirection == 'ASC'):?> active<?php endif; ?>" >▲</a>
+    <a href="<?php echo page()->updateUrlParams(['direction' => 'DESC']); ?>" class="button secondary secondary-active-d10 <?php if($orderDirection == 'DESC'):?> active<?php endif; ?>">▼</a>
     <a href="<?php echo page()->url(); ?>" class="button danger">Filters verwijderen</a>
 
     <form method="GET" class="search-form right">
         <label>
             <input type="text" name="search" placeholder="<?php echo $searchPlaceholder; ?>" value="<?php echo htmlspecialchars($search ?? '', ENT_QUOTES); ?>">
         </label>
-        <button type="submit" class="button search-button">
+        <button type="submit" class="button search">
             <?php svg()->show('search.svg'); ?>
         </button>
     </form>
