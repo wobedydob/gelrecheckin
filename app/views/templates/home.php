@@ -1,9 +1,9 @@
 <?php declare(strict_types=1); ?>
 
 
-<div class="container center">
-    <?php if (auth()->guest()): ?>
 
+<?php if (auth()->guest()): ?>
+    <div class="container center">
 
         <div class="card primary no-hover half">
 
@@ -16,21 +16,20 @@
 
         </div>
 
-
         <?php view()->render('views/organisms/login-cards.php'); ?>
 
-    <?php endif; ?>
+    </div>
+<?php endif; ?>
 
-    <?php if (auth()->withRole('passenger')): ?>
+<?php if (auth()->withRole('passenger')): ?>
 
-        <?php view()->render('views/templates/passenger/passenger-dashboard.php'); ?>
+    <?php view()->render('views/templates/passenger/passenger-dashboard.php'); ?>
 
-    <?php endif; ?>
+<?php endif; ?>
 
-    <?php if (auth()->withRole('service_desk')): ?>
+<?php if (auth()->withRole('service_desk')): ?>
 
-        <?php view()->render('views/templates/service-desk/service-desk-dashboard.php'); ?>
+    <?php view()->render('views/templates/service-desk/service-desk-dashboard.php'); ?>
 
-    <?php endif; ?>
+<?php endif; ?>
 
-</div>

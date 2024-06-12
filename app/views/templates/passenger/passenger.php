@@ -1,9 +1,14 @@
 <?php declare(strict_types=1);
 /** @var $passenger \Model\Passenger */
+/** @var $luggages \Entity\Collection|null */
+
+$id = urlencode($passenger->passagiernummer);
 
 $backUrl = 'passagiers';
-$editUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/bewerken';
-$deleteUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/verwijderen';
+$editUrl = 'passagiers/' . $id . '/bewerken';
+$deleteUrl = 'passagiers/' . $id . '/verwijderen';
+
+$luggageUrl = 'passagiers/' . $id . '/bagage';
 ?>
 
 <div class="container container-table">
@@ -18,8 +23,23 @@ $deleteUrl = 'passagiers/' . urlencode($passenger->passagiernummer) . '/verwijde
 
     <div class="card white passenger-details">
         <?php if ($passenger): ?>
-            <?php view()->render('views/organisms/table-model.php', ['model' => $passenger]);?>
+
+                <?php view()->render('views/organisms/table-model.php', ['model' => $passenger]); ?>
+
         <?php endif; ?>
     </div>
 
+
+    <div class="card white">
+
+        <div class="card white no-shadow action-bar">
+            <h2>Bagage</h2>
+            <a href="<?php echo site_url($luggageUrl . '/toevoegen'); ?>" class="button primary ml-10">✚</a>
+        </div>
+
+        <?php if($luggages?->count() > 0): ?>
+            <?php view()->render('views/organisms/table-collection.php', ['collection' => $luggages, 'url' => site_url($luggageUrl)]); ?>
+        <?php endif; ?>
+
+    </div>
 </div>

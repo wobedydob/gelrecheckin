@@ -15,7 +15,7 @@
 </header>
 
 <main>
-<?php render_content(); ?>
+    <?php render_content(); ?>
 </main>
 
 <footer>

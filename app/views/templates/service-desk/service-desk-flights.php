@@ -21,7 +21,7 @@
 
             <?php view()->render('views/molecules/table-filters.php', ['search' => $search ?? '', 'limit' => $limit,  'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op vluchtnummer']); ?>
 
-            <?php view()->render('views/organisms/flights.php', compact('flights')); ?>
+            <?php view()->render('views/organisms/table-collection.php', ['collection' => $flights, 'url' => site_url('vluchten')]); ?>
 
             <?php if($flights->count() > 1): ?>
                 <?php view()->render('views/molecules/pagination.php', ['collection' => $flights]); ?>

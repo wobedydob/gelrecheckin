@@ -39,7 +39,7 @@
             wil ik de baggage van een Passagier zo efficient mogelijk kunnen inchecken
         </p>
 
-        <a href="<?php echo site_url('inloggen/medewerker'); ?>" class="button dark mt-20">Ga naar bagage</a>
+        <a href="<?php echo site_url('bagage'); ?>" class="button dark mt-20">Ga naar bagage</a>
     </div>
 
 </div>

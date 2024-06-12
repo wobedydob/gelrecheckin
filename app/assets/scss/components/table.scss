@@ -1,7 +1,6 @@
 @import "../variables";
 
 .container-table {
-  width: 100%;
   overflow-x: auto;
 }
 
@@ -10,7 +9,6 @@
   border-collapse: collapse;
   font-size: 0.9em;
   font-family: 'Arial', sans-serif;
-  min-width: 400px;
 
   &:not(.no-shadow) {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);

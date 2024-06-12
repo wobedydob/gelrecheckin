@@ -16,7 +16,7 @@ $checkinTime = $passenger->inchecktijdstip;
 $password = $passenger->wachtwoord;
 ?>
 
-<form class="add-flight-form" action="" method="post">
+<form class="edit-passenger-form" action="" method="post">
 
     <div class="form-group">
         <label for="name">Naam</label>

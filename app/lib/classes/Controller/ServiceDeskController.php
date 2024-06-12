@@ -4,6 +4,7 @@ namespace Controller;
 
 use Entity\Collection;
 use Model\Flight;
+use Model\Luggage;
 use Model\Passenger;
 use Model\ServiceDesk;
 use Service\Page;
@@ -109,5 +110,8 @@ class ServiceDeskController
 
         View::new()->render('views/templates/service-desk/service-desk-passengers.php', compact('passengers', 'search', 'limit', 'orderBY', 'orderDirection'));
     }
+
+    public function luggages(): void
+    {}
 
 }

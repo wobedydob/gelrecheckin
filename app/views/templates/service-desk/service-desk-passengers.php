@@ -18,7 +18,7 @@
 
             <?php view()->render('views/molecules/table-filters.php', ['search' => $search ?? '', 'limit' => $limit, 'orderDirection' => $orderDirection, 'searchPlaceholder' => 'Zoek op passagiernummer']); ?>
 
-            <?php view()->render('views/organisms/passengers.php', compact('passengers'));?>
+            <?php view()->render('views/organisms/table-collection.php', ['collection' => $passengers, 'url' => site_url('passagiers')]); ?>
 
             <?php if($passengers->count() > 1): ?>
                 <?php view()->render('views/molecules/pagination.php', ['collection' => $passengers]); ?>

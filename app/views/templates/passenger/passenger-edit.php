@@ -1,11 +1,13 @@
 <?php declare(strict_types=1);
 /** @var $passenger \Model\Passenger */
+
+$backUrl = 'passagiers' . '/' . urlencode($passenger->passagiernummer);
 ?>
 
 <div class="container center">
 
     <div class="card white half action-bar">
-        <a href="<?php echo site_url('passagiers'); ?>" class="button secondary">Terug</a>
+        <a href="<?php echo site_url($backUrl); ?>" class="button secondary">Terug</a>
         <h1 class="ml-10">Passagier [<?php echo $passenger->passagiernummer; ?>] Bewerken</h1>
     </div>
 

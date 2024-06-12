@@ -2,7 +2,7 @@
 
 $airline = \Model\Airline::where('maatschappijcode', '=', 'AB')->first();
 $airport = \Model\Airport::where('luchthavencode', '=', 'AMS')->first();
-$baggage = \Model\BaggageObject::where('passagiernummer', '=', 23458)->first();
+$baggage = \Model\Luggage::where('passagiernummer', '=', 23458)->first();
 $checkinAirline = \Model\CheckInAirline::where('maatschappijcode', '=', 'AB')->first();
 $checkinDestination = \Model\CheckInDestination::where('luchthavencode', '=', 'AMS')->first();
 $checkinFlight = \Model\CheckInFlight::where('vluchtnummer', '=', 28761)->first();

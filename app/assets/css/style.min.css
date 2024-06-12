@@ -2142,6 +2142,10 @@ hr {
   margin-bottom: 50px;
 }
 
+.no-shadow {
+  box-shadow: none !important;
+}
+
 .primary-l10 {
   background-color: #63e094;
   color: #ffffff;
@@ -8677,7 +8681,6 @@ footer .footer-bottom {
 }
 
 .container-table {
-  width: 100%;
   overflow-x: auto;
 }
 
@@ -8686,7 +8689,6 @@ footer .footer-bottom {
   border-collapse: collapse;
   font-size: 0.9em;
   font-family: "Arial", sans-serif;
-  min-width: 400px;
 }
 .styled-table:not(.no-shadow) {
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);

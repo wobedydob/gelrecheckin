@@ -14,7 +14,7 @@ $departure = $flight->vertrektijd;
 $flightAirline = $flight->maatschappijcode;
 ?>
 
-<form class="add-flight-form" action="" method="post">
+<form class="edit-flight-form" action="" method="post">
 
     <div class="form-group">
         <label for="destination">Bestemming</label>
@@ -25,7 +25,6 @@ $flightAirline = $flight->maatschappijcode;
                 </option>
             <?php endforeach; ?>
         </select>
-
     </div>
 
     <div class="form-group">

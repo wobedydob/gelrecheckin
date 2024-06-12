@@ -27,7 +27,7 @@ class Database
 
     /** Singleton */
     /** @return Database */
-    public static function new(): Database
+    public static function instance(): Database
     {
         if (self::$instance === null) {
             self::$instance = new Database();
@@ -53,7 +53,6 @@ class Database
         try {
             $this->statement->execute();
         } catch (\PDOException $exception) {
-            dump($exception);
             ErrorHandler::log($exception);
             return null;
         }

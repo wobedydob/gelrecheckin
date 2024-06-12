@@ -3,6 +3,7 @@
 namespace Controller;
 
 use JetBrains\PhpStorm\NoReturn;
+use Model\Luggage;
 use Model\Passenger;
 use Service\Redirect;
 use Service\Session;
@@ -73,7 +74,9 @@ class PassengerController
             Redirect::to('/passagiers');
         }
 
-        View::new()->render('views/templates/passenger/passenger.php', compact('passenger'));
+        $luggages = Luggage::with(['objectvolgnummer', 'gewicht'])->where('passagiernummer', '=', $id)->all();
+
+        View::new()->render('views/templates/passenger/passenger.php', compact('passenger', 'luggages'));
     }
 
     public function add(): void
@@ -118,7 +121,7 @@ class PassengerController
         $passenger = Passenger::find($id);
 
         if (!$passenger) {
-            Redirect::to('/vluchten');
+            Redirect::to('/passagiers');
         }
 
         View::new()->render('views/templates/passenger/passenger-edit.php', compact('passenger'));
@@ -150,7 +153,7 @@ class PassengerController
         }
 
         if(!$action) {
-            $error = ['errors' => 'Passenger could not be added'];
+            $error = ['errors' => 'Passenger could not be edited'];
             View::new()->render('views/templates/passenger/passenger-add.php', $error);
         }
 

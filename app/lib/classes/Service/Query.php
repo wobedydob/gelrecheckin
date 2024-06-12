@@ -30,7 +30,7 @@ class Query
 
     private function __construct()
     {
-        $this->db = Database::new();
+        $this->db = Database::instance();
     }
 
     public static function new(string $table, ?Model $model = null): Query
@@ -179,12 +179,12 @@ class Query
     /**
      * @throws \Exception
      */
-    public function get(int $limit = null, int $offset = null): false|Collection
+    public function get(int $limit = null, int $offset = null): null|array|Collection
     {
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
         if (!$statement) {
-            return false;
+            return null;
         }
 
         $records = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -220,6 +220,7 @@ class Query
             if ($limit) {
                 $query .= ' FETCH NEXT ' . $limit . ' ROWS ONLY';
             }
+
         } elseif ($limit) {
             $query .= ' OFFSET 0 ROWS FETCH NEXT ' . $limit . ' ROWS ONLY';
         }

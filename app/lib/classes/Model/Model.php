@@ -14,6 +14,7 @@ abstract class Model implements ITable
 
     protected static string $table;
     protected static string $primaryKey = 'id';
+    protected static array $primaryKeys = ['id'];
     protected static array $columns = [];
 
     private static function table(): string
@@ -24,12 +25,17 @@ abstract class Model implements ITable
         return static::$table;
     }
 
-    public static function pk(): string
+    public static function pk(): string|array
     {
-        if (!isset(static::$primaryKey)) {
-            throw new MissingPropertyException('Define `protected static string $primaryKey` in your model', static::class, 1717407958261);
+        if (isset(static::$primaryKey)) {
+            return static::$primaryKey;
         }
-        return static::$primaryKey;
+
+        if (isset(static::$primaryKeys)) {
+            return static::$primaryKeys;
+        }
+
+        throw new MissingPropertyException('Define `protected static string $primaryKey` or `protected static array $primaryKeys` in your model', static::class, 1717407958263);
     }
 
     public static function find(string $id, string $primaryKey = null): array|Model|null
@@ -56,6 +62,13 @@ abstract class Model implements ITable
     {
         $model = static::class;
         $table = static::table();
+
+        foreach(static::$columns as $name => $label) {
+            if(!in_array($name, $columns)) {
+                unset(static::$columns[$name]);
+            }
+        }
+
         return Query::new($table, (new $model))->with($columns);
     }
 
