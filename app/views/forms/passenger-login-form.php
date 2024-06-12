@@ -1,5 +1,3 @@
-<?php ?>
-
 <form class="login-form" action="" method="post">
     <h2>Inloggen als Passagier</h2>
 
@@ -14,6 +12,8 @@
     </div>
 
     <button class="button secondary" type="submit" name="submit" value="submit">Inloggen</button>
+
+    <div id="credentials_error"></div>
 
     <input type="hidden" name="action" value="login">
 </form>

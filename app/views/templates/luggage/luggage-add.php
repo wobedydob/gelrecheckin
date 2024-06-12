@@ -12,7 +12,7 @@ $backUrl = 'passagiers/' . urlencode($passenger->passagiernummer);
     </div>
 
     <div class="card white half">
-        <?php view()->render('views/forms/luggage-add-form.php', compact('passenger')); ?>
+        <?php view()->render('views/forms/model-luggage-form.php', compact('passenger')); ?>
     </div>
 
 </div>

@@ -37,7 +37,7 @@ class Database
     }
 
     /** Prepares PDO query, binds the values to the query and executes it.  */
-    public function bindAndExecute(string $query, array $values = []): ?PDOStatement
+    public function bindAndExecute(string $query, array $values = []): bool|PDOStatement
     {
         // initialize database
         $this->statement = $this->pdo->prepare($query);
@@ -53,8 +53,8 @@ class Database
         try {
             $this->statement->execute();
         } catch (\PDOException $exception) {
-            ErrorHandler::log($exception);
-            return null;
+            Error::set(['error' => 'Database error', 'message' => $exception->getMessage()]);
+            return false;
         }
 
         return $this->statement;

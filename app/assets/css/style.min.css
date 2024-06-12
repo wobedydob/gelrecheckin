@@ -2146,6 +2146,12 @@ hr {
   box-shadow: none !important;
 }
 
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
+}
+
 .primary-l10 {
   background-color: #63e094;
   color: #ffffff;

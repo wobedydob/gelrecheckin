@@ -7,6 +7,7 @@ use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
 use Model\ServiceDesk;
+use Service\Error;
 use Service\Page;
 use Service\Redirect;
 use Service\Session;
@@ -16,9 +17,14 @@ class ServiceDeskController
 {
     private array $errors = [];
 
+    public static function deskIds(): array|Collection
+    {
+        return ServiceDesk::with(['balienummer'])->all();
+    }
+
     public function login(): void
     {
-        $serviceDesks = ServiceDesk::with(['balienummer'])->all();
+        $serviceDesks = self::deskIds();
         $this->authenticate();
         View::new()->render('views/templates/service-desk/service-desk-login.php', compact('serviceDesks'));
     }
@@ -39,19 +45,13 @@ class ServiceDeskController
         $secondVerify = ServiceDesk::where('balienummer', '=', $deskId)->where('wachtwoord', '=', $password)->exists(); // only because the given database has not used any hashed passwords... stupid han sometimes...
 
         if (!$verify && !$secondVerify) {
-            $this->errors['error'] = 'invalid credentials';
-        }
-
-        if (!$deskId) {
-            $this->errors['desk_id'] = 'none given';
-        }
-
-        if (!$password) {
-            $this->errors['password'] = 'none given';
+            $this->errors['credentials_error'] = 'Vekeerde gegevens opgegeven';
         }
 
         if (!empty($this->errors)) {
-            View::new()->render('views/templates/service-desk/service-desk-login.php', ['errors' => $this->errors]);
+            $serviceDesks = ServiceDesk::with(['balienummer'])->all();
+            Error::set($this->errors);
+            View::new()->render('views/templates/service-desk/service-desk-login.php', ['serviceDesks' => $serviceDesks, 'errors' => $this->errors]);
             return;
         }
 

@@ -13,7 +13,7 @@ $backUrl = 'vluchten' . '/' . urlencode($flight->vluchtnummer);
 
     <div class="card white half">
         <?php if ($flight): ?>
-            <?php view()->render('views/forms/flight-edit-form.php', compact('flight')); ?>
+            <?php view()->render('views/forms/model-flight-form.php', compact('flight')); ?>
         <?php endif; ?>
     </div>
 

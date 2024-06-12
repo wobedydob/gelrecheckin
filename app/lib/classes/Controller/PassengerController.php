@@ -3,8 +3,10 @@
 namespace Controller;
 
 use JetBrains\PhpStorm\NoReturn;
+use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
+use Service\Error;
 use Service\Redirect;
 use Service\Session;
 use Service\View;
@@ -31,20 +33,17 @@ class PassengerController
         $passengerId = $post['passenger_id'] ? StringHelper::sanitize($post['passenger_id']) : false;
         $password = $post['password'] ?: false;
 
-        $serviceDesk = Passenger::with(['wachtwoord'])->where('passagiernummer', '=', $passengerId)->first();
-        $verify = password_verify($password, $serviceDesk->wachtwoord);
+        $passenger = Passenger::with(['wachtwoord'])->where('passagiernummer', '=', $passengerId)->first();
+        $verify = password_verify($password, $passenger?->wachtwoord ?? '');
         $secondVerify = Passenger::where('passagiernummer', '=', $passengerId)->where('wachtwoord', '=', $password)->exists(); // only because the given database has not used any hashed passwords... stupid han sometimes...
 
-        if (!$passengerId) {
-            $this->errors['passenger_id'] = 'none given';
-        }
-
         if (!$verify && !$secondVerify) {
-            $this->errors['error'] = 'invalid credentials';
+            $this->errors['credentials_error'] = 'Vekeerde gegevens opgegeven';
         }
 
         if(!empty($this->errors)) {
-            View::new()->render('views/templates/passenger/passenger-login.php', ['errors' => $this->errors]);
+            Error::set($this->errors);
+            View::new()->render('views/templates/passenger/passenger-login.php');
             return;
         }
 
@@ -87,16 +86,12 @@ class PassengerController
     public function addPassenger(): void
     {
         $post = $this->handlePost();
-        $action = false;
-
-        if (!empty($this->errors)) {
-            View::new()->render('views/templates/passenger/passenger-add.php', ['errors' => $this->errors]);
-            return;
-        }
 
         if($post) {
+            $this->check($post);
 
             $action = Passenger::create([
+                'passagiernummer' => Passenger::nextPassengerId(),
                 'naam' => $post['name'],
                 'vluchtnummer' => $post['flight_id'],
                 'geslacht' => $post['gender'],
@@ -106,14 +101,28 @@ class PassengerController
                 'wachtwoord' => $post['password'],
             ]);
 
+            if($action) {
+                // $this->errors['success'] = 'Passagier succesvol toegevoegd';
+            } else {
+                $this->errors['error'] = 'Passagier kon niet worden toegevoegd';
+            }
+
+            $passenger = new Passenger();
+            $passenger->passagiernummer = null;
+            $passenger->naam = $post['name'];
+            $passenger->geslacht = $post['gender'];
+            $passenger->balienummer = $post['desk_id'];
+            $passenger->stoel = $post['seat'];
+            $passenger->inchecktijdstip = $post['checkin_time'];
+            $passenger->wachtwoord = $post['password'];
+
+            View::new()->render('views/templates/passenger/passenger-add.php', compact('passenger'));
         }
 
-        if(!$action) {
-            $error = ['errors' => 'Passenger could not be added'];
-            View::new()->render('views/templates/passenger/passenger-add.php', $error);
+        Error::set($this->errors);
+        if(empty($this->errors)){
+            Redirect::to('/passagiers');
         }
-
-        Redirect::to('/passagiers');
     }
 
     public function edit($id): void
@@ -130,14 +139,10 @@ class PassengerController
     public function editPassenger($id): void
     {
         $post = $this->handlePost();
-        $action = false;
-
-        if (!empty($this->errors)) {
-            View::new()->render('views/forms/passenger-edit-form.php', ['errors' => $this->errors]);
-            return;
-        }
+        $post['passenger_id'] = $id;
 
         if($post) {
+            $this->check($post);
 
             $action = Passenger::where('passagiernummer', '=', $id)->update([
                 'passagiernummer' => $id,
@@ -150,14 +155,29 @@ class PassengerController
                 'wachtwoord' => $post['password'],
             ]);
 
+            if($action) {
+                $this->errors['success'] = 'Passagier succesvol bewerkt';
+            } else {
+                $this->errors['error'] = 'Passagier kon niet worden bewerkt';
+            }
+
+            $passenger = new Passenger();
+            $passenger->passagiernummer = $id;
+            $passenger->naam = $post['name'];
+            $passenger->geslacht = $post['gender'];
+            $passenger->balienummer = $post['desk_id'];
+            $passenger->stoel = $post['seat'];
+            $passenger->inchecktijdstip = $post['checkin_time'];
+            $passenger->wachtwoord = $post['password'];
+
+            View::new()->render('views/templates/passenger/passenger-edit.php', compact('passenger'));
         }
 
-        if(!$action) {
-            $error = ['errors' => 'Passenger could not be edited'];
-            View::new()->render('views/templates/passenger/passenger-add.php', $error);
-        }
 
-        Redirect::to('/passagiers');
+        Error::set($this->errors);
+        if(empty($this->errors)){
+            Redirect::to('/passagiers');
+        }
     }
 
     #[NoReturn] public function delete($id): void
@@ -214,6 +234,29 @@ class PassengerController
 
         return $post;
     }
+    
+    public function check(array $data): void
+    {
+        $this->checkSeat($data);
+        $this->checkDeparture($data);
+    }
 
+    public function checkSeat(array $data): void
+    {
+        $seatTaken = Passenger::where('vluchtnummer', '=', $data['flight_id'])->where('stoel', '=', $data['seat'])->where('passagiernummer', '!=', $data['passenger_id'])->exists();
+        if($seatTaken) {
+            $this->errors['seat'] = 'Deze stoel is al bezet';
+        }
+    }
+
+    public function checkDeparture(array $data): void
+    {
+        $flight = Flight::with(['vluchtnummer', 'vertrektijd'])->where('vluchtnummer', '=', $data['flight_id'])->first();
+        if($flight) {
+            if($flight->vertrektijd > $data['checkin_time']) {
+                $this->errors['checkin_time'] = 'OJEE! Je hebt je vlucht gemist :(';
+            }
+        }
+    }
     
 }

@@ -1,17 +1,19 @@
 <?php declare(strict_types=1);
 /** @var $flight \Model\Flight */
 
+$flight = $flight ?? null;
+
 $gates = Model\Gate::all();
 $airlines = Model\Airline::with(['maatschappijcode', 'naam'])->all();
 $airports = Model\Airport::with(['luchthavencode', 'naam'])->all();
 
-$destination = $flight->bestemming;
-$flightGate = $flight->gatecode;
-$maxLimit = $flight->max_aantal;
-$maxWeightPP = $flight->max_gewicht_pp;
-$maxTotalWeight = $flight->max_totaalgewicht;
-$departure = $flight->vertrektijd;
-$flightAirline = $flight->maatschappijcode;
+$destination = $flight?->bestemming;
+$flightGate = $flight?->gatecode;
+$maxLimit = $flight?->max_aantal;
+$maxWeightPP = $flight?->max_gewicht_pp;
+$maxTotalWeight = $flight?->max_totaalgewicht;
+$departure = $flight?->vertrektijd;
+$flightAirline = $flight?->maatschappijcode;
 ?>
 
 <form class="edit-flight-form" action="" method="post">
@@ -70,5 +72,5 @@ $flightAirline = $flight->maatschappijcode;
         </select>
     </div>
 
-    <button class="button secondary" type="submit" name="submit" value="submit">Bewerken</button>
+    <button class="button secondary" type="submit" name="submit" value="submit">Opslaan</button>
 </form>

@@ -1,4 +1,8 @@
-<?php declare(strict_types=1); ?>
+<?php declare(strict_types=1);
+/** @var $passenger \Model\Passenger */
+
+$passenger = $passenger ?? null;
+?>
 
 <div class="container center">
 
@@ -8,7 +12,7 @@
     </div>
 
     <div class="card white half">
-        <?php view()->render('views/forms/passenger-add-form.php'); ?>
+        <?php view()->render('views/forms/model-passenger-form.php', compact('passenger')); ?>
     </div>
 
 </div>

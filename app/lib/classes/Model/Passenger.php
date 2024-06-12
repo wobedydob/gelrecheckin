@@ -17,7 +17,7 @@ class Passenger extends Model
     protected static string $table = 'Passagier';
     protected static string $primaryKey = 'passagiernummer';
     protected static array $columns = [
-        'passagiernummer' => 'Passagier Nummer',
+        'passagiernummer' => 'Passagiernummer',
         'naam' => 'Naam',
         'vluchtnummer' => 'Vluchtnummer',
         'geslacht' => 'Geslacht',
@@ -27,4 +27,9 @@ class Passenger extends Model
     ];
 
     public const string USER_ROLE = 'passenger';
+
+    public static function nextPassengerId(): string
+    {
+        return self::nextId(self::$primaryKey);
+    }
 }

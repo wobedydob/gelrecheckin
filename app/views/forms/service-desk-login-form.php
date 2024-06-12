@@ -1,5 +1,8 @@
 <?php
 /** @var $serviceDesks array */
+/** @var $errors array */
+
+$errors = $errors ?? [];
 ?>
 
 <form class="login-form" action="" method="post">
@@ -20,6 +23,8 @@
         <input type="password" id="password" name="password" required>
     </div>
     <button class="button primary" type="submit" name="submit" value="submit">Login</button>
+
+    <div id="credentials_error"></div>
 
     <input type="hidden" name="action" value="login">
 </form>

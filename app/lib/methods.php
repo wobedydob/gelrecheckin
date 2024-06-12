@@ -54,6 +54,11 @@ function view(): \Service\View
     return new \Service\View();
 }
 
+function errors(): \Service\Error
+{
+    return new \Service\Error();
+}
+
 function page(): \Service\Page
 {
     return new \Service\Page();

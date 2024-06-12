@@ -9,8 +9,14 @@ class Redirect
 
     #[NoReturn] public static function to(string $url): void
     {
-        header('Location: ' . $url);
-        exit;
+        if (!headers_sent()) {
+            header('Location: ' . $url);
+            exit;
+        } else {
+            // Handle the case where headers have already been sent
+            echo "<script>window.location.href='$url';</script>";
+            exit;
+        }
     }
 
 }

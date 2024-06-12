@@ -8,7 +8,7 @@
     </div>
 
     <div class="card white half">
-        <?php view()->render('views/forms/flight-add-form.php'); ?>
+        <?php view()->render('views/forms/model-flight-form.php'); ?>
     </div>
 
 </div>

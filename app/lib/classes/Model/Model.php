@@ -72,9 +72,8 @@ abstract class Model implements ITable
         return Query::new($table, (new $model))->with($columns);
     }
 
-    public static function create(array $values, string $primaryKey = null): bool
+    public static function create(array $values, string $primaryKey = null): bool|array
     {
-        $primaryKey = $primaryKey ?? static::pk();
         return Query::new(self::table())->create($values, $primaryKey);
     }
 
@@ -95,6 +94,12 @@ abstract class Model implements ITable
             $array[$name] = $this->$name;
         }
         return $array;
+    }
+
+    protected static function nextId(string $key = null): string
+    {
+        $pk = $key ?? static::pk();
+        return Query::new(self::table())->nextId($pk);
     }
 
 }

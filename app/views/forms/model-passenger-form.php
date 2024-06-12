@@ -4,16 +4,18 @@
 use Model\Flight;
 use Model\ServiceDesk;
 
+$passenger = $passenger ?? null;
+
 $flights = Flight::with(['vluchtnummer'])->all();
 $desks = ServiceDesk::with(['balienummer'])->all();
 
-$name = $passenger->naam;
-$passengerFlightId = $passenger->vluchtnummer;
-$gender = $passenger->geslacht;
-$deskId = $passenger->balienummer;
-$seat = $passenger->stoel;
-$checkinTime = $passenger->inchecktijdstip;
-$password = $passenger->wachtwoord;
+$name = $passenger?->naam;
+$passengerFlightId = $passenger?->vluchtnummer;
+$gender = $passenger?->geslacht;
+$deskId = $passenger?->balienummer;
+$seat = $passenger?->stoel;
+$checkinTime = $passenger?->inchecktijdstip;
+$password = $passenger?->wachtwoord;
 ?>
 
 <form class="edit-passenger-form" action="" method="post">
@@ -67,5 +69,5 @@ $password = $passenger->wachtwoord;
         <input type="password" id="password" name="password" value="<?php echo $password; ?>" required>
     </div>
 
-    <button class="button add" type="submit" name="submit" value="submit">Bewerken</button>
+    <button class="button secondary" type="submit" name="submit" value="submit">Opslaan</button>
 </form>

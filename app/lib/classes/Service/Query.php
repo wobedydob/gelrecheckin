@@ -102,16 +102,7 @@ class Query
         $this->columns = array_keys($data);
 
         if($primaryKey) {
-            $pkQuery = self::SELECT . ' MAX(' . $primaryKey . ') FROM ' . $this->table;
-            $lastId = $this->db->bindAndExecute($pkQuery)->fetch(PDO::FETCH_LAZY);
-
-            if(!isset($lastId[''])) {
-                ErrorHandler::log(
-                    new RuntimeException('Could not get last inserted ID', 1717865333174),
-                );
-            }
-
-            $data[$primaryKey] = (int) $lastId[''] + 1;
+            $data[$primaryKey] = $this->nextId($primaryKey);
         }
 
         $this->columns = array_keys($data);
@@ -119,16 +110,12 @@ class Query
         $columns = StringHelper::arrayToString($this->columns);
         $placeholders = StringHelper::arrayToString($placeholders);
 
-
         $this->query = self::INSERT . ' ' . $this->table . ' (' . $columns . ') VALUES (' . $placeholders . ')';
         $this->params = array_values($data);
 
         $statement = $this->db->bindAndExecute($this->query, $this->params);
-        if ($statement === null) {
-            return $this->errors(); // todo: properly display error
-        }
 
-        return $statement->rowCount() > 0;
+        return $statement && $statement->rowCount() > 0;
     }
 
     public function update(array $data): bool|string|array
@@ -150,11 +137,7 @@ class Query
 
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
-        if ($statement === null) {
-            return $this->errors();
-        }
-
-        return $statement->rowCount() > 0;
+        return $statement && $statement->rowCount() > 0;
     }
 
     public function delete(): bool|string|array
@@ -168,11 +151,7 @@ class Query
 
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
-        if ($statement === null) {
-            return $this->errors();
-        }
-
-        return $statement->rowCount() > 0;
+        return $statement && $statement->rowCount() > 0;
     }
 
 
@@ -310,41 +289,18 @@ class Query
         return $this->model !== null;
     }
 
-    private function errors()
+    public function nextId(string $key): string
     {
-        $errors = \Service\ErrorHandler::getErrors();
+        $pkQuery = self::SELECT . ' MAX(' . $key . ') FROM ' . $this->table;
+        $lastId = $this->db->bindAndExecute($pkQuery)->fetch(PDO::FETCH_LAZY);
 
-        foreach ($errors as $error) {
-
-            switch ($error->getCode()) {
-                case PDOError::DUPLICATE_KEY->getCode():
-                    // todo: display duplicate key error
-                    $keys = StringHelper::arrayToString($this->params);
-                    $table = $this->table;
-                    $columns = StringHelper::arrayToString($this->columns);
-                    $exception = new DuplicateKeyException($keys, $columns, $table, 1717594126032);
-
-                    return [
-                        'error' => 'duplicate key',
-                        'code' => $error->getCode(),
-                        'message' => $exception->getMessage(),
-                    ];
-
-                case PDOError::INVALID_COLUMN->getCode():
-                    // todo: display invalid column error
-                    $table = $this->table;
-                    $columns = StringHelper::arrayToString($this->columns);
-                    $exception = new InvalidColumnException($columns, $table, 1717593867022);
-
-                    return [
-                        'error' => 'invalid column',
-                        'code' => $error->getCode(),
-                        'message' => $exception->getMessage(),
-                    ];
-            }
-
+        if(!isset($lastId[''])) {
+            ErrorHandler::log(
+                new RuntimeException('Could not get last inserted ID', 1717865333174),
+            );
         }
 
+        return $lastId[''] + 1;
     }
 
 }

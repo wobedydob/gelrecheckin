@@ -28,7 +28,6 @@ class View
         include $path;
     }
 
-
     /** Returns the value of the template file.
      * @throws Exception
      */

@@ -12,7 +12,7 @@
 
     <div class="card white half">
         <?php if ($luggage): ?>
-            <?php view()->render('views/forms/luggage-edit-form.php', compact('luggage')); ?>
+            <?php view()->render('views/forms/model-luggage-form.php', compact('luggage')); ?>
         <?php endif; ?>
     </div>
 
