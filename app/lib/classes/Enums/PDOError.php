@@ -14,5 +14,4 @@ enum PDOError
             self::INVALID_COLUMN => '42S22',
         };
     }
-
 }

@@ -2,6 +2,7 @@
 
 namespace Controller;
 
+use Enums\CRUDAction;
 use JetBrains\PhpStorm\NoReturn;
 use Model\Flight;
 use Model\Luggage;
@@ -85,13 +86,14 @@ class PassengerController
 
     public function addPassenger(): void
     {
-        $post = $this->handlePost();
+        $post = $this->handlePost(CRUDAction::ACTION_CREATE);
+        $post['passenger_id'] = Passenger::nextPassengerId();
 
         if($post) {
             $this->check($post);
 
             $action = Passenger::create([
-                'passagiernummer' => Passenger::nextPassengerId(),
+                'passagiernummer' => $post['passenger_id'],
                 'naam' => $post['name'],
                 'vluchtnummer' => $post['flight_id'],
                 'geslacht' => $post['gender'],
@@ -138,11 +140,10 @@ class PassengerController
 
     public function editPassenger($id): void
     {
-        $post = $this->handlePost();
-        $post['passenger_id'] = $id;
+        $_POST['passenger_id'] = $id;
+        $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
 
         if($post) {
-            $this->check($post);
 
             $action = Passenger::where('passagiernummer', '=', $id)->update([
                 'passagiernummer' => $id,
@@ -186,7 +187,7 @@ class PassengerController
         Redirect::to('/passagiers');
     }
 
-    public function handlePost(): array
+    public function handlePost(CRUDAction $action): array
     {
         $post = [];
 
@@ -232,6 +233,15 @@ class PassengerController
             $this->errors['password'] = 'none given';
         }
 
+        if($action == CRUDAction::ACTION_CREATE) {
+            $post['passenger_id'] = Passenger::nextPassengerId();
+        }
+
+        if($action == CRUDAction::ACTION_UPDATE) {
+            $post['passenger_id'] = $_POST['passenger_id'];
+        }
+
+        $this->check($post);
         return $post;
     }
     

@@ -32,14 +32,4 @@
 
     </div>
 
-    <div class="card white half content-center">
-        <h3 class="mb-10">Bagage</h3>
-
-        <p>
-            wil ik de baggage van een Passagier zo efficient mogelijk kunnen inchecken
-        </p>
-
-        <a href="<?php echo site_url('bagage'); ?>" class="button dark mt-20">Ga naar bagage</a>
-    </div>
-
 </div>
