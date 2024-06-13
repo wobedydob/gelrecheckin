@@ -237,6 +237,16 @@ class Query
         return (bool)$statement->fetchColumn();
     }
 
+    public function max(string $column): int
+    {
+        $query = self::SELECT . ' MAX(' . $column . ') FROM ' . $this->table;
+        if (!empty($this->wheres)) {
+            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
+        }
+        $statement = $this->db->bindAndExecute($query, $this->params);
+        return (int)$statement->fetchColumn();
+    }
+
     private function validateTable(string $table): void
     {
         if (!$this->db->tableExists($table)) {

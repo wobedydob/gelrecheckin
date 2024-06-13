@@ -1,13 +1,15 @@
 <?php declare(strict_types=1);
+/** @var $passenger \Model\Passenger */
 /** @var $luggage \Model\Luggage */
-
-use Model\Passenger;
-
-$passengers = Passenger::with(['passagiernummer', 'naam'])->all();
 
 $luggage = $luggage ?? null;
 
-$passengerId = $luggage?->passagiernummer;
+if($passenger) {
+    $passengerId = $passenger->passagiernummer;
+} else {
+    $passengerId =  $luggage?->passagiernummer;
+}
+
 $followId = $luggage?->objectvolgnummer;
 $weight = $luggage?->gewicht;
 ?>
@@ -16,13 +18,7 @@ $weight = $luggage?->gewicht;
 
     <div class="form-group">
         <label for="passenger_id">Passagier</label>
-        <select id="passenger_id" name="passenger_id">
-            <?php foreach ($passengers as $passenger): /** @var $passenger \Model\Passenger */ ?>
-                <option value="<?php echo $passenger->passagiernummer; ?>" <?php echo $passenger->passagiernummer === $passengerId ? 'selected' : ''; ?>>
-                    <?php echo $passenger->naam . ' (' . $passenger->passagiernummer . ')'; ?>
-                </option>
-            <?php endforeach; ?>
-        </select>
+        <input type="text" id="passenger_id" name="passenger_id" value="<?php echo $passengerId; ?>" required <?php if($passengerId): ?>disabled<?php endif; ?>>
     </div>
 
     <div class="form-group">

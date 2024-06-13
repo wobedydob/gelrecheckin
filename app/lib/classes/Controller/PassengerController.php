@@ -90,8 +90,6 @@ class PassengerController
         $post['passenger_id'] = Passenger::nextPassengerId();
 
         if($post) {
-            $this->check($post);
-
             $action = Passenger::create([
                 'passagiernummer' => $post['passenger_id'],
                 'naam' => $post['name'],
@@ -104,7 +102,7 @@ class PassengerController
             ]);
 
             if($action) {
-                // $this->errors['success'] = 'Passagier succesvol toegevoegd';
+                 $this->errors['success'] = 'Passagier succesvol toegevoegd';
             } else {
                 $this->errors['error'] = 'Passagier kon niet worden toegevoegd';
             }
@@ -122,7 +120,7 @@ class PassengerController
         }
 
         Error::set($this->errors);
-        if(empty($this->errors)){
+        if(!in_array('success', $this->errors)) {
             Redirect::to('/passagiers');
         }
     }
@@ -176,7 +174,7 @@ class PassengerController
 
 
         Error::set($this->errors);
-        if(empty($this->errors)){
+        if(!in_array('success', $this->errors)){
             Redirect::to('/passagiers');
         }
     }

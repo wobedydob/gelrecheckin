@@ -77,6 +77,38 @@ $margin-values: (
   }
 }
 
+$padding-values: (
+        5: 5px,
+        10: 10px,
+        15: 15px,
+        20: 20px,
+        30: 30px,
+        50: 50px
+);
+
+@each $key, $value in $padding-values {
+  .pt-#{$key} {
+    padding-top: $value;
+  }
+  .pb-#{$key} {
+    padding-bottom: $value;
+  }
+  .pl-#{$key} {
+    padding-left: $value;
+  }
+  .pr-#{$key} {
+    padding-right: $value;
+  }
+  .px-#{$key} {
+    padding-left: $value;
+    padding-right: $value;
+  }
+  .py-#{$key} {
+    padding-top: $value;
+    padding-bottom: $value;
+  }
+}
+
 .no-shadow {
   box-shadow: none !important;
 }

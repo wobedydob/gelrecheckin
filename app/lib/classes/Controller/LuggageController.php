@@ -2,10 +2,13 @@
 
 namespace Controller;
 
+use Enums\CRUDAction;
 use JetBrains\PhpStorm\NoReturn;
+use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
 use Model\ServiceDesk;
+use Service\Error;
 use Service\Redirect;
 use Service\View;
 use Util\StringHelper;
@@ -47,7 +50,7 @@ class LuggageController
     public function add($id): void
     {
         $passenger = Passenger::find($id);
-        if(!$passenger) {
+        if (!$passenger) {
             Redirect::to('/passagiers');
         }
 
@@ -57,33 +60,41 @@ class LuggageController
     public function addLuggage($id): void
     {
         $passenger = Passenger::find($id);
-        if(!$passenger) {
+        if (!$passenger) {
             Redirect::to('/passagiers');
         }
+        $_POST['passenger_id'] = $id;
 
-        $post = $this->handlePost();
-        $action = false;
+        $post = $this->handlePost(CRUDAction::ACTION_CREATE);
 
-        if (!empty($this->errors)) {
-            View::new()->render('views/templates/luggage/luggage-add.php', ['errors' => $this->errors]);
-            return;
+        $post['passenger_id'] = $id;
+        $post['follow_id'] = Luggage::nextFollowId($id);
+
+        if ($post) {
+
+            if(empty($this->errors)) {
+                $action = Luggage::create([
+                    'passagiernummer' => $id,
+                    'objectvolgnummer' => $post['follow_id'],
+                    'gewicht' => $post['weight'],
+                ]);
+
+                if ($action) {
+                    $this->errors['success'] = 'Bagage succesvol toegevoegd';
+                    Redirect::to('/passagiers/' . $id);
+                } else {
+                    $this->errors['error'] = 'Bagage kon niet worden toegevoegd';
+                }
+            }
+
+            $luggage = new Luggage();
+            $luggage->passagiernummer = $id;
+            $luggage->gewicht = $post['weight'];
+
+            View::new()->render('views/templates/luggage/luggage-add.php', compact('passenger', 'luggage'));
         }
 
-        if($post) {
-
-            $action = Luggage::create([
-                'passagiernummer' => $id,
-                'gewicht' => $post['weight'],
-            ]);
-
-        }
-
-        if(!$action) {
-            $error = ['errors' => 'Luggage could not be added'];
-            View::new()->render('views/templates/luggage/luggage-add.php', $error);
-        }
-
-        Redirect::to('/passagiers/' . $id);
+        Error::set($this->errors);
     }
 
     public function edit($id, $followId): void
@@ -113,7 +124,43 @@ class LuggageController
             Redirect::to('/passagiers/' . $id);
         }
 
-        $post = $this->handlePost();
+        $_POST['passenger_id'] = $id;
+        $_POST['follow_id'] = $followId;
+
+        $post = $this->handlePost(CRUDAction::ACTION_CREATE);
+        if($post) {
+
+            if(empty($this->errors)) {
+                Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->update([
+                    'passagiernummer' => $id,
+                    'objectvolgnummer' => $followId,
+                    'gewicht' => $post['weight'],
+                ]);
+                Redirect::to('/passagiers/' . $id);
+            }
+
+            $luggage = new Luggage();
+            $luggage->passagiernummer = $id;
+            $luggage->objectvolgnummer = $followId;
+            $luggage->gewicht = $post['weight'];
+            View::new()->render('views/templates/luggage/luggage-edit.php', compact('passenger', 'luggage'));
+        }
+        Error::set($this->errors);
+    }
+
+    public function eeeeditLuggage($id, $followId): void
+    {
+        $passenger = Passenger::find($id);
+        if (!$passenger) {
+            Redirect::to('/passagiers');
+        }
+
+        $luggage = Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->first();
+        if (!$luggage) {
+            Redirect::to('/passagiers/' . $id);
+        }
+
+        $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
         $action = false;
 
         if (!empty($this->errors)) {
@@ -121,7 +168,7 @@ class LuggageController
             return;
         }
 
-        if($post) {
+        if ($post) {
 
             $action = Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->update([
                 'passagiernummer' => $id,
@@ -131,7 +178,7 @@ class LuggageController
 
         }
 
-        if(!$action) {
+        if (!$action) {
             $error = ['errors' => 'Luggage could not be edited'];
             View::new()->render('views/templates/luggage/luggage-edit.php', $error);
         }
@@ -145,7 +192,7 @@ class LuggageController
         Redirect::to('/passagiers/' . $id);
     }
 
-    public function handlePost(): array
+    public function handlePost(CRUDAction $action): array
     {
         $post = [];
 
@@ -169,7 +216,23 @@ class LuggageController
             $this->errors['weight'] = 'none given';
         }
 
+        if ($action == CRUDAction::ACTION_CREATE) {
+            $post['follow_id'] = Luggage::nextFollowId($passengerId);
+        }
+
+        if ($action == CRUDAction::ACTION_UPDATE) {
+            $post['follow_id'] = $followId;
+        }
+
+        $this->checkCapacity($passengerId, $followId, $weight);
         return $post;
+    }
+
+    function checkCapacity(int $passengerId, string $followId, string $weight): void
+    {
+        if (Passenger::exceedsWeightLimit($passengerId, $followId, $weight)) {
+            $this->errors['weight'] = 'Het gewicht van het bagage is te groot.';
+        }
     }
 
 }

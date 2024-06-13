@@ -1,6 +1,8 @@
 <?php declare(strict_types=1);
 /* @var $passenger \Model\Passenger */
+/* @var $luggage \Model\Luggage */
 
+$luggage = $luggage ?? null;
 $backUrl = 'passagiers/' . urlencode($passenger->passagiernummer);
 ?>
 
@@ -12,7 +14,7 @@ $backUrl = 'passagiers/' . urlencode($passenger->passagiernummer);
     </div>
 
     <div class="card white half">
-        <?php view()->render('views/forms/model-luggage-form.php', compact('passenger')); ?>
+        <?php view()->render('views/forms/model-luggage-form.php', compact('passenger', 'luggage')); ?>
     </div>
 
 </div>

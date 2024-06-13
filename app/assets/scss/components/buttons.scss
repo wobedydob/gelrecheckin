@@ -13,7 +13,16 @@ button, .button {
     color: $light-grey;
   }
 
+  &.disabled {
+    pointer-events: none;
+  }
 }
 
+a {
+  &.disabled {
+    pointer-events: none;
+    background-color: $dark-grey;
+  }
+}
 
 

@@ -22,6 +22,7 @@ $tertiary-color: #FF3268;
 $back-color: #333;
 $sort-color: #646464;
 $remove-color: #d54444;
+$alert-color: #ff607d;
 
 @include color-variations($primary-color, $white, 'primary');
 @include color-variations($secondary-color, $white, 'secondary');

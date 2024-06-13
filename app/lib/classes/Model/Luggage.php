@@ -18,4 +18,9 @@ class Luggage extends Model
         'gewicht' => 'Gewicht',
     ];
 
+    public static function nextFollowId(int $passengerId): int
+    {
+        return (new static())->where('passagiernummer', '=', $passengerId)->max('objectvolgnummer') + 1;
+    }
+
 }
