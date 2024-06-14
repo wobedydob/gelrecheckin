@@ -314,7 +314,7 @@ class Query
     private function toModel(array $record): ?Model
     {
         if (!$this->hasModel()) {
-            throw new MissingPropertyException(null, static::class, 1717408105528); // todo: proper exception
+            throw new MissingPropertyException(null, static::class, 1717408105528);
         }
 
         $model = new $this->model;

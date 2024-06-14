@@ -102,6 +102,4 @@ class Database
         return true;
     }
 
-    // TODO: implement validations for rows & columns
-
 }
