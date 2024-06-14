@@ -6,7 +6,6 @@ use Entity\Collection;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
 use http\Exception\RuntimeException;
-use Model\Flight;
 use Model\Model;
 use PDO;
 use Util\StringHelper;
@@ -161,14 +160,6 @@ class Query
         $this->query = $query;
         return $query;
     }
-    /*
-        SELECT *
-        FROM Vlucht
-             INNER JOIN IncheckenVlucht ON IncheckenVlucht.vluchtnummer = Vlucht.vluchtnummer
-        WHERE IncheckenVlucht.balienummer = 1
-        ORDER BY Vlucht.vluchtnummer DESC
-        OFFSET 20 ROWS FETCH NEXT 20 ROWS ONLY;
-    */
 
     public function update(array $data): bool|string|array
     {
@@ -209,14 +200,6 @@ class Query
     public function get(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): null|array|Collection
     {
         $this->query = $this->read($limit, $offset, $orderBy, $orderDirection);
-
-//        if ($limit !== null && $limit > 0) {
-//            $this->query .= ' LIMIT ' . $limit;
-//        }
-//
-//        if ($offset !== null && $offset > 0) {
-//            $this->query .= ' OFFSET ' . $offset;
-//        }
 
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
