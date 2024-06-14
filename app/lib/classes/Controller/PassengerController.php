@@ -44,13 +44,13 @@ class PassengerController
             $this->errors['credentials_error'] = 'Vekeerde gegevens opgegeven';
         }
 
-        if(!empty($this->errors)) {
+        if (!empty($this->errors)) {
             Error::set($this->errors);
             View::new()->render('views/templates/passenger/passenger-login.php');
             return;
         }
 
-        $user = ['id' => (int) $passengerId, 'role' => 'passenger'];
+        $user = ['id' => (int)$passengerId, 'role' => 'passenger'];
         Session::instance()->set('user', $user);
         Redirect::to('/dashboard');
     }
@@ -86,7 +86,7 @@ class PassengerController
         $flights = null;
 
         $user = auth()->user();
-        if($user->getRole() === ServiceDesk::USER_ROLE) {
+        if ($user->getRole() === ServiceDesk::USER_ROLE) {
             $serviceDesk = ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user->getId())->first();
             $flights = $serviceDesk->getFlights();
         }
@@ -99,7 +99,9 @@ class PassengerController
         $post = $this->handlePost(CRUDAction::ACTION_CREATE);
         $post['passenger_id'] = Passenger::nextPassengerId();
 
-        if($post) {
+        $flights = $this->flights();
+
+        if ($post) {
             $action = Passenger::create([
                 'passagiernummer' => $post['passenger_id'],
                 'naam' => $post['name'],
@@ -111,8 +113,8 @@ class PassengerController
                 'wachtwoord' => $post['password'],
             ]);
 
-            if($action) {
-                 $this->errors['success'] = 'Passagier succesvol toegevoegd';
+            if ($action) {
+                $this->errors['success'] = 'Passagier succesvol toegevoegd';
             } else {
                 $this->errors['error'] = 'Passagier kon niet worden toegevoegd';
             }
@@ -126,11 +128,11 @@ class PassengerController
             $passenger->inchecktijdstip = $post['checkin_time'];
             $passenger->wachtwoord = $post['password'];
 
-            View::new()->render('views/templates/passenger/passenger-add.php', compact('passenger'));
+            View::new()->render('views/templates/passenger/passenger-add.php', compact('flights', 'passenger'));
         }
 
         Error::set($this->errors);
-        if(!in_array('success', $this->errors)) {
+        if (!in_array('success', $this->errors)) {
             Redirect::to('/passagiers');
         }
     }
@@ -143,15 +145,17 @@ class PassengerController
             Redirect::to('/passagiers');
         }
 
-        View::new()->render('views/templates/passenger/passenger-edit.php', compact('passenger'));
+        $flights = $this->flights();
+        View::new()->render('views/templates/passenger/passenger-edit.php', compact('flights', 'passenger'));
     }
 
     public function editPassenger($id): void
     {
         $_POST['passenger_id'] = $id;
         $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
+        $flights = $this->flights();
 
-        if($post) {
+        if ($post) {
 
             $action = Passenger::where('passagiernummer', '=', $id)->update([
                 'passagiernummer' => $id,
@@ -164,7 +168,7 @@ class PassengerController
                 'wachtwoord' => $post['password'],
             ]);
 
-            if($action) {
+            if ($action) {
                 $this->errors['success'] = 'Passagier succesvol bewerkt';
             } else {
                 $this->errors['error'] = 'Passagier kon niet worden bewerkt';
@@ -179,12 +183,12 @@ class PassengerController
             $passenger->inchecktijdstip = $post['checkin_time'];
             $passenger->wachtwoord = $post['password'];
 
-            View::new()->render('views/templates/passenger/passenger-edit.php', compact('passenger'));
+            View::new()->render('views/templates/passenger/passenger-edit.php', compact('flights', 'passenger'));
         }
 
 
         Error::set($this->errors);
-        if(!in_array('success', $this->errors)){
+        if (empty($this->errors)) {
             Redirect::to('/passagiers');
         }
     }
@@ -206,12 +210,22 @@ class PassengerController
         $name = $_POST['name'] ? $post['name'] = StringHelper::sanitize($_POST['name']) : false;
         $flightId = $_POST['flight_id'] ? $post['flight_id'] = StringHelper::sanitize($_POST['flight_id']) : false;
         $gender = $_POST['gender'] ? $post['gender'] = StringHelper::sanitize($_POST['gender']) : false;
-        $deskId = $_POST['desk_id'] ? $post['desk_id'] = StringHelper::sanitize($_POST['desk_id']) : false;
+        $deskId = false;
         $seat = $_POST['seat'] ? StringHelper::sanitize($_POST['seat']) : false;
         $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
         $post['seat'] = $seat;
         $checkinTime = $_POST['checkin_time'] ? $post['checkin_time'] = StringHelper::toDateTime($_POST['checkin_time']) : false;
         $password = $_POST['password'] ? $post['password'] = StringHelper::hash($_POST['password']) : false;
+
+        if (isset($_POST['desk_id'])) {
+            $deskId = StringHelper::sanitize($_POST['desk_id']);
+            $post['desk_id'] = $deskId;
+        }
+
+        if (auth()->withRole(ServiceDesk::USER_ROLE)) {
+            $deskId = auth()->user()->getId();
+            $post['desk_id'] = $deskId;
+        }
 
         if (!$name) {
             $this->errors['name'] = 'none given';
@@ -241,28 +255,29 @@ class PassengerController
             $this->errors['password'] = 'none given';
         }
 
-        if($action == CRUDAction::ACTION_CREATE) {
+        if ($action == CRUDAction::ACTION_CREATE) {
             $post['passenger_id'] = Passenger::nextPassengerId();
         }
 
-        if($action == CRUDAction::ACTION_UPDATE) {
+        if ($action == CRUDAction::ACTION_UPDATE) {
             $post['passenger_id'] = $_POST['passenger_id'];
         }
 
         $this->check($post);
         return $post;
     }
-    
+
     public function check(array $data): void
     {
         $this->checkSeat($data);
         $this->checkDeparture($data);
+        $this->checkFlightFull($data);
     }
 
     public function checkSeat(array $data): void
     {
         $seatTaken = Passenger::where('vluchtnummer', '=', $data['flight_id'])->where('stoel', '=', $data['seat'])->where('passagiernummer', '!=', $data['passenger_id'])->exists();
-        if($seatTaken) {
+        if ($seatTaken) {
             $this->errors['seat'] = 'Deze stoel is al bezet';
         }
     }
@@ -270,11 +285,30 @@ class PassengerController
     public function checkDeparture(array $data): void
     {
         $flight = Flight::with(['vluchtnummer', 'vertrektijd'])->where('vluchtnummer', '=', $data['flight_id'])->first();
-        if($flight) {
-            if($flight->vertrektijd > $data['checkin_time']) {
+        if ($flight) {
+            if ($flight->vertrektijd > $data['checkin_time']) {
                 $this->errors['checkin_time'] = 'OJEE! Je hebt je vlucht gemist :(';
             }
         }
     }
-    
+
+    public function checkFlightFull(array $data): void
+    {
+        $flight = Flight::where('vluchtnummer', '=', $data['flight_id'])->first();
+        if ($flight->getPassengers()->count() >= (int)$flight->max_aantal) {
+            $this->errors['flight_id'] = 'Deze vlucht is vol';
+        }
+    }
+
+    private function flights()
+    {
+        $flights = null;
+        $user = auth()->user();
+        if ($user->getRole() === ServiceDesk::USER_ROLE) {
+            $serviceDesk = ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user->getId())->first();
+            $flights = $serviceDesk->getFlights();
+        }
+        return $flights;
+    }
+
 }

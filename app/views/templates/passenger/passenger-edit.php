@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+/** @var $flights \Entity\Collection */
 /** @var $passenger \Model\Passenger */
 
 $backUrl = 'passagiers' . '/' . urlencode($passenger->passagiernummer);
@@ -14,7 +15,7 @@ $backUrl = 'passagiers' . '/' . urlencode($passenger->passagiernummer);
     <div class="card white half">
         <h1>Passagier</h1>
         <?php if ($passenger): ?>
-            <?php view()->render('views/forms/model-passenger-form.php', compact('passenger')); ?>
+            <?php view()->render('views/forms/model-passenger-form.php', compact('flights', 'passenger')); ?>
         <?php endif; ?>
     </div>
 
