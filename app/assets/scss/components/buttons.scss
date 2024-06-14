@@ -16,9 +16,26 @@ button, .button {
   &.disabled {
     pointer-events: none;
   }
+
+  &.white {
+    color: $text-color;
+    background-color: $white;
+
+    &:hover {
+      background-color: darken($white, 10%);
+    }
+  }
 }
 
 a {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+
   &.disabled {
     pointer-events: none;
     background-color: $dark-grey;

@@ -55,6 +55,13 @@ class PassengerController
         Redirect::to('/dashboard');
     }
 
+    public static function validate($id): void
+    {
+        if (auth()->withRole(Passenger::USER_ROLE) && auth()->user()->getId() != $id) {
+            Redirect::to('/dashboard');
+        }
+    }
+
     public function dashboard(): void
     {
         $id = auth()->user()->getId();
@@ -70,6 +77,10 @@ class PassengerController
 
     public function show($id): void
     {
+        if (auth()->withRole(Passenger::USER_ROLE)) {
+            auth()->user()->getId() !== $id ?: Redirect::to('/dashboard');
+        }
+
         $passenger = Passenger::find($id);
 
         if (!$passenger) {
@@ -139,13 +150,23 @@ class PassengerController
 
     public function edit($id): void
     {
+        if (auth()->withRole(Passenger::USER_ROLE)) {
+            if (auth()->user()->getId() != $id) {
+                Redirect::to('/dashboard');
+            }
+        }
+
         $passenger = Passenger::find($id);
+        $flights = null;
 
         if (!$passenger) {
             Redirect::to('/passagiers');
         }
 
-        $flights = $this->flights();
+        if (auth()->withRole(ServiceDesk::USER_ROLE)) {
+            $flights = $this->flights();
+        }
+
         View::new()->render('views/templates/passenger/passenger-edit.php', compact('flights', 'passenger'));
     }
 
@@ -158,13 +179,7 @@ class PassengerController
         if ($post) {
 
             $action = Passenger::where('passagiernummer', '=', $id)->update([
-                'passagiernummer' => $id,
                 'naam' => $post['name'],
-                'vluchtnummer' => $post['flight_id'],
-                'geslacht' => $post['gender'],
-                'balienummer' => $post['desk_id'],
-                'stoel' => $post['seat'],
-                'inchecktijdstip' => $post['checkin_time'],
                 'wachtwoord' => $post['password'],
             ]);
 
@@ -186,10 +201,11 @@ class PassengerController
             View::new()->render('views/templates/passenger/passenger-edit.php', compact('flights', 'passenger'));
         }
 
-
         Error::set($this->errors);
         if (empty($this->errors)) {
             Redirect::to('/passagiers');
+        } elseif (isset($this->errors['success'])) {
+            Redirect::to('/passagiers/' . $id);
         }
     }
 
@@ -207,15 +223,15 @@ class PassengerController
             return $post;
         }
 
-        $name = $_POST['name'] ? $post['name'] = StringHelper::sanitize($_POST['name']) : false;
-        $flightId = $_POST['flight_id'] ? $post['flight_id'] = StringHelper::sanitize($_POST['flight_id']) : false;
-        $gender = $_POST['gender'] ? $post['gender'] = StringHelper::sanitize($_POST['gender']) : false;
+        $name = isset($_POST['name']) ? $post['name'] = StringHelper::sanitize($_POST['name']) : false;
+        $flightId = isset($_POST['flight_id']) ? $post['flight_id'] = StringHelper::sanitize($_POST['flight_id']) : false;
+        $gender = isset($_POST['gender']) ? $post['gender'] = StringHelper::sanitize($_POST['gender']) : false;
         $deskId = false;
-        $seat = $_POST['seat'] ? StringHelper::sanitize($_POST['seat']) : false;
+        $seat = isset($_POST['seat']) ? StringHelper::sanitize($_POST['seat']) : false;
         $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
         $post['seat'] = $seat;
-        $checkinTime = $_POST['checkin_time'] ? $post['checkin_time'] = StringHelper::toDateTime($_POST['checkin_time']) : false;
-        $password = $_POST['password'] ? $post['password'] = StringHelper::hash($_POST['password']) : false;
+        $checkinTime = isset($_POST['checkin_time']) ? $post['checkin_time'] = StringHelper::toDateTime($_POST['checkin_time']) : false;
+        $password = isset($_POST['password']) ? $post['password'] = StringHelper::hash($_POST['password']) : false;
 
         if (isset($_POST['desk_id'])) {
             $deskId = StringHelper::sanitize($_POST['desk_id']);
@@ -225,6 +241,18 @@ class PassengerController
         if (auth()->withRole(ServiceDesk::USER_ROLE)) {
             $deskId = auth()->user()->getId();
             $post['desk_id'] = $deskId;
+        } else if (auth()->withRole(Passenger::USER_ROLE)) {
+            $flightId = auth()->user()->getModel()->vluchtnummer;
+            $post['flight_id'] = $flightId;
+
+            $deskId = auth()->user()->getModel()->balienummer;
+            $post['desk_id'] = $deskId;
+
+            $seat = auth()->user()->getModel()->stoel;
+            $post['seat'] = $seat;
+
+            $checkinTime = auth()->user()->getModel()->inchecktijdstip;
+            $post['checkin_time'] = $checkinTime;
         }
 
         if (!$name) {
@@ -263,7 +291,9 @@ class PassengerController
             $post['passenger_id'] = $_POST['passenger_id'];
         }
 
-        $this->check($post);
+        if (!auth()->withRole(Passenger::USER_ROLE)) {
+            $this->check($post);
+        }
         return $post;
     }
 
@@ -295,8 +325,9 @@ class PassengerController
     public function checkFlightFull(array $data): void
     {
         $flight = Flight::where('vluchtnummer', '=', $data['flight_id'])->first();
-        if ($flight->getPassengers()->count() >= (int)$flight->max_aantal) {
-            $this->errors['flight_id'] = 'Deze vlucht is vol';
+        dump($flight);
+        if ($flight?->getPassengers()->count() >= (int)$flight->max_aantal) {
+            $this->errors['flight_id'] = 'Deze vlucht zit vol';
         }
     }
 

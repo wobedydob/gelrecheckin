@@ -17,11 +17,11 @@ $editUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/bewerken';
         </div>
     </div>
 
+    <?php if ($flight): ?>
     <div class="card white flight-details">
-        <?php if ($flight): ?>
-            <?php view()->render('views/organisms/table-model.php', ['model' => $flight]); ?>
-        <?php endif; ?>
+        <?php view()->render('views/organisms/table-model.php', ['model' => $flight]); ?>
     </div>
+    <?php endif; ?>
 
     <?php if ($flight->getPassengers()->count() > 0): ?>
 

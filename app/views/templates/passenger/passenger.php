@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 /** @var $passenger \Model\Passenger */
-
 /** @var $luggages \Entity\Collection|null */
 
 use Model\Flight;
+use Model\Passenger;
 
 $id = urlencode($passenger->passagiernummer);
 
@@ -13,13 +13,15 @@ $deleteUrl = 'passagiers/' . $id . '/verwijderen';
 
 $luggageUrl = 'passagiers/' . $id . '/bagage';
 
-$maxWeightPP = Flight::with(['max_gewicht_pp'])->where('vluchtnummer', '=', $passenger->vluchtnummer)->first();
+$flight = Flight::where('vluchtnummer', '=', $passenger->vluchtnummer)->first();
+$maxWeightPP = $flight->max_gewicht_pp;
 
 $luggagesWeight = 0;
 foreach ($luggages as $luggage) {
     $luggagesWeight += $luggage->gewicht;
 }
-$disableAdd = $maxWeightPP->max_gewicht_pp <= $luggagesWeight;
+
+$disableAdd = $maxWeightPP <= $luggagesWeight;
 ?>
 
 <div class="container container-table">
@@ -38,12 +40,23 @@ $disableAdd = $maxWeightPP->max_gewicht_pp <= $luggagesWeight;
 
     </div>
 
+    <?php if ($passenger): ?>
     <div class="card white passenger-details">
-        <?php if ($passenger): ?>
-            <?php view()->render('views/organisms/table-model.php', ['model' => $passenger]); ?>
-        <?php endif; ?>
+        <?php view()->render('views/organisms/table-model.php', ['model' => $passenger]); ?>
     </div>
+    <?php endif; ?>
 
+    <?php if (auth()->withRole(Passenger::USER_ROLE)): ?>
+        <?php  ?>
+        <div class="card white flight-details">
+
+            <div class="card white no-shadow action-bar">
+                <h2>Vluchtgegevens</h2>
+            </div>
+
+            <?php view()->render('views/organisms/table-model.php', ['model' => $flight]); ?>
+        </div>
+    <?php endif; ?>
 
     <div class="card white">
 

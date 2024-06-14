@@ -1923,6 +1923,10 @@ body {
   background-color: #ff607d;
 }
 
+.color-white {
+  color: #ffffff;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -10763,7 +10767,23 @@ button.active, button:hover, .button.active, .button:hover {
 button.disabled, .button.disabled {
   pointer-events: none;
 }
+button.white, .button.white {
+  color: #333;
+  background-color: #ffffff;
+}
+button.white:hover, .button.white:hover {
+  background-color: #e6e6e6;
+}
 
+a {
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
 a.disabled {
   pointer-events: none;
   background-color: #333;

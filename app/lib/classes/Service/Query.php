@@ -6,6 +6,7 @@ use Entity\Collection;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
 use http\Exception\RuntimeException;
+use Model\Flight;
 use Model\Model;
 use PDO;
 use Util\StringHelper;
@@ -236,13 +237,6 @@ class Query
     {
         return $this->get($limit, $offset, $orderBy, $orderDirection);
     }
-
-//    public function all(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
-//    {
-
-//        dump($this->query);
-//        return $this->get($limit, $offset) ?? [];
-//    }
 
     public function first(): array|Model|null
     {

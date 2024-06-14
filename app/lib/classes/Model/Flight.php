@@ -16,7 +16,7 @@ class Flight extends Model
 {
     protected static string $table = 'Vlucht';
     protected static string $primaryKey = 'vluchtnummer';
-    protected static array $columns = [
+    public static array $columns = [
         'vluchtnummer' => 'Vluchtnummer',
         'bestemming' => 'Bestemming',
         'gatecode' => 'Gate',

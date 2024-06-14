@@ -36,24 +36,27 @@ class Passenger extends Model
     public static function exceedsWeightLimit(int $passengerId, string $followId, string $weight): bool
     {
         $passenger = Passenger::find($passengerId) ?? null;
-        $flight = Flight::with(['max_gewicht_pp'])->where('vluchtnummer', '=', $passenger?->vluchtnummer)->first();
+        $flight = Flight::where('vluchtnummer', '=', $passenger?->vluchtnummer)->first();
 
         $luggages = Luggage::where('passagiernummer', '=', $passenger->passagiernummer)->all();
 
+        $result = false;
+        $luggagesWeight = null;
         foreach ($luggages as $luggage) {
 
             if ($luggage->passagiernummer === $passengerId && $luggage->objectvolgnummer === $followId) {
                 continue;
             }
 
-            $calculation = (float)$luggage->gewicht + (float)$weight > $flight->max_gewicht_pp;
-            if ($calculation) {
-                return true;
-            } else {
-                return false;
-            }
+            $luggagesWeight += (float)$luggage->gewicht;
         }
 
-        return false;
+        $calculation = $luggagesWeight + (float)$weight > $flight->max_gewicht_pp;
+
+        if ($calculation) {
+            $result = true;
+        }
+
+        return $result;
     }
 }

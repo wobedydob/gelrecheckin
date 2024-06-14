@@ -36,7 +36,10 @@ class FlightsController
 
     public function passenger(): void
     {
-        View::new()->render('views/templates/passenger/passenger-flights.php');
+        $user = auth()->user();
+        $flight = Flight::where('vluchtnummer', '=', $user->getModel()->vluchtnummer)->first();
+        $passenger = $user->getModel();
+        View::new()->render('views/templates/passenger/passenger-flight.php', compact('passenger', 'flight'));
     }
 
     public function show($id): void

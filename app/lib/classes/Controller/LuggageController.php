@@ -4,10 +4,8 @@ namespace Controller;
 
 use Enums\CRUDAction;
 use JetBrains\PhpStorm\NoReturn;
-use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
-use Model\ServiceDesk;
 use Service\Error;
 use Service\Redirect;
 use Service\View;
@@ -17,38 +15,27 @@ class LuggageController
 {
     private array $errors = [];
 
-    public function handle(): void
+    public function passenger($id): void
     {
-        $role = auth()->user()->getRole();
-        if ($role === Passenger::USER_ROLE) {
-            $this->passenger();
-        } elseif ($role === ServiceDesk::USER_ROLE) {
-            $this->serviceDesk();
-        } else {
-            Redirect::to('/logout');
-        }
-    }
+        PassengerController::validate($id);
+        $passenger = Passenger::where('passagiernummer', '=', $id)->first();
+        $luggages = Luggage::with(['objectvolgnummer', 'gewicht'])->where('passagiernummer', '=', $id)->all();
 
-    public function serviceDesk(): void
-    {
-
-//        (new ServiceDeskController())->luggages();
-    }
-
-    public function passenger(): void
-    {
-        $user = auth()->user();
-        View::new()->render('views/templates/passenger/passenger-luggage.php', compact('user'));
+        View::new()->render('views/templates/passenger/passenger-luggage.php', compact('passenger', 'luggages'));
     }
 
     public function show($id, $followId)
     {
+        PassengerController::validate($id);
+
         $luggage = Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->first();
         View::new()->render('views/templates/luggage/luggage.php', compact('luggage'));
     }
 
     public function add($id): void
     {
+        PassengerController::validate($id);
+
         $passenger = Passenger::find($id);
         if (!$passenger) {
             Redirect::to('/passagiers');
@@ -59,6 +46,8 @@ class LuggageController
 
     public function addLuggage($id): void
     {
+        PassengerController::validate($id);
+
         $passenger = Passenger::find($id);
         if (!$passenger) {
             Redirect::to('/passagiers');
@@ -99,6 +88,8 @@ class LuggageController
 
     public function edit($id, $followId): void
     {
+        PassengerController::validate($id);
+
         $passenger = Passenger::find($id);
         if (!$passenger) {
             Redirect::to('/passagiers');
@@ -114,6 +105,8 @@ class LuggageController
 
     public function editLuggage($id, $followId): void
     {
+        PassengerController::validate($id);
+
         $passenger = Passenger::find($id);
         if (!$passenger) {
             Redirect::to('/passagiers');
@@ -148,46 +141,10 @@ class LuggageController
         Error::set($this->errors);
     }
 
-    public function eeeeditLuggage($id, $followId): void
-    {
-        $passenger = Passenger::find($id);
-        if (!$passenger) {
-            Redirect::to('/passagiers');
-        }
-
-        $luggage = Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->first();
-        if (!$luggage) {
-            Redirect::to('/passagiers/' . $id);
-        }
-
-        $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
-        $action = false;
-
-        if (!empty($this->errors)) {
-            View::new()->render('views/forms/luggage-edit-form.php', ['errors' => $this->errors]);
-            return;
-        }
-
-        if ($post) {
-
-            $action = Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->update([
-                'passagiernummer' => $id,
-                'objectvolgnummer' => $followId,
-                'gewicht' => $post['weight'],
-            ]);
-
-        }
-
-        if (!$action) {
-            $error = ['errors' => 'Luggage could not be edited'];
-            View::new()->render('views/templates/luggage/luggage-edit.php', $error);
-        }
-
-        Redirect::to('/passagiers/' . $id);
-    }
-
     #[NoReturn] public function delete($id, $followId): void
     {
+        PassengerController::validate($id);
+
         Luggage::where('passagiernummer', '=', $id)->where('objectvolgnummer', '=', $followId)->delete();
         Redirect::to('/passagiers/' . $id);
     }

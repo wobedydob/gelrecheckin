@@ -44,14 +44,15 @@ Route::get('/vluchten/{id}/verwijderen', [FlightsController::class, 'delete'])->
 Route::get('/passagiers', [PassengerController::class, 'serviceDesk'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
 Route::get('/passagiers/toevoegen', [PassengerController::class, 'add'])->name('flights.add')->auth([ServiceDesk::USER_ROLE]);
 Route::post('/passagiers/toevoegen', [PassengerController::class, 'addPassenger'])->name('flights.add.flight')->auth([ServiceDesk::USER_ROLE]);
-Route::get('/passagiers/{id}', [PassengerController::class, 'show'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE]);
-Route::get('/passagiers/{id}/bewerken', [PassengerController::class, 'edit'])->name('passenger.edit')->auth([ServiceDesk::USER_ROLE]);
-Route::post('/passagiers/{id}/bewerken', [PassengerController::class, 'editPassenger'])->name('passenger.edit.post')->auth([ServiceDesk::USER_ROLE]);
+Route::get('/passagiers/{id}', [PassengerController::class, 'show'])->name('service.desk.passengers')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::get('/passagiers/{id}/bewerken', [PassengerController::class, 'edit'])->name('passenger.edit')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::post('/passagiers/{id}/bewerken', [PassengerController::class, 'editPassenger'])->name('passenger.edit.post')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
 Route::get('/passagiers/{id}/verwijderen', [PassengerController::class, 'delete'])->name('passenger.delete')->auth([ServiceDesk::USER_ROLE]);
 
-Route::get('/passagiers/{id}/bagage/toevoegen', [LuggageController::class, 'add'])->name('passenger.luggage.add')->auth([ServiceDesk::USER_ROLE]);
-Route::post('/passagiers/{id}/bagage/toevoegen', [LuggageController::class, 'addLuggage'])->name('passenger.luggage.add.post')->auth([ServiceDesk::USER_ROLE]);
-Route::get('/passagiers/{id}/bagage/{followId}', [LuggageController::class, 'show'])->name('passenger.luggage')->auth([ServiceDesk::USER_ROLE]);
+Route::get('/passagiers/{id}/bagage/toevoegen', [LuggageController::class, 'add'])->name('passenger.luggage.add')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::post('/passagiers/{id}/bagage/toevoegen', [LuggageController::class, 'addLuggage'])->name('passenger.luggage.add.post')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::get('/passagiers/{id}/bagage', [LuggageController::class, 'passenger'])->name('passenger.luggage')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::get('/passagiers/{id}/bagage/{followId}', [LuggageController::class, 'show'])->name('passenger.luggage')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
 Route::get('/passagiers/{id}/bagage/{followId}/bewerken', [LuggageController::class, 'edit'])->name('passenger.luggage.edit')->auth([ServiceDesk::USER_ROLE]);
-Route::post('/passagiers/{id}/bagage/{followId}/bewerken', [LuggageController::class, 'editLuggage'])->name('passenger.luggage.edit.post')->auth([ServiceDesk::USER_ROLE]);
-Route::get('/passagiers/{id}/bagage/{followId}/verwijderen', [LuggageController::class, 'delete'])->name('passenger.luggage.delete')->auth([ServiceDesk::USER_ROLE]);
+Route::post('/passagiers/{id}/bagage/{followId}/bewerken', [LuggageController::class, 'editLuggage'])->name('passenger.luggage.edit.post')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
+Route::get('/passagiers/{id}/bagage/{followId}/verwijderen', [LuggageController::class, 'delete'])->name('passenger.luggage.delete')->auth([ServiceDesk::USER_ROLE, Passenger::USER_ROLE]);
