@@ -36,7 +36,7 @@ class ServiceDeskController
             return;
         }
 
-        $deskId = $post['desk_id'] ? \Util\StringHelper::sanitize($post['desk_id']) : false;
+        $deskId = $post['desk_id'] ? \Util\Text::sanitize($post['desk_id']) : false;
         $password = $post['password'] ?: false;
 
         $serviceDesk = ServiceDesk::with(['wachtwoord'])->where('balienummer', '=', $deskId)->first();

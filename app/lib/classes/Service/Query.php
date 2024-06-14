@@ -8,7 +8,7 @@ use Exceptions\MissingPropertyException;
 use http\Exception\RuntimeException;
 use Model\Model;
 use PDO;
-use Util\StringHelper;
+use Util\Text;
 
 class Query
 {
@@ -115,8 +115,8 @@ class Query
 
         $this->columns = array_keys($data);
         $placeholders = array_fill(0, count($this->columns), '?');
-        $columns = StringHelper::arrayToString($this->columns);
-        $placeholders = StringHelper::arrayToString($placeholders);
+        $columns = Text::arrayToString($this->columns);
+        $placeholders = Text::arrayToString($placeholders);
 
         $this->query = self::INSERT . ' ' . $this->table . ' (' . $columns . ') VALUES (' . $placeholders . ')';
         $this->params = array_values($data);

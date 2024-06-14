@@ -13,7 +13,7 @@ use Service\Error;
 use Service\Redirect;
 use Service\Session;
 use Service\View;
-use Util\StringHelper;
+use Util\Text;
 
 class PassengerController
 {
@@ -33,7 +33,7 @@ class PassengerController
             return;
         }
 
-        $passengerId = $post['passenger_id'] ? StringHelper::sanitize($post['passenger_id']) : false;
+        $passengerId = $post['passenger_id'] ? Text::sanitize($post['passenger_id']) : false;
         $password = $post['password'] ?: false;
 
         $passenger = Passenger::with(['wachtwoord'])->where('passagiernummer', '=', $passengerId)->first();
@@ -223,18 +223,18 @@ class PassengerController
             return $post;
         }
 
-        $name = isset($_POST['name']) ? $post['name'] = StringHelper::sanitize($_POST['name']) : false;
-        $flightId = isset($_POST['flight_id']) ? $post['flight_id'] = StringHelper::sanitize($_POST['flight_id']) : false;
-        $gender = isset($_POST['gender']) ? $post['gender'] = StringHelper::sanitize($_POST['gender']) : false;
+        $name = isset($_POST['name']) ? $post['name'] = Text::sanitize($_POST['name']) : false;
+        $flightId = isset($_POST['flight_id']) ? $post['flight_id'] = Text::sanitize($_POST['flight_id']) : false;
+        $gender = isset($_POST['gender']) ? $post['gender'] = Text::sanitize($_POST['gender']) : false;
         $deskId = false;
-        $seat = isset($_POST['seat']) ? StringHelper::sanitize($_POST['seat']) : false;
-        $seat = $seat ? StringHelper::excerpt($seat, 3) : false;
+        $seat = isset($_POST['seat']) ? Text::sanitize($_POST['seat']) : false;
+        $seat = $seat ? Text::excerpt($seat, 3) : false;
         $post['seat'] = $seat;
-        $checkinTime = isset($_POST['checkin_time']) ? $post['checkin_time'] = StringHelper::toDateTime($_POST['checkin_time']) : false;
-        $password = isset($_POST['password']) ? $post['password'] = StringHelper::hash($_POST['password']) : false;
+        $checkinTime = isset($_POST['checkin_time']) ? $post['checkin_time'] = Text::toDateTime($_POST['checkin_time']) : false;
+        $password = isset($_POST['password']) ? $post['password'] = Text::hash($_POST['password']) : false;
 
         if (isset($_POST['desk_id'])) {
-            $deskId = StringHelper::sanitize($_POST['desk_id']);
+            $deskId = Text::sanitize($_POST['desk_id']);
             $post['desk_id'] = $deskId;
         }
 
@@ -279,7 +279,7 @@ class PassengerController
             $this->errors['checkin_time'] = 'none given';
         }
 
-        if (!$password) {
+        if (!$password && $action !== CRUDAction::ACTION_UPDATE) {
             $this->errors['password'] = 'none given';
         }
 
@@ -325,7 +325,6 @@ class PassengerController
     public function checkFlightFull(array $data): void
     {
         $flight = Flight::where('vluchtnummer', '=', $data['flight_id'])->first();
-        dump($flight);
         if ($flight?->getPassengers()->count() >= (int)$flight->max_aantal) {
             $this->errors['flight_id'] = 'Deze vlucht zit vol';
         }

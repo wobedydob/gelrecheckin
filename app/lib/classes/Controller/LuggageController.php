@@ -9,7 +9,7 @@ use Model\Passenger;
 use Service\Error;
 use Service\Redirect;
 use Service\View;
-use Util\StringHelper;
+use Util\Text;
 
 class LuggageController
 {
@@ -157,9 +157,9 @@ class LuggageController
             return $post;
         }
 
-        $passengerId = $_POST['passenger_id'] ? $post['passenger_id'] = StringHelper::sanitize($_POST['passenger_id']) : false;
-        $followId = isset($_POST['follow_id']) ? $post['follow_id'] = StringHelper::sanitize($_POST['follow_id']) : false;
-        $weight = $_POST['weight'] ? $post['weight'] = StringHelper::sanitize($_POST['weight']) : false;
+        $passengerId = $_POST['passenger_id'] ? $post['passenger_id'] = Text::sanitize($_POST['passenger_id']) : false;
+        $followId = isset($_POST['follow_id']) ? $post['follow_id'] = Text::sanitize($_POST['follow_id']) : false;
+        $weight = $_POST['weight'] ? $post['weight'] = Text::sanitize($_POST['weight']) : false;
 
         if (!$passengerId) {
             $this->errors['passenger_id'] = 'none given';

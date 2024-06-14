@@ -11,7 +11,7 @@ use Model\ServiceDesk;
 use Service\Error;
 use Service\Redirect;
 use Service\View;
-use Util\StringHelper;
+use Util\Text;
 
 class FlightsController
 {
@@ -218,13 +218,13 @@ class FlightsController
             return [];
         }
 
-        $destination = $_POST['destination'] ? $post['destination'] = StringHelper::sanitize($_POST['destination']) : false;
-        $gate = $_POST['gate_id'] ? $post['gate_id'] = StringHelper::sanitize($_POST['gate_id']) : false;
-        $maxLimit = $_POST['max_limit'] ? $post['max_limit'] = StringHelper::sanitize($_POST['max_limit']) : false;
-        $maxWeightPP = $_POST['max_weight_pp'] ? $post['max_weight_pp'] = StringHelper::sanitize($_POST['max_weight_pp']) : false;
-        $maxTotalWeight = $_POST['max_total_weight'] ? $post['max_total_weight'] = StringHelper::sanitize($_POST['max_total_weight']) : false;
-        $departure = $_POST['departure_time'] ? $post['departure_time'] = StringHelper::toDateTime($_POST['departure_time']) : false;
-        $airline = $_POST['airline_id'] ? $post['airline_id'] = StringHelper::sanitize($_POST['airline_id']) : false;
+        $destination = $_POST['destination'] ? $post['destination'] = Text::sanitize($_POST['destination']) : false;
+        $gate = $_POST['gate_id'] ? $post['gate_id'] = Text::sanitize($_POST['gate_id']) : false;
+        $maxLimit = $_POST['max_limit'] ? $post['max_limit'] = Text::sanitize($_POST['max_limit']) : false;
+        $maxWeightPP = $_POST['max_weight_pp'] ? $post['max_weight_pp'] = Text::sanitize($_POST['max_weight_pp']) : false;
+        $maxTotalWeight = $_POST['max_total_weight'] ? $post['max_total_weight'] = Text::sanitize($_POST['max_total_weight']) : false;
+        $departure = $_POST['departure_time'] ? $post['departure_time'] = Text::toDateTime($_POST['departure_time']) : false;
+        $airline = $_POST['airline_id'] ? $post['airline_id'] = Text::sanitize($_POST['airline_id']) : false;
 
         if (!$destination) {
             $this->errors['destination'] = 'none given';
