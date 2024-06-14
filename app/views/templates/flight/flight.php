@@ -27,7 +27,6 @@ $editUrl = 'vluchten/' . urlencode($flight->vluchtnummer) . '/bewerken';
 
         <div class="card white passengers">
             <?php view()->render('views/organisms/table-collection.php', ['collection' => $flight->getPassengers()]); ?>
-
         </div>
 
     <?php endif; ?>
