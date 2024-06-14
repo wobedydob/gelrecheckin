@@ -22,7 +22,7 @@
     <?php view()->render('views/organisms/footer.php'); ?>
 </footer>
 
-<?php $errors = errors()->get(); ?>
+<?php $errors = errors()->get(); dump($errors); ?>
 <script>
     var errors = <?php echo json_encode($errors); ?>;
 </script>
