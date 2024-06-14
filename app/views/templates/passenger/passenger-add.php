@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+/** @var $flights \Entity\Collection */
 /** @var $passenger \Model\Passenger */
 
 $passenger = $passenger ?? null;
@@ -12,7 +13,7 @@ $passenger = $passenger ?? null;
     </div>
 
     <div class="card white half">
-        <?php view()->render('views/forms/model-passenger-form.php', compact('passenger')); ?>
+        <?php view()->render('views/forms/model-passenger-form.php', compact('flights', 'passenger')); ?>
     </div>
 
 </div>

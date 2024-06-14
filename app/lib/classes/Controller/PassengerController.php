@@ -7,6 +7,8 @@ use JetBrains\PhpStorm\NoReturn;
 use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
+use Model\ServiceDesk;
+use Service\Auth;
 use Service\Error;
 use Service\Redirect;
 use Service\Session;
@@ -81,7 +83,15 @@ class PassengerController
 
     public function add(): void
     {
-        View::new()->render('views/templates/passenger/passenger-add.php');
+        $flights = null;
+
+        $user = auth()->user();
+        if($user->getRole() === ServiceDesk::USER_ROLE) {
+            $serviceDesk = ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user->getId())->first();
+            $flights = $serviceDesk->getFlights();
+        }
+
+        View::new()->render('views/templates/passenger/passenger-add.php', compact('flights'));
     }
 
     public function addPassenger(): void

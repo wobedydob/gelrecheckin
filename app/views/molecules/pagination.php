@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
 /** @var $collection \Entity\Collection */
+/** @var $total int */
 
 $page = page()->get('page', 1);
-$total = $collection->first()->count();
+$total = $total ?? $collection->first()->count();
 $limit = $collection->getLimit();
 $offset = $collection->getOffset();
 

@@ -1,4 +1,5 @@
 <?php
+/* @var $serviceDesk \Model\ServiceDesk */
 /* @var $passengers \Model\Passenger[] */
 /* @var $search string */
 /* @var $limit int */
@@ -21,7 +22,7 @@
             <?php view()->render('views/organisms/table-collection.php', ['collection' => $passengers, 'url' => site_url('passagiers')]); ?>
 
             <?php if($passengers->count() > 1): ?>
-                <?php view()->render('views/molecules/pagination.php', ['collection' => $passengers]); ?>
+                <?php view()->render('views/molecules/pagination.php', ['collection' => $passengers, 'total' => $serviceDesk->getPassengers()->count()]); ?>
             <?php endif; ?>
 
         <?php else: ?>

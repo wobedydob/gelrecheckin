@@ -3,9 +3,6 @@
 namespace Service;
 
 use Entity\Collection;
-use Enums\PDOError;
-use Exceptions\DuplicateKeyException;
-use Exceptions\InvalidColumnException;
 use Exceptions\InvalidTableException;
 use Exceptions\MissingPropertyException;
 use http\Exception\RuntimeException;
@@ -27,6 +24,7 @@ class Query
     private array $columns = ['*'];
     private array $wheres = [];
     private array $params = [];
+    private array $joins = [];
 
     private function __construct()
     {
@@ -72,6 +70,23 @@ class Query
         return $this;
     }
 
+    public function join(string $table, string $firstColumn, string $operator, string $secondColumn, string $type = 'INNER'): self
+    {
+        $joinClause = "$type JOIN $table ON $firstColumn $operator $secondColumn";
+        $this->joins[] = $joinClause;
+        return $this;
+    }
+
+    public function leftJoin(string $table, string $firstColumn, string $operator, string $secondColumn): self
+    {
+        return $this->join($table, $firstColumn, $operator, $secondColumn, 'LEFT');
+    }
+
+    public function rightJoin(string $table, string $firstColumn, string $operator, string $secondColumn): self
+    {
+        return $this->join($table, $firstColumn, $operator, $secondColumn, 'RIGHT');
+    }
+
     public function count(): int
     {
         $query = 'SELECT COUNT(*) as count FROM ' . $this->table;
@@ -90,13 +105,6 @@ class Query
         return $result['count'] ?? 0;
     }
 
-    /**
-     * Insert a new record into the table.
-     *
-     * @param array $data
-     * @return array|bool
-     * @throws \Exception
-     */
     public function create(array $data, string $primaryKey = null): bool|array
     {
         $this->columns = array_keys($data);
@@ -117,6 +125,49 @@ class Query
 
         return $statement && $statement->rowCount() > 0;
     }
+
+    private function read(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): string
+    {
+        $query = self::SELECT . ' ';
+        $query .= implode(', ', $this->columns) . ' FROM ' . $this->table;
+
+        if (!empty($this->joins)) {
+            $query .= ' ' . implode(' ', $this->joins);
+        }
+
+        if (!empty($this->wheres)) {
+            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
+        }
+
+        if ($orderBy !== null) {
+            $query .= ' ORDER BY ' . $this->table . '.' . $orderBy . ' ' . $orderDirection;
+        } else {
+            $query .= ' ORDER BY (SELECT NULL)';
+        }
+
+        if($offset) {
+            $query .= ' OFFSET ' . $offset . ' ROWS';
+
+            if($limit) {
+                $query .= ' FETCH NEXT ' . $limit . ' ROWS ONLY';
+            }
+
+        } else if ($limit) {
+            $query .= ' OFFSET 0 ROWS FETCH NEXT ' . $limit . ' ROWS ONLY';
+        }
+
+
+        $this->query = $query;
+        return $query;
+    }
+    /*
+        SELECT *
+        FROM Vlucht
+             INNER JOIN IncheckenVlucht ON IncheckenVlucht.vluchtnummer = Vlucht.vluchtnummer
+        WHERE IncheckenVlucht.balienummer = 1
+        ORDER BY Vlucht.vluchtnummer DESC
+        OFFSET 20 ROWS FETCH NEXT 20 ROWS ONLY;
+    */
 
     public function update(array $data): bool|string|array
     {
@@ -154,12 +205,18 @@ class Query
         return $statement && $statement->rowCount() > 0;
     }
 
-
-    /**
-     * @throws \Exception
-     */
-    public function get(int $limit = null, int $offset = null): null|array|Collection
+    public function get(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): null|array|Collection
     {
+        $this->query = $this->read($limit, $offset, $orderBy, $orderDirection);
+
+//        if ($limit !== null && $limit > 0) {
+//            $this->query .= ' LIMIT ' . $limit;
+//        }
+//
+//        if ($offset !== null && $offset > 0) {
+//            $this->query .= ' OFFSET ' . $offset;
+//        }
+
         $statement = $this->db->bindAndExecute($this->query, $this->params);
 
         if (!$statement) {
@@ -175,45 +232,24 @@ class Query
         return $this->toCollection($records, $limit, $offset);
     }
 
-    /**
-     * @throws \Exception
-     */
     public function all(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
     {
-        $query = self::SELECT . ' ';
-        $query .= implode(', ', $this->columns) . ' FROM ' . $this->table;
-
-        if (!empty($this->wheres)) {
-            $query .= ' WHERE ' . implode(' AND ', $this->wheres);
-        }
-
-        if ($orderBy) {
-            $query .= ' ORDER BY ' . $orderBy . ' ' . $orderDirection;
-        } else {
-            $query .= ' ORDER BY (SELECT NULL)';
-        }
-
-        if ($offset) {
-            $query .= ' OFFSET ' . $offset . ' ROWS';
-
-            if ($limit) {
-                $query .= ' FETCH NEXT ' . $limit . ' ROWS ONLY';
-            }
-
-        } elseif ($limit) {
-            $query .= ' OFFSET 0 ROWS FETCH NEXT ' . $limit . ' ROWS ONLY';
-        }
-
-        $this->query = $query;
-        return $this->get($limit, $offset) ?? [];
+        return $this->get($limit, $offset, $orderBy, $orderDirection);
     }
 
-    /**
-     * @throws \Exception
-     */
+//    public function all(int $limit = null, int $offset = null, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection
+//    {
+
+//        dump($this->query);
+//        return $this->get($limit, $offset) ?? [];
+//    }
+
     public function first(): array|Model|null
     {
         $query = self::SELECT . ' TOP 1 ' . implode(', ', $this->columns) . ' FROM ' . $this->table;
+        if (!empty($this->joins)) {
+            $query .= ' ' . implode(' ', $this->joins);
+        }
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
@@ -230,6 +266,9 @@ class Query
     public function exists(): bool
     {
         $query = self::SELECT . ' 1 FROM ' . $this->table;
+        if (!empty($this->joins)) {
+            $query .= ' ' . implode(' ', $this->joins);
+        }
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
@@ -240,6 +279,9 @@ class Query
     public function max(string $column): int
     {
         $query = self::SELECT . ' MAX(' . $column . ') FROM ' . $this->table;
+        if (!empty($this->joins)) {
+            $query .= ' ' . implode(' ', $this->joins);
+        }
         if (!empty($this->wheres)) {
             $query .= ' WHERE ' . implode(' AND ', $this->wheres);
         }
@@ -254,9 +296,6 @@ class Query
         }
     }
 
-    /**
-     * @throws \Exception
-     */
     private function toCollection(array $records, int $limit = null, int $offset = null): Collection
     {
         $result = new Collection();
@@ -278,9 +317,6 @@ class Query
         return $result;
     }
 
-    /**
-     * @throws \Exception
-     */
     private function toModel(array $record): ?Model
     {
         if (!$this->hasModel()) {
@@ -312,5 +348,4 @@ class Query
 
         return $lastId[''] + 1;
     }
-
 }

@@ -1,4 +1,5 @@
 <?php
+/* @var $serviceDesk \Model\ServiceDesk */
 /* @var $flights \Model\Flight[] */
 /* @var $search string */
 /* @var $limit int */
@@ -24,7 +25,7 @@
             <?php view()->render('views/organisms/table-collection.php', ['collection' => $flights, 'url' => site_url('vluchten')]); ?>
 
             <?php if($flights->count() > 1): ?>
-                <?php view()->render('views/molecules/pagination.php', ['collection' => $flights]); ?>
+                <?php view()->render('views/molecules/pagination.php', ['collection' => $flights, 'total' => $serviceDesk->getFlights()->count()]); ?>
             <?php endif; ?>
 
         <?php else: ?>

@@ -1,21 +1,24 @@
 <?php
+/** @var $flights \Entity\Collection */
 /** @var $passenger \Model\Passenger */
 
 use Model\Flight;
 use Model\ServiceDesk;
 
 $passenger = $passenger ?? null;
-
-$flights = Flight::with(['vluchtnummer'])->all();
 $desks = ServiceDesk::with(['balienummer'])->all();
 
 $name = $passenger?->naam;
 $passengerFlightId = $passenger?->vluchtnummer;
 $gender = $passenger?->geslacht;
-$deskId = $passenger?->balienummer;
+$serviceDeskId = $passenger?->balienummer;
 $seat = $passenger?->stoel;
 $checkinTime = $passenger?->inchecktijdstip;
 $password = $passenger?->wachtwoord;
+
+//if(auth()->user()->getRole() === ServiceDesk::USER_ROLE) {
+//    $deskId = auth()->user()->getId();
+//}
 ?>
 
 <form class="edit-passenger-form" action="" method="post">
@@ -30,7 +33,7 @@ $password = $passenger?->wachtwoord;
         <select id="flight_id" name="flight_id">
             <?php foreach ($flights as $flight): /** @var $airline \Model\Flight */ ?>
                 <?php $flightId = $flight->vluchtnummer; ?>
-                <option value="<?php echo $flightId; ?>" <?php echo $flightId === $passengerFlightId ? 'selected' : ''; ?>><?php echo $flightId; ?></option>
+                <option value="<?php echo $flightId; ?>" <?php echo $flightId === $passengerFlightId ? 'selected' : ''; ?>><?php echo $flight->getInformation(); ?></option>
             <?php endforeach; ?>
         </select>
     </div>
@@ -46,12 +49,16 @@ $password = $passenger?->wachtwoord;
 
     <div class="form-group">
         <label for="desk_id">Balienummer</label>
+        <?php if(!auth()->withRole(ServiceDesk::USER_ROLE)): ?>
         <select id="desk_id" name="desk_id">
             <?php foreach ($desks as $desk): /** @var $desk \Model\ServiceDesk */ ?>
                 <?php $deskId = $desk->balienummer; ?>
-                <option value="<?php echo $deskId; ?>" <?php echo $deskId === $deskId ? 'selected' : ''; ?>><?php echo $deskId; ?></option>
+                <option value="<?php echo $deskId; ?>" <?php echo $deskId === $serviceDeskId ? 'selected' : ''; ?>><?php echo $deskId; ?></option>
             <?php endforeach; ?>
         </select>
+        <?php else: ?>
+            <input type="text" id="desk_id" name="desk_id" value="<?php echo auth()->user()->getId(); ?>" disabled>
+        <?php endif; ?>
     </div>
 
     <div class="form-group">

@@ -54,6 +54,8 @@ class Database
             $this->statement->execute();
         } catch (\PDOException $exception) {
             Error::set(['error' => 'Database error', 'message' => $exception->getMessage()]);
+            dump($query);
+            dump(Error::get());
             return false;
         }
 

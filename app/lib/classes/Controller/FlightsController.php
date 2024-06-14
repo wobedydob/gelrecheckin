@@ -2,10 +2,13 @@
 
 namespace Controller;
 
+use Enums\CRUDAction;
 use JetBrains\PhpStorm\NoReturn;
+use Model\CheckInFlight;
 use Model\Flight;
 use Model\Passenger;
 use Model\ServiceDesk;
+use Service\Error;
 use Service\Redirect;
 use Service\View;
 use Util\StringHelper;
@@ -54,17 +57,12 @@ class FlightsController
 
     public function addFlight(): void
     {
-        $post = $this->handlePost();
-        $action = false;
-
-        if (!empty($this->errors)) {
-            View::new()->render('views/templates/flight/flight-add.php', ['errors' => $this->errors]);
-            return;
-        }
+        $post = $this->handlePost(CRUDAction::ACTION_CREATE);
 
         if ($post) {
 
             $action = Flight::create([
+                'vluchtnummer' => $post['flight_id'],
                 'bestemming' => $post['destination'],
                 'gatecode' => $post['gate_id'],
                 'max_aantal' => $post['max_limit'],
@@ -74,15 +72,89 @@ class FlightsController
                 'maatschappijcode' => $post['airline_id'],
             ]);
 
+            if ($action && $this->addCheckinFlight($post['flight_id'], auth()->user()->getId())) {
+                $this->errors['success'] = 'Vlucht succesvol toegevoegd';
+            } else {
+                $this->errors['error'] = 'Vlucht kon niet worden toegevoegd';
+            }
+
+            $flight = new Flight();
+            $flight->vluchtnummer = null;
+            $flight->bestemming = $post['destination'];
+            $flight->gatecode = $post['gate_id'];
+            $flight->max_aantal = $post['max_limit'];
+            $flight->max_gewicht_pp = $post['max_weight_pp'];
+            $flight->max_totaalgewicht = $post['max_total_weight'];
+            $flight->vertrektijd = $post['departure_time'];
+            $flight->maatschappijcode = $post['airline_id'];
+
+            View::new()->render('views/templates/flight/flight-add.php', compact('flight'));
         }
 
-        if (!$action) {
-            $error = ['errors' => 'Flight could not be added'];
-            View::new()->render('views/templates/flight/flight-add.php', $error);
-            return;
+        Error::set($this->errors);
+        if (!in_array('success', $this->errors)) {
+            Redirect::to('/vluchten');
         }
 
-        Redirect::to('/vluchten');
+    }
+
+    public function addCheckinFlight(int $flightId, int $deskId): array|bool
+    {
+        return CheckInFlight::create([
+            'vluchtnummer' => $flightId,
+            'balienummer' => $deskId
+        ]);
+    }
+
+    public function editCheckinFlight(int $flightId, int $deskId): array|bool
+    {
+        return CheckInFlight::where('vluchtnummer', '=', $flightId)
+                            ->where('balienummer', '=', $deskId)
+                            ->update([
+                                'vluchtnummer' => $flightId,
+                                'balienummer' => $deskId
+                            ]);
+    }
+
+    public function addPassenger(): void
+    {
+        $post = $this->handlePost(CRUDAction::ACTION_CREATE);
+        $post['passenger_id'] = Passenger::nextPassengerId();
+
+        if ($post) {
+            $action = Passenger::create([
+                'passagiernummer' => $post['passenger_id'],
+                'naam' => $post['name'],
+                'vluchtnummer' => $post['flight_id'],
+                'geslacht' => $post['gender'],
+                'balienummer' => $post['desk_id'],
+                'stoel' => $post['seat'],
+                'inchecktijdstip' => $post['checkin_time'],
+                'wachtwoord' => $post['password'],
+            ]);
+
+            if ($action && $this->editCheckinFlight($post['flight_id'], $post['desk_id'])) {
+                $this->errors['success'] = 'Passagier succesvol toegevoegd';
+            } else {
+                $this->errors['error'] = 'Passagier kon niet worden toegevoegd';
+            }
+
+            $passenger = new Passenger();
+            $passenger->passagiernummer = null;
+            $passenger->naam = $post['name'];
+            $passenger->geslacht = $post['gender'];
+            $passenger->balienummer = $post['desk_id'];
+            $passenger->stoel = $post['seat'];
+            $passenger->inchecktijdstip = $post['checkin_time'];
+            $passenger->wachtwoord = $post['password'];
+
+            View::new()->render('views/templates/passenger/passenger-add.php', compact('passenger'));
+        }
+
+        Error::set($this->errors);
+        if (!in_array('success', $this->errors)) {
+            Redirect::to('/passagiers');
+        }
     }
 
     public function edit($id): void
@@ -98,7 +170,7 @@ class FlightsController
 
     public function editFlight($id): void
     {
-        $post = $this->handlePost();
+        $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
         $action = false;
 
         if (!empty($this->errors)) {
@@ -135,7 +207,7 @@ class FlightsController
         Redirect::to('/vluchten');
     }
 
-    public function handlePost(): array
+    public function handlePost(CRUDAction $action): array
     {
         $post = [];
 
@@ -177,6 +249,14 @@ class FlightsController
 
         if (!$airline) {
             $this->errors['airline_id'] = 'none given';
+        }
+
+        if ($action == CRUDAction::ACTION_CREATE) {
+            $post['flight_id'] = Flight::nextFlightId();
+        }
+
+        if ($action == CRUDAction::ACTION_UPDATE) {
+            $post['flight_id'] = $_POST['flight_id'];
         }
 
         return $post;

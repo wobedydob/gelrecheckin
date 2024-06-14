@@ -17,7 +17,7 @@ abstract class Model implements ITable
     protected static array $primaryKeys = ['id'];
     protected static array $columns = [];
 
-    private static function table(): string
+    public static function table(): string
     {
         if (!isset(static::$table)) {
             throw new MissingPropertyException('Define `protected static string $table` in your model', static::class, 1717407958262);
@@ -42,6 +42,12 @@ abstract class Model implements ITable
     {
         $pk = $primaryKey ?? static::pk();
         return self::where($pk, '=', $id)->first();
+    }
+
+    public static function join(string $table, string $column1, string $operator, string $column2): Query
+    {
+        $model = static::class;
+        return Query::new(static::table(), (new $model))->join($table, $column1, $operator, $column2);
     }
 
     public static function all(int $limit = 0, int $offset = 0, string $orderBy = null, string $orderDirection = 'ASC'): array|Collection

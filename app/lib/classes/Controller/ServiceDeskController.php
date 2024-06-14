@@ -8,7 +8,6 @@ use Model\Luggage;
 use Model\Passenger;
 use Model\ServiceDesk;
 use Service\Error;
-use Service\Page;
 use Service\Redirect;
 use Service\Session;
 use Service\View;
@@ -63,6 +62,9 @@ class ServiceDeskController
 
     public function flights(): void
     {
+        $user = auth()->user();
+        $serviceDesk = ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user->getId())->first();
+
         $search = page()->get('search');
         $page = page()->get('page', 1);
         $orderBY = page()->get('sort', 'vluchtnummer');
@@ -71,23 +73,31 @@ class ServiceDeskController
         $limit = page()->get('limit', 20);
         $offset = $limit * ($page - 1);
 
+        $flights = new Collection();
+
         if($search) {
             $flight = Flight::find($search);
-            $flights = new Collection();
 
             if($flight) {
                 $flights->addToCollection($flight);
             }
 
         } else {
-            $flights = Flight::all($limit, $offset, $orderBY, $orderDirection);
+
+            if($user->getRole() === ServiceDesk::USER_ROLE) {
+                $flights = $serviceDesk->getFlights($limit, $offset, $orderBY, $orderDirection);
+            }
+
         }
 
-        View::new()->render('views/templates/service-desk/service-desk-flights.php', compact('flights', 'search', 'limit', 'orderBY', 'orderDirection'));
+        View::new()->render('views/templates/service-desk/service-desk-flights.php', compact('serviceDesk', 'flights', 'search', 'limit', 'orderBY', 'orderDirection'));
     }
 
     public function passengers(): void
     {
+        $user = auth()->user();
+        $serviceDesk = ServiceDesk::with(['balienummer'])->where('balienummer', '=', $user->getId())->first();
+
         $search = page()->get('search');
         $page = page()->get('page', 1);
         $orderBY = page()->get('sort', 'passagiernummer');
@@ -96,19 +106,24 @@ class ServiceDeskController
         $limit = page()->get('limit', 20);
         $offset = $limit * ($page - 1);
 
+        $passengers = new Collection();
+
         if($search) {
             $passenger = Passenger::find($search);
-            $passengers = new Collection();
+
 
             if($passenger) {
                 $passengers->addToCollection($passenger);
             }
 
         } else {
-            $passengers = Passenger::all($limit, $offset, $orderBY, $orderDirection);
+            $user = auth()->user();
+            if($user->getRole() === ServiceDesk::USER_ROLE) {
+                $passengers = $user->getModel()->getPassengers($limit, $offset, $orderBY, $orderDirection);
+            }
         }
 
-        View::new()->render('views/templates/service-desk/service-desk-passengers.php', compact('passengers', 'search', 'limit', 'orderBY', 'orderDirection'));
+        View::new()->render('views/templates/service-desk/service-desk-passengers.php', compact('serviceDesk', 'passengers', 'search', 'limit', 'orderBY', 'orderDirection'));
     }
 
     public function luggages(): void
