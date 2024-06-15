@@ -12,11 +12,6 @@ use Service\Redirect;
 use Service\Route;
 use Service\Session;
 
-Route::get('/phpinfo', function () {
-    phpinfo();
-    die();
-})->name('home');
-
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::addRedirect('/home', '/');
 

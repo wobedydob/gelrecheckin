@@ -1,7 +1,7 @@
 <?php
 
 // errors
-$display_errors = true;
+$display_errors = false;
 
 // mysql
 $db_host = 'database_server';
