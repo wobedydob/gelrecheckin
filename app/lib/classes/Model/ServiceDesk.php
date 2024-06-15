@@ -27,8 +27,10 @@ class ServiceDesk extends Model
 
         $deskId = auth()->user()->getId();
 
-        return Flight::join('IncheckenVlucht', 'IncheckenVlucht.vluchtnummer', '=', 'Vlucht.vluchtnummer')
-                     ->where('IncheckenVlucht.balienummer', '=', $deskId)
+        $flightTable = Flight::table();
+        $checkinFlightTable = CheckInFlight::table();
+        return Flight::join($checkinFlightTable, $checkinFlightTable . '.vluchtnummer', '=', $flightTable . '.vluchtnummer')
+                     ->where($checkinFlightTable . '.balienummer', '=', $deskId)
                      ->all($limit, $offset, $orderBY, $orderDirection);
     }
 
@@ -42,22 +44,18 @@ class ServiceDesk extends Model
         return Passenger::where('balienummer', '=', $deskId)->all($limit, $offset, $orderBY, $orderDirection);
     }
 
-    public function getAirlines(int $limit = null, int $offset = null, string $orderBY = null, string $orderDirection = 'DESC')
+    public function getAirlines(int $limit = null, int $offset = null, string $orderBY = null, string $orderDirection = 'DESC'): array|Collection|null
     {
         if (!auth()->withRole(ServiceDesk::USER_ROLE)) {
             return null;
         }
 
         $deskId = auth()->user()->getId();
-        return Airline::join('IncheckenMaatschappij', 'IncheckenMaatschappij.maatschappijcode', '=', 'Maatschappij.maatschappijcode')
-                      ->where('IncheckenMaatschappij.balienummer', '=', $deskId)
+        $checkinAirlineTable = CheckInAirline::table();
+        $airlineTable = Airline::table();
+        return Airline::join($checkinAirlineTable, $checkinAirlineTable . '.maatschappijcode', '=', $airlineTable . '.maatschappijcode')
+                      ->where($checkinAirlineTable . '.balienummer', '=', $deskId)
                       ->all($limit, $offset, $orderBY, $orderDirection);
     }
 
 }
-
-/*
-SELECT * FROM Maatschappij M
-    INNER JOIN IncheckenMaatschappij I ON M.maatschappijcode = I.maatschappijcode
-WHERE I.balienummer = 1;
-*/
