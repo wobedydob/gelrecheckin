@@ -3,7 +3,7 @@
 // errors
 $display_errors = false;
 
-// mysql
+// MS SQL
 $db_host = 'database_server';
 $db_name = 'GelreAirport';
 $db_user = 'sa';
