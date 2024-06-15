@@ -126,7 +126,4 @@ class ServiceDeskController
         View::new()->render('views/templates/service-desk/service-desk-passengers.php', compact('serviceDesk', 'passengers', 'search', 'limit', 'orderBY', 'orderDirection'));
     }
 
-    public function luggages(): void
-    {}
-
 }
