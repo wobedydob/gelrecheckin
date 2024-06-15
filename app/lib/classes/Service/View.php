@@ -9,13 +9,18 @@ use Exceptions\InvalidTemplateException;
 
 class View
 {
+
     public static function new(): View
     {
         return new self();
     }
 
-    /** Renders the given file and ensures that the variables inside the template are in an isolated scope.
-     * @throws Exception
+    /**
+     * Renders the specified template file with optional arguments.
+     *
+     * @param string $template The name or path of the template file.
+     * @param array $args Optional. Associative array of variables to be extracted into the template's scope.
+     * @throws Exception If the template file is not found or cannot be accessed.
      */
     public function render(string $template, array $args = []): void
     {
@@ -28,8 +33,13 @@ class View
         include $path;
     }
 
-    /** Returns the value of the template file.
-     * @throws Exception
+    /**
+     * Retrieves the output of the specified template file with optional arguments.
+     *
+     * @param string $template The name or path of the template file.
+     * @param array $args Optional. Associative array of variables to be extracted into the template's scope.
+     * @return string The rendered output of the template file.
+     * @throws Exception If the template file is not found or cannot be accessed.
      */
     public function get(string $template, array $args = []): string
     {
@@ -38,14 +48,25 @@ class View
         return ob_get_clean();
     }
 
-    /** Validates the given template. */
+    /**
+     * Validates whether the specified template exists.
+     *
+     * @param string $template The name or path of the template file.
+     * @return bool True if the template file exists, false otherwise.
+     */
     public function validate(string $template): bool
     {
         $path = self::getTemplatePath($template);
         return !empty($path);
     }
 
-    /** Get the absolute path of the template file */
+    /**
+     * Retrieves the absolute path of the specified template file.
+     *
+     * @param string $template The name or path of the template file.
+     * @return string|null The absolute path of the template file if found, null otherwise.
+     * @throws InvalidTemplateException If the template file is not found.
+     */
     private function getTemplatePath(string $template): ?string
     {
         $root = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR;

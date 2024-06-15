@@ -7,6 +7,12 @@ use JetBrains\PhpStorm\NoReturn;
 class Redirect
 {
 
+    /**
+     * Redirects to the specified URL.
+     *
+     * @param string $url The URL to redirect to.
+     * @return void
+     */
     #[NoReturn] public static function to(string $url): void
     {
         if (!headers_sent()) {
