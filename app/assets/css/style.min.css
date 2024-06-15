@@ -1927,6 +1927,22 @@ body {
   color: #ffffff;
 }
 
+.color-primary {
+  color: #39D777;
+}
+
+.color-secondary {
+  color: #2611A0;
+}
+
+.color-tertiary {
+  color: #FF3268;
+}
+
+.color-dark {
+  color: #333;
+}
+
 * {
   margin: 0;
   padding: 0;
