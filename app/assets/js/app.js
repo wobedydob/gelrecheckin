@@ -6,14 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
         navbarMenu.classList.toggle('active');
     });
 
-    // check if var errors is defined
-    // var errors = {"error":"invalid credentials"};
     if(errors) {
 
         Object.keys(errors).forEach(function (key) {
-
-            console.error('ERROR: ' + errors[key] + ' (code: 1718218683807)');
-
             var element = document.getElementById(key);
             if (element) {
                 var errorDiv = document.createElement('div');
