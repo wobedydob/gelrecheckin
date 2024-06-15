@@ -3,25 +3,29 @@
 <footer>
     <div class="footer-content">
         <div class="footer-section about">
-            <h2>About Us</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero.</p>
+            <h2>GelreCheckin</h2>
+            <p>Samen streven voor een gemakkelijk incheckproces.</p>
         </div>
         <div class="footer-section links">
-            <h2>Quick Links</h2>
+            <h2>Snelle Links</h2>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Services</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="<?php echo site_url(); ?>">Home</a></li>
+
+                <?php if(!auth()->isAuthenticated()): ?>
+                    <li><a href="<?php echo site_url('inloggen/passagier'); ?>">Inloggen als Passagier</a></li>
+                    <li><a href="<?php echo site_url('inloggen/medewerker'); ?>">Inloggen als Medewerker</a></li>
+                <?php elseif(auth()->isAuthenticated()): ?>
+                    <li><a href="<?php echo site_url('logout'); ?>">Uitloggen</a></li>
+                <?php endif; ?>
             </ul>
         </div>
         <div class="footer-section contact">
-            <h2>Contact Us</h2>
-            <p>Email: info@example.com</p>
-            <p>Phone: (123) 456-7890</p>
+            <h2>Neem contact op</h2>
+            <p>E-mail: support@gelrecheckin.nl</p>
+            <p>Telefoon: 026 811 2820</p>
         </div>
     </div>
     <div class="footer-bottom">
-        &copy; 2024 Your Company. All rights reserved.
+        &copy; 2024 wuppo. All rights reserved.
     </div>
 </footer>
