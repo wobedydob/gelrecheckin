@@ -84,7 +84,7 @@ $password = $passenger?->wachtwoord;
 
     <div class="form-group">
         <label for="password">Wachtwoord</label>
-        <input type="password" id="password" name="password" value="" required>
+        <input type="password" id="password" name="password" value="" <?php if(!$password): ?>required <?php endif; ?>>
     </div>
 
     <button class="button secondary" type="submit" name="submit" value="submit">Opslaan</button>

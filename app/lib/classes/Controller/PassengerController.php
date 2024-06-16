@@ -178,10 +178,14 @@ class PassengerController
 
         if ($post) {
 
-            $action = Passenger::where('passagiernummer', '=', $id)->update([
-                'naam' => $post['name'],
-                'wachtwoord' => $post['password'],
-            ]);
+            $update = [];
+            $update['naam'] = $post['name'];
+
+            if(!empty($post['password'])) {
+                $update['wachtwoord'] = $post['password'];
+            }
+
+            $action = Passenger::where('passagiernummer', '=', $id)->update($update);
 
             if ($action) {
                 $this->errors['success'] = 'Passagier succesvol bewerkt';
@@ -196,7 +200,7 @@ class PassengerController
             $passenger->balienummer = $post['desk_id'];
             $passenger->stoel = $post['seat'];
             $passenger->inchecktijdstip = $post['checkin_time'];
-            $passenger->wachtwoord = $post['password'];
+            $passenger->wachtwoord = $post['password'] ?? null;
 
             View::new()->render('views/templates/passenger/passenger-edit.php', compact('flights', 'passenger'));
         }
@@ -231,7 +235,7 @@ class PassengerController
         $seat = $seat ? Text::excerpt($seat, 3) : false;
         $post['seat'] = $seat;
         $checkinTime = isset($_POST['checkin_time']) ? $post['checkin_time'] = Text::toDateTime($_POST['checkin_time']) : false;
-        $password = isset($_POST['password']) ? $post['password'] = Text::hash($_POST['password']) : false;
+        $password = isset($_POST['password']) && $_POST['password'] ? $post['password'] = Text::hash($_POST['password']) : false;
 
         if (isset($_POST['desk_id'])) {
             $deskId = Text::sanitize($_POST['desk_id']);
@@ -256,31 +260,31 @@ class PassengerController
         }
 
         if (!$name) {
-            $this->errors['name'] = 'none given';
+            $this->errors['name'] = 'Geen naam gegeven';
         }
 
         if (!$flightId) {
-            $this->errors['flight_id'] = 'none given';
+            $this->errors['flight_id'] = 'Geen vlucht gegeven';
         }
 
         if (!$gender) {
-            $this->errors['gender'] = 'none given';
+            $this->errors['gender'] = 'Geen geslacht gegeven';
         }
 
         if (!$deskId) {
-            $this->errors['desk_id'] = 'none given';
+            $this->errors['desk_id'] = 'Geen balie gegeven';
         }
 
         if (!$seat) {
-            $this->errors['seat'] = 'none given';
+            $this->errors['seat'] = 'Geen stoel gegeven';
         }
 
         if (!$checkinTime) {
-            $this->errors['checkin_time'] = 'none given';
+            $this->errors['checkin_time'] = 'Geen inchecktijdstip gegeven';
         }
 
         if (!$password && $action !== CRUDAction::ACTION_UPDATE) {
-            $this->errors['password'] = 'none given';
+            $this->errors['password'] = 'Geen wachtwoord gegeven';
         }
 
         if ($action == CRUDAction::ACTION_CREATE) {
@@ -294,6 +298,7 @@ class PassengerController
         if (!auth()->withRole(Passenger::USER_ROLE)) {
             $this->check($post);
         }
+
         return $post;
     }
 
