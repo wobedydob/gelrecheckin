@@ -17,7 +17,7 @@ $weight = $luggage?->gewicht;
 <form class="edit-luggage-form" action="" method="post">
 
     <div class="form-group">
-        <label for="passenger_id">Passagier</label>
+        <label for="passenger_id">Passagier </label>
         <input type="text" id="passenger_id" name="passenger_id" value="<?php echo $passengerId; ?>" required <?php if($passengerId): ?>disabled<?php endif; ?>>
     </div>
 
