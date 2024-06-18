@@ -2,7 +2,9 @@
 
 <nav class="navbar">
     <div class="navbar-brand">
-        <a href="<?php echo site_url(); ?>">GC</a>
+        <a href="<?php echo site_url(); ?>">
+            <?php svg()->show('logo.svg'); ?>
+        </a>
     </div>
     <button class="navbar-toggle" id="navbar-toggle">
         <span class="navbar-toggle-icon"></span>
