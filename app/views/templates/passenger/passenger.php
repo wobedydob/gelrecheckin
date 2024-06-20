@@ -11,6 +11,10 @@ $backUrl = 'passagiers';
 $editUrl = 'passagiers/' . $id . '/bewerken';
 $deleteUrl = 'passagiers/' . $id . '/verwijderen';
 
+if (auth()->withRole(Passenger::USER_ROLE)) {
+    $deleteUrl = null;
+}
+
 $luggageUrl = 'passagiers/' . $id . '/bagage';
 
 $flight = Flight::where('vluchtnummer', '=', $passenger->vluchtnummer)->first();
