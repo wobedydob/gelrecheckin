@@ -8,7 +8,6 @@ use Model\Flight;
 use Model\Luggage;
 use Model\Passenger;
 use Model\ServiceDesk;
-use Service\Auth;
 use Service\Error;
 use Service\Redirect;
 use Service\Session;
@@ -55,6 +54,15 @@ class PassengerController
         Redirect::to('/dashboard');
     }
 
+    public function handlePassengerAccess(int $id): void
+    {
+        if (auth()->withRole(Passenger::USER_ROLE)) {
+            if (auth()->user()->getId() != $id) {
+                Redirect::to('/dashboard');
+            }
+        }
+    }
+
     public static function validate($id): void
     {
         if (auth()->withRole(Passenger::USER_ROLE) && auth()->user()->getId() != $id) {
@@ -77,9 +85,7 @@ class PassengerController
 
     public function show($id): void
     {
-        if (auth()->withRole(Passenger::USER_ROLE)) {
-            auth()->user()->getId() !== $id ?: Redirect::to('/dashboard');
-        }
+        $this->handlePassengerAccess($id);
 
         $passenger = Passenger::find($id);
 
@@ -150,11 +156,7 @@ class PassengerController
 
     public function edit($id): void
     {
-        if (auth()->withRole(Passenger::USER_ROLE)) {
-            if (auth()->user()->getId() != $id) {
-                Redirect::to('/dashboard');
-            }
-        }
+        $this->handlePassengerAccess($id);
 
         $passenger = Passenger::find($id);
         $flights = null;
@@ -172,6 +174,8 @@ class PassengerController
 
     public function editPassenger($id): void
     {
+        $this->handlePassengerAccess($id);
+
         $_POST['passenger_id'] = $id;
         $post = $this->handlePost(CRUDAction::ACTION_UPDATE);
         $flights = $this->flights();
@@ -345,5 +349,4 @@ class PassengerController
         }
         return $flights;
     }
-
 }
