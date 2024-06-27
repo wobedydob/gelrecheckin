@@ -1,6 +1,6 @@
 FROM php:8.3-cli-alpine3.18
 
-WORKDIR /app
+WORKDIR /tmp/
 
 # 1. Install required dependencies
 RUN apk update && apk add --no-cache \
@@ -9,14 +9,16 @@ RUN apk update && apk add --no-cache \
     g++ \
     gnupg \
     unixodbc-dev \
-    linux-headers \
-    nodejs \
-    npm
+    linux-headers
 
-# 2. Install SQL Server ODBC drivers and tools
+# 2. Install SQL Server ODBC drivers and tools (required for the sqlsrv driver)
+#    https://docs.microsoft.com/en-us/sql/connect/php/installation-tutorial-linux-mac?view=sql-server-ver15
+
+# 2.1 Download the desired package(s)
 RUN curl -O https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/msodbcsql18_18.0.1.1-1_amd64.apk
 RUN curl -O https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/mssql-tools18_18.0.1.1-1_amd64.apk
 
+# 2.2 (Optional) Verify signature, if 'gpg' is missing install it using 'apk add gnupg':
 RUN curl -O https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/msodbcsql18_18.0.1.1-1_amd64.sig
 RUN curl -O https://download.microsoft.com/download/b/9/f/b9f3cce4-3925-46d4-9f46-da08869c6486/mssql-tools18_18.0.1.1-1_amd64.sig
 
@@ -24,6 +26,7 @@ RUN curl https://packages.microsoft.com/keys/microsoft.asc | gpg --import -
 RUN gpg --verify msodbcsql18_18.0.1.1-1_amd64.sig msodbcsql18_18.0.1.1-1_amd64.apk
 RUN gpg --verify mssql-tools18_18.0.1.1-1_amd64.sig mssql-tools18_18.0.1.1-1_amd64.apk
 
+# 2.3 Install the package(s)
 RUN yes | apk add --allow-untrusted msodbcsql18_18.0.1.1-1_amd64.apk
 RUN yes | apk add --allow-untrusted mssql-tools18_18.0.1.1-1_amd64.apk
 
@@ -40,21 +43,3 @@ RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
 COPY "./setup/xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
-
-# 6. Install Webpack and Webpack CLI
-RUN npm install -g webpack webpack-cli
-
-# 7. Copy package.json and package-lock.json
-COPY ./app/package*.json /app/
-
-# Verify that package.json exists
-RUN ls -la /app/
-
-# 8. Install NPM dependencies
-RUN npm install
-
-# 9. Copy rest of the project files
-COPY ./app /app
-
-# Command to start the web server
-CMD ["php", "-S", "0.0.0.0:80", "-t", "/app"]
