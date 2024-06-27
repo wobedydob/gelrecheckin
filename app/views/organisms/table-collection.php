@@ -2,8 +2,7 @@
 /** @var $collection \Entity\Collection */
 /** @var $url string */
 
-$url = $url ?? false;
-$onclick = $url ? 'window.location="' . $url : '"';
+$url = $url ?? '';
 
 $model = $collection->first();
 $columns = $model?->columns();
@@ -28,25 +27,19 @@ $sort = page()->get('sort', $pk);
         <?php if($collection->count() > 0): ?>
         <tbody>
         <?php foreach($collection as $model): /** @var $model \Model\Model */ ?>
-            <?php $onclick = $url ? $url . '/' . $model->$pk : ''; ?>
+
+            <?php $onclick = $url ?: $model->url(); ?>
+
             <tr onclick="window.location='<?php echo $onclick; ?>'">
                 <?php foreach($model->toArray() as $value): ?>
                     <td><?php echo $value; ?></td>
                 <?php endforeach; ?>
             </tr>
+
         <?php endforeach; ?>
         </tbody>
         <?php endif; ?>
     </table>
 </div>
 
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var rows = document.querySelectorAll('.styled-table tbody tr');
-        rows.forEach(function (row) {
-            row.style.cursor = 'pointer';
-        });
-    });
-</script>
 

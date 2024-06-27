@@ -14,9 +14,11 @@ abstract class Model implements ITable
     use Values;
 
     protected static string $table;
+    protected static string $slug = '';
     protected static string $primaryKey = 'id';
     protected static array $primaryKeys = ['id'];
     protected static array $columns = [];
+    protected static array $hiddenColumns = [];
 
     /**
      * Get the table name associated with the model.
@@ -53,6 +55,7 @@ abstract class Model implements ITable
 
     /**
      * Get the columns defined for the model.
+     * And filters out the hidden columns.
      *
      * @return array The columns defined for the model.
      * @throws MissingPropertyException
@@ -62,7 +65,41 @@ abstract class Model implements ITable
         if (!isset(static::$columns)) {
             throw new MissingPropertyException('Define `protected static string $columns` in your model', static::class, 1718475570222);
         }
-        return static::$columns;
+
+        $columns = static::$columns;
+        if (isset(static::$hiddenColumns)) {
+            $hiddenKeys = array_flip(static::$hiddenColumns);
+            $columns = array_diff_key($columns, $hiddenKeys);
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Get the slug associated with the model.
+     *
+     * @return string The slug.
+     * @throws MissingPropertyException If $slug property is not defined in the model.
+     */
+    public function slug(): string
+    {
+        if (!isset(static::$slug)) {
+            throw new MissingPropertyException('Define `protected static string $slug` in your model', static::class, 1719510678676);
+        }
+        return static::$slug;
+    }
+
+    /**
+     * Get the URL associated with the model.
+     *
+     * @return string The URL.
+     * @throws MissingPropertyException
+     */
+    public function url(): string
+    {
+        $pk = $this->pk();
+        $id = $this->$pk;
+        return site_url(static::slug() . '/' . $id);
     }
 
     /**

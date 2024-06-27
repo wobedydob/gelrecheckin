@@ -53,6 +53,7 @@ $disableAdd = $maxWeightPP <= $luggagesWeight;
             <div class="card white passenger-details">
                 <?php view()->render('views/organisms/table-collection.php', ['collection' => $luggages, 'url' => site_url($luggageUrl)]); ?>
             </div>
+
         <?php endif; ?>
 
     <?php endif; ?>

@@ -80,7 +80,7 @@ $disableAdd = $maxWeightPP <= $luggagesWeight;
         </div>
 
         <?php if ($luggages?->count() > 0): ?>
-            <?php view()->render('views/organisms/table-collection.php', ['collection' => $luggages, 'url' => site_url($luggageUrl)]); ?>
+            <?php view()->render('views/organisms/table-collection.php', ['collection' => $luggages]); ?>
         <?php endif; ?>
 
     </div>

@@ -22,11 +22,6 @@
     <?php view()->render('views/organisms/footer.php'); ?>
 </footer>
 
-<?php $errors = errors()->get(); //dump($errors); ?>
-<script>
-    var errors = <?php echo json_encode($errors); ?>;
-</script>
-
 <script src="<?php echo site_url('assets/js/app.min.js'); ?>"></script>
 <script src="<?php echo site_url('assets/js/debug.js'); ?>"></script>
 

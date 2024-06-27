@@ -17,10 +17,17 @@ class Luggage extends Model
         'objectvolgnummer' => 'Objectvolgnummer',
         'gewicht' => 'Gewicht',
     ];
+    protected static string $slug = 'bagage';
+    protected static array $hiddenColumns = ['passagiernummer'];
 
     public static function nextFollowId(int $passengerId): int
     {
         return (new static())->where('passagiernummer', '=', $passengerId)->max('objectvolgnummer') + 1;
+    }
+
+    public function url(): string
+    {
+        return site_url('passagiers/' . $this->passagiernummer . '/bagage/' . $this->objectvolgnummer);
     }
 
 }

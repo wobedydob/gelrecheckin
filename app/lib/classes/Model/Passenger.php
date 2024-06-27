@@ -25,6 +25,7 @@ class Passenger extends Model
         'stoel' => 'Stoel',
         'inchecktijdstip' => 'Inchecktijdstip',
     ];
+    protected static string $slug = 'passagiers';
 
     public const string USER_ROLE = 'passenger';
 

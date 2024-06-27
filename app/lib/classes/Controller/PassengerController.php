@@ -93,7 +93,7 @@ class PassengerController
             Redirect::to('/passagiers');
         }
 
-        $luggages = Luggage::with(['objectvolgnummer', 'gewicht'])->where('passagiernummer', '=', $id)->all();
+        $luggages = Luggage::where('passagiernummer', '=', $id)->all();
 
         View::new()->render('views/templates/passenger/passenger.php', compact('passenger', 'luggages'));
     }

@@ -19,7 +19,7 @@ class LuggageController
     {
         PassengerController::validate($id);
         $passenger = Passenger::where('passagiernummer', '=', $id)->first();
-        $luggages = Luggage::with(['objectvolgnummer', 'gewicht'])->where('passagiernummer', '=', $id)->all();
+        $luggages = Luggage::where('passagiernummer', '=', $id)->all();
 
         View::new()->render('views/templates/passenger/passenger-luggage.php', compact('passenger', 'luggages'));
     }

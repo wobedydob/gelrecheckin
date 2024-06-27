@@ -26,6 +26,7 @@ class Flight extends Model
         'vertrektijd' => 'Vertrektijd',
         'maatschappijcode' => 'Maatschappij',
     ];
+    protected static string $slug = 'vluchten';
 
     public static function nextFlightId(): string
     {
